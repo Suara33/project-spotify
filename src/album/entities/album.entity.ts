@@ -1,25 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { CreateMusicDto } from '../dto/create-album.dto';
 
 @Entity()
 export class Album {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    title: string;
+  @Column()
+  title: string;
 
-    @Column()
-    artist: string;
+  @Column()
+  releaseDate: string;
 
-    @Column()
-    releaseDate: Date;
+  @Column('json')
+  musics: CreateMusicDto[];
 
-    @Column()
-    genre: string;
-
-    @Column()
-    tracks:[4]
-
-
-
+  @Column()
+  artistName: string;
 }

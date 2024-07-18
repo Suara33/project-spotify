@@ -1,33 +1,26 @@
-import { IsDate, IsNotEmpty, IsString, IsUrl } from "class-validator";
-import { Url } from "url";
-import { Type } from "class-transformer";
+import { IsArray ,IsString, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 
-export class CreateAlbumDto {
+export class CreateMusicDto {
     @IsString()
-    @IsNotEmpty()
     title: string;
 
     @IsString()
-    @IsNotEmpty()
-    artist: string;
+    duration: string;
+}
 
-    @IsDate()
-    @Type(() => Date)
-    releaseDate: Date;
+export class CreateAlbumDto {
+    @IsString()
+    title: string;
 
     @IsString()
-    genre: string;
+    releaseDate: string;
+
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => CreateMusicDto)
+    musics: CreateMusicDto[];
 
     @IsString()
-    track: string;
-
-    @IsUrl()
-    coverImage: Url;
-
-    @IsString()
-    description: string;
-
-
-
-
+    artistName: string;
 }
