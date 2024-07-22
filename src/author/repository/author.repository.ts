@@ -21,7 +21,7 @@ export class AuthorRepository {
   }
 
   async findOne(id: number) {
-    return await this.authorRepository.findOneBy({id: 2});
+    return await this.authorRepository.findOneBy({id: 1});
   }
 
   update(id: number, updateAuthorDto: UpdateAuthorDto) {

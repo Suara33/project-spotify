@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 import { CreateMusicDto } from '../dto/create-author.dto';
 
 @Entity()
-export class Author {
+export class AuthorEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,4 +17,14 @@ export class Author {
 
   @Column()
   biography: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deteledAt: Date;
+  
 }
