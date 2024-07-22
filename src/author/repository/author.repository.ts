@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuthorDto } from '../dto/create-author.dto';
 import { UpdateAuthorDto } from '../dto/update-author.dto';
-import { Author } from '../entities/author.entity';
+import { AuthorEntity } from '../entities/author.entity';
 import {InjectRepository} from '@nestjs/typeorm'
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthorRepository {
   constructor(
-    @InjectRepository(Author) 
-    private readonly authorRepository: Repository<Author>
+    @InjectRepository(AuthorEntity) 
+    private readonly authorRepository: Repository<AuthorEntity>
   ) {}
   async create(createAuthorDto: CreateAuthorDto) {
     const created = this.authorRepository.create(createAuthorDto);
