@@ -13,8 +13,10 @@ export class AlbumRepository {
  
   
   async create(createAlbumDto: CreateAlbumDto) {
-    const created=  this.albumRepository.create(createAlbumDto);
-    await this.albumRepository.save(created)
+    const album=  this.albumRepository.create();
+    album.artistName = createAlbumDto.artistName;
+    album.releaseDate = createAlbumDto.releaseDate
+    await this.albumRepository.save(album)
   
   }
 
@@ -27,10 +29,13 @@ export class AlbumRepository {
   }
 
   update(id: number, updateAlbumDto: UpdateAlbumDto) {
-    return this.albumRepository.update(id, updateAlbumDto);
+    const album=  this.albumRepository.create();
+    album.artistName = updateAlbumDto.artistName;
+    album.releaseDate = updateAlbumDto.releaseDate
+    return this.albumRepository.update(id, album);
   }
 
   delete(id: number) {
-    return this.albumRepository.softDelete(1);
+    return this.albumRepository.softDelete(id);
   }
 }
