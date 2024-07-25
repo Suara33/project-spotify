@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AlbumModule } from './album/album.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MusicsModule } from './musics/musics.module';
 
 @Module({
   imports: [AlbumModule,
@@ -12,11 +13,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      database: 'done',
-      password: '123456', 
+      database: 'spotifyproject',
+      password: 'mainstreetcoders33', 
       autoLoadEntities: true,
       synchronize: true,
-    })
+    }),
+    
+
+    MusicsModule
 
   ],
   controllers: [AppController],
