@@ -1,10 +1,10 @@
 import { IsNumber } from "class-validator";
 import { CreateAlbumDto } from "src/album/dto/create-album.dto";
-import { Album } from "src/album/entities/album.entity";
+import { AlbumEntity } from "src/album/entities/album.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
-export class Music {
+export class MusicEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -19,8 +19,8 @@ export class Music {
 
     
 
-    @ManyToMany(() => Album, (album) => album.music)
-    albums: Album[];
+    @ManyToMany(() => AlbumEntity, (album) => album.music)
+    albums: AlbumEntity[];
 
     @CreateDateColumn()
     createAt: Date;

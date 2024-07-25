@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { Repository } from 'typeorm';
-import { Album } from './entities/album.entity';
+import { AlbumEntity } from './entities/album.entity';
 import { AlbumRepository } from './repository/album.repository';
 
 @Injectable()

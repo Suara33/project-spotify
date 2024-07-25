@@ -1,22 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
-import { Album } from '../entities/album.entity';
+import { AlbumEntity } from '../entities/album.entity';
 import { Repository } from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm'
 
 @Injectable()
 export class AlbumRepository {
   
-  constructor(@InjectRepository(Album) private readonly albumRepository: Repository<Album>) {}
+  constructor(@InjectRepository(AlbumEntity) private readonly albumRepository: Repository<AlbumEntity>) {}
    
  
   
   async create(createAlbumDto: CreateAlbumDto) {
-    const album=  this.albumRepository.create();
-    album.artistName = createAlbumDto.artistName;
-    album.releaseDate = createAlbumDto.releaseDate
-    await this.albumRepository.save(album)
+    this.albumRepository.create(createAlbumDto)
+    await this.albumRepository.save(createAlbumDto)
+    
   
   }
 
@@ -28,14 +27,13 @@ export class AlbumRepository {
     return await this.albumRepository.findOneBy({id: 1});
   }
 
-  update(id: number, updateAlbumDto: UpdateAlbumDto) {
-    const album=  this.albumRepository.create();
-    album.artistName = updateAlbumDto.artistName;
-    album.releaseDate = updateAlbumDto.releaseDate
-    return this.albumRepository.update(id, album);
+  async update(id: number, updateAlbumDto: UpdateAlbumDto) {
+   this.albumRepository.update(1, updateAlbumDto);
+   await this.albumRepository.save(updateAlbumDto)
+
   }
 
-  delete(id: number) {
-    return this.albumRepository.softDelete(id);
+  async delete(id: number) {
+    return await this.albumRepository.softDelete(id);
   }
 }

@@ -1,10 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, JoinTable, JoinColumn } from 'typeorm';
 import { CreateMusicDto } from '../dto/create-album.dto';
-import { Music} from 'src/musics/entities/music.entity';
+import { MusicEntity } from 'src/musics/entities/music.entity';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
 
 @Entity()
-export class Album {
+export class AlbumEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,12 +19,14 @@ export class Album {
   @Column()
   artistName: string;
 
-  @ManyToMany(() => Music, (music) => music.albums)
+  @ManyToMany(() => MusicEntity, (music) => music.albums)
   @JoinTable({
-    // name: ''
+    name: 'album_music'
+
     
+  
   })
-  music: Music[]
+  music: MusicEntity[]
 
   @CreateDateColumn()
   createAt: Date;
@@ -36,3 +38,4 @@ export class Album {
   deleteAt: Date;
 
 }
+
