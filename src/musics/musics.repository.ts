@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { MusicEntity } from "./entities/music.entity";
 import { CreateMusicDto } from "./dto/create-music.dto";
 import { UpdateMusicDto } from "./dto/update-music.dto";
@@ -35,5 +35,13 @@ export class MusicsRepository {
         return await this.musicsRepository.softDelete(id)
     }
 
+  async findByName(name: string) {
+    return await this.musicsRepository  
+        .createQueryBuilder('music')
+        .where('music.name Like :name', { name: `%${name}%`})
+        .getMany();
+  }
 
-}
+} 
+
+

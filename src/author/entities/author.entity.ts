@@ -1,5 +1,6 @@
+import { CreateMusicDto } from 'src/musics/dto/create-music.dto';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
-import { CreateMusicDto } from '../dto/create-author.dto';
+
 
 @Entity()
 export class AuthorEntity {
@@ -12,8 +13,8 @@ export class AuthorEntity {
   @Column()
   lastName: string;
 
-  @Column('json')
-  musics: List<CreateMusicDto>;
+  @Column({type: 'simple-array'})
+  musics: CreateMusicDto;
 
   @Column()
   biography: string;

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
 import { AlbumEntity } from '../entities/album.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm'
 
 @Injectable()
@@ -35,5 +35,12 @@ export class AlbumRepository {
 
   async delete(id: number) {
     return await this.albumRepository.softDelete(id);
+  }
+
+  async findByName(name: string) {
+    return  this.albumRepository
+      .createQueryBuilder('album')
+      .where('album.title Like :name', { name: '%${name}%'})
+      .getMany()
   }
 }
