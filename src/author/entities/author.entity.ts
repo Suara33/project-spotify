@@ -12,8 +12,8 @@ export class AuthorEntity {
   @Column()
   lastName: string;
 
-  @Column('json')
-  musics: List<CreateMusicDto>;
+  @Column()
+  musics: CreateMusicDto[];
 
   @Column()
   biography: string;

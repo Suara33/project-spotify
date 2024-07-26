@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AlbumModule } from './album/album.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MusicsModule } from './musics/musics.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [AlbumModule,
@@ -19,8 +20,10 @@ import { MusicsModule } from './musics/musics.module';
       synchronize: true,
     }),
     
+    MusicsModule,
+    
 
-    MusicsModule
+    UsersModule
 
   ],
   controllers: [AppController],
