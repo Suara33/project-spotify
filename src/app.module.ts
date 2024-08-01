@@ -3,7 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AlbumModule } from './album/album.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MusicsModule } from './musics/musics.module';
+import { MusicsModule } from './musics/musics.module'
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [AlbumModule,
@@ -19,9 +21,11 @@ import { MusicsModule } from './musics/musics.module';
       synchronize: true,
     }),
     
+    MusicsModule,
 
-    MusicsModule
-
+    UsersModule,
+    
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
