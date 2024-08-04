@@ -19,23 +19,23 @@ export class UsersRepository {
 
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    return await this.usersRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    return await this.usersRepository.findOneBy({id: 1});
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    this.usersRepository.update(1, updateUserDto)
+    await this.usersRepository.save(updateUserDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    return await this.usersRepository.softDelete(id);
   }
 }
 
 
 
-//controleri da service gasworebulia .. entityc da dtoc ase tu ise da repo darcha/.......
