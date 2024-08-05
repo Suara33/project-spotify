@@ -1,10 +1,10 @@
 import { IsArray ,IsString} from 'class-validator';
-import { MusicEntity } from 'src/musics/entities/music.entity';
+import { CreateMusicDto } from 'src/musics/dto/create-music.dto';
+
 
 
 export class CreateAuthorDto {
-    @IsString()
-    title: string;
+
 
     @IsString()
     firstName: string;
