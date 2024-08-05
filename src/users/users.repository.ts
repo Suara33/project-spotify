@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-import * as bcrypt from 'bcryptjs';
+import * as bcrypt from "bcryptjs";
+
 
 @Injectable()
 export class UsersRepository {
@@ -18,18 +19,10 @@ export class UsersRepository {
     newUser.password = data.password;
     newUser.name = data.name;
 
-    return this.usersRepository.save(newUser);
+    newUser.password = await bcrypt.hash(newUser.password, 10)
+    return  this.usersRepository.save(newUser);
 
-    // try {
-    //     const result = await this.usersRepository.save(newUser)
 
-    //     return result
-
-    // } catch (err)  {
-    //     if(err.errno == 1062) {
-    //         return 'mail already exist'
-    //         }
-    //     }
   }
 
   async findOne(email: string) {
@@ -43,11 +36,4 @@ export class UsersRepository {
       .getMany();
   }
 
-  // async findAll() {
-  //     return await this.usersRepository
-  //     .createQueryBuilder('users')
-  //     .select('users.id', ':user')
-  //     .getMany()
-
-  // }
 }

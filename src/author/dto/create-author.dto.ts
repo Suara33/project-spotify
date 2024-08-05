@@ -1,5 +1,5 @@
 import { IsArray ,IsString} from 'class-validator';
-import { CreateMusicDto } from 'src/musics/dto/create-music.dto';
+
 
 
 
