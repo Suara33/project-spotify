@@ -13,9 +13,6 @@ export class AuthorEntity {
   @Column()
   lastName: string;
 
-  @Column({type: 'simple-array'})
-  musics: CreateMusicDto;
-
   @Column()
   biography: string;
 

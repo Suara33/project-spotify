@@ -3,11 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AlbumModule } from './album/album.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MusicsModule } from './musics/musics.module';
+import { MusicsModule } from './musics/musics.module'
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 import { SearchController } from './search/search.controller';
 import { SearchService } from './search/search.service';
 import { SearchModule } from './search/search.module';
 import { AuthorModule } from './author/author.module';
+
 
 @Module({
   imports: [AlbumModule,
@@ -23,14 +26,12 @@ import { AuthorModule } from './author/author.module';
       synchronize: true,
     }),
     
-
     MusicsModule,
-
+    UsersModule,
+    AuthModule,
+    MusicsModule,
     AuthorModule,
-    
-
     SearchModule
-
   ],
   controllers: [AppController, SearchController],
   providers: [AppService, SearchService],
