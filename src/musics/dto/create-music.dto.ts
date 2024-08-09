@@ -2,7 +2,7 @@ import { IsNumber, IsString } from "class-validator";
 export class CreateMusicDto {
 
     @IsString()
-    artistName: string;
+    name: string;
 
     @IsString()
     url: string;
