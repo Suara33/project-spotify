@@ -8,22 +8,23 @@ export class AuthService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async login(email: string, pass: string) {
-    const user = await this.usersRepository.findOne(email);
+    const user = await this.usersRepository.findOneByEmail(email);
 
     if (!user) {
-      throw new UnauthorizedException('bla bla');
+      throw new UnauthorizedException('acces denied');
     }
 
     const passwordIsCorrect = await bcrypt.compare(pass, user.password);
 
     if (!passwordIsCorrect) {
-      throw new UnauthorizedException('access denided!');
+      throw new UnauthorizedException('acces denied!');
     }
 
     const { password, ...res } = user;
 
     return res;
-
+    
+                  
     // if(user) {
 
     //    if( await bcrypt.compare(createAuthDto.password, use)) {

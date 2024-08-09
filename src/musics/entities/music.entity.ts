@@ -1,7 +1,7 @@
 import { IsNumber } from "class-validator";
-import { CreateAlbumDto } from "src/album/dto/create-album.dto";
 import { AlbumEntity } from "src/album/entities/album.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Playlist } from "src/playlist/entities/playlist.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity,ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class MusicEntity {
@@ -17,7 +17,8 @@ export class MusicEntity {
     @IsNumber()
     artistid: number;
 
-    
+    @ManyToMany(() => Playlist, playlist => playlist.music)
+    playlists: Playlist[]
 
     @ManyToMany(() => AlbumEntity, (album) => album.music)
     albums: AlbumEntity[];

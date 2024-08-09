@@ -10,6 +10,7 @@ import { SearchController } from './search/search.controller';
 import { SearchService } from './search/search.service';
 import { SearchModule } from './search/search.module';
 import { AuthorModule } from './author/author.module';
+import { PlaylistModule } from './playlist/playlist.module';
 
 
 @Module({
@@ -17,11 +18,11 @@ import { AuthorModule } from './author/author.module';
 
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'database-1.chkge6ee4krk.eu-north-1.rds.amazonaws.com',
       port: 3306,
-      username: 'root',
-      database: 'spotifyproject',
-      password: 'mainstreetcoders33', 
+      username: 'admin',
+      database: 'mainstreetcoders',
+      password: 'Mainstreetcoders33', 
       autoLoadEntities: true,
       synchronize: true,
     }),
@@ -31,7 +32,8 @@ import { AuthorModule } from './author/author.module';
     AuthModule,
     MusicsModule,
     AuthorModule,
-    SearchModule
+    SearchModule,
+    PlaylistModule
   ],
   controllers: [AppController, SearchController],
   providers: [AppService, SearchService],
