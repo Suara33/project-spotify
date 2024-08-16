@@ -11,6 +11,7 @@ import { SearchService } from './search/search.service';
 import { SearchModule } from './search/search.module';
 import { AuthorModule } from './author/author.module';
 import { PlaylistModule } from './playlist/playlist.module';
+import { ListenersModule } from './listeners/listeners.module';
 
 
 @Module({
@@ -33,7 +34,8 @@ import { PlaylistModule } from './playlist/playlist.module';
     MusicsModule,
     AuthorModule,
     SearchModule,
-    PlaylistModule
+    PlaylistModule,
+    ListenersModule
   ],
   controllers: [AppController, SearchController],
   providers: [AppService, SearchService],
