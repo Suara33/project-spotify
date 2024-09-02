@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, Search } from '@nestjs/common';
-import { AlbumRepository } from 'src/album/repository/album.repository';
-import { AuthorRepository } from 'src/author/repository/author.repository';
+import { AlbumRepository } from 'src/albums/repository/album.repository';
+import { AuthorRepository } from 'src/authors/repository/author.repository';
 import { MusicsRepository } from 'src/musics/musics.repository';
 
 

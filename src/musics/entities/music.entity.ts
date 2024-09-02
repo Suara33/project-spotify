@@ -1,6 +1,6 @@
 import { IsNumber } from "class-validator";
-import { AlbumEntity } from "src/album/entities/album.entity";
-import { Playlist } from "src/playlist/entities/playlist.entity";
+import { AlbumEntity } from "src/albums/entities/album.entity";
+import { Playlist } from "src/playlists/entities/playlist.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity,ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
@@ -31,6 +31,7 @@ export class MusicEntity {
 
     @DeleteDateColumn()
     deleteAt: Date;
+    static listeners: any;
 }
 
    

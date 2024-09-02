@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AlbumModule } from './album/album.module';
+import { AlbumModule } from './albums/album.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MusicsModule } from './musics/musics.module'
 import { UsersModule } from './users/users.module';
@@ -9,8 +9,9 @@ import { AuthModule } from './auth/auth.module';
 import { SearchController } from './search/search.controller';
 import { SearchService } from './search/search.service';
 import { SearchModule } from './search/search.module';
-import { AuthorModule } from './author/author.module';
-import { PlaylistModule } from './playlist/playlist.module';
+import { AuthorModule } from './authors/author.module';
+import { PlaylistModule } from './playlists/playlist.module';
+import { ListenersModule } from './listeners/listeners.module';
 
 
 @Module({
@@ -33,7 +34,8 @@ import { PlaylistModule } from './playlist/playlist.module';
     MusicsModule,
     AuthorModule,
     SearchModule,
-    PlaylistModule
+    PlaylistModule,
+    ListenersModule
   ],
   controllers: [AppController, SearchController],
   providers: [AppService, SearchService],
