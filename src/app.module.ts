@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config'; // Import ConfigModule
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AlbumModule } from './albums/album.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { MusicsModule } from './musics/musics.module'
+import { MusicsModule } from './musics/musics.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { SearchController } from './search/search.controller';
@@ -13,32 +15,31 @@ import { AuthorModule } from './authors/author.module';
 import { PlaylistModule } from './playlists/playlist.module';
 import { ListenersModule } from './listeners/listeners.module';
 
-
 @Module({
-  imports: [AlbumModule,
-
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'database-1.chkge6ee4krk.eu-north-1.rds.amazonaws.com',
-      port: 3306,
-      username: 'admin',
-      database: 'mainstreetcoders',
-      password: 'Mainstreetcoders33', 
+      host: process.env.DATABASE_HOST,
+      port: +process.env.DATABASE_PORT,
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
     }),
-    
+    AlbumModule,
     MusicsModule,
     UsersModule,
     AuthModule,
-    MusicsModule,
     AuthorModule,
     SearchModule,
     PlaylistModule,
-    ListenersModule
+    ListenersModule,
   ],
   controllers: [AppController, SearchController],
   providers: [AppService, SearchService],
 })
 export class AppModule {}
-

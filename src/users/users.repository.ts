@@ -3,9 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-import * as bcrypt from "bcryptjs";
+import * as bcrypt from 'bcryptjs';
 import { UpdateUsersDto } from './dto/update-user.dto';
-
 
 @Injectable()
 export class UsersRepository {
@@ -20,18 +19,16 @@ export class UsersRepository {
     newUser.password = data.password;
     newUser.name = data.name;
 
-    newUser.password = await bcrypt.hash(newUser.password, 10)
-    return  this.usersRepository.save(newUser);
-
-
+    newUser.password = await bcrypt.hash(newUser.password, 10);
+    return this.usersRepository.save(newUser);
   }
 
-   async findOneByEmail(email: string): Promise<User> {
+  async findOneByEmail(email: string): Promise<User> {
     return await this.usersRepository.findOne({ where: { email } });
   }
-    async findById(id: number) {
-      return await this.usersRepository.findOne({where: {id}})
-    }
+  async findById(id: number) {
+    return await this.usersRepository.findOne({ where: { id } });
+  }
   async findAll() {
     return await this.usersRepository
       .createQueryBuilder('users')
@@ -40,15 +37,21 @@ export class UsersRepository {
   }
 
   async update(id: string, updateUsersDto: UpdateUsersDto) {
-     await this.usersRepository.update(id, updateUsersDto);
+    await this.usersRepository.update(id, updateUsersDto);
   }
 
-  async remove (id: number) {
+  async remove(id: number) {
     return await this.usersRepository
       .createQueryBuilder('users')
       .softDelete()
-      .where('user.id = :id', {id})
-      .execute()
+      .where('user.id = :id', { id })
+      .execute();
   }
 
+  async findByName(name: string) {
+    return await this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.name Like :name', { name: `%${name}%` })
+      .getMany();
+  }
 }
