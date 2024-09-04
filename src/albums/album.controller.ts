@@ -1,8 +1,11 @@
-import { Controller, Get, Post,Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
-import { Body, Param } from '@nestjs/common/decorators/http/route-params.decorator';
+import {
+  Body,
+  Param,
+} from '@nestjs/common/decorators/http/route-params.decorator';
 
 @Controller('album')
 export class AlbumController {
@@ -24,7 +27,10 @@ export class AlbumController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateAlbumDto: UpdateAlbumDto,
+  ) {
     return await this.albumService.update(+id, updateAlbumDto);
   }
 
