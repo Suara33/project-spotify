@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PlaylistService } from './playlist.service';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
@@ -23,7 +31,10 @@ export class PlaylistController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updatePlaylistDto: UpdatePlaylistDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updatePlaylistDto: UpdatePlaylistDto,
+  ) {
     return await this.playlistService.update(+id, updatePlaylistDto);
   }
 
@@ -32,6 +43,3 @@ export class PlaylistController {
     return await this.playlistService.delete(+id);
   }
 }
-
-
-

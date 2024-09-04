@@ -1,3 +1,4 @@
+
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Listener } from './entities/listener.entity';
@@ -11,11 +12,11 @@ export class ListenersRepository {
     private readonly listenersRepository: Repository<Listener>
   ) {}
 
-  async create(createListenerDto: CreateListenerDto){
+  async create(data: CreateListenerDto){
 
-    const listener =  this.listenersRepository.create(createListenerDto)
-    listener.musicId = createListenerDto.musicId
-    listener.userId = createListenerDto.userId
+    const listener =  this.listenersRepository.create(data)
+    listener.musicId = data.musicId
+    listener.userId = data.userId
    
     return await this.listenersRepository.save(listener)
     
@@ -26,7 +27,7 @@ export class ListenersRepository {
     return  await this.listenersRepository.find({ relations: ['user', 'music']});
   }
 
-  async findOne(id: number, p0: { relations: string[]; }): Promise<Listener>{
+  async findOne(id: number, options?: { relations: string[]; }): Promise<Listener>{
      const listener = await this.listenersRepository.findOne({where: {id}, relations: ['music', 'user']})
      if(!listener) {
       throw new NotFoundException('Listener Not Found');
@@ -36,11 +37,11 @@ export class ListenersRepository {
 
   
 
-  remove(id: number) {
-    return this.listenersRepository.delete(id);
+  async remove(id: number) {
+    const listener = await this.findOne(id)
+    if(!listener) {
+        throw new NotFoundException(`Listner with {id} not found`);
+    }
+    await this.listenersRepository.delete(listener.id)
   }
 }
-
-
-
-

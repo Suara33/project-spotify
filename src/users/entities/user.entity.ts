@@ -1,4 +1,4 @@
-import { Playlist } from "src/playlist/entities/playlist.entity";
+import { Playlist } from "src/playlists/entities/playlist.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
@@ -28,6 +28,7 @@ export class User {
 
     @DeleteDateColumn()
     deleteAt: Date;
+    listeners: any;
 
 
     
