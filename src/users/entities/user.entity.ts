@@ -5,31 +5,40 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, OneToMa
 export class User {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    id?: number;
 
-    @Column()
-    name: string;
+    @Column({ default: '' })
+    name: string = ''; 
 
-    @Column({unique: true})
-    email: string
+    @Column({  default: '' })
+    email: string = ''; 
 
-    @Column()
-    password: string;
+    @Column({ default: '' })
+    password: string = '';
 
     @OneToMany(() => Playlist, playlist =>  playlist.user)
-    playlists: Playlist[]
+    playlists?: Playlist[]
 
 
     @CreateDateColumn()
-    createAt: Date;
+    createAt?: Date;
 
     @UpdateDateColumn()
-    updateAt: Date;
+    updateAt?: Date;
 
     @DeleteDateColumn()
-    deleteAt: Date;
-    listeners: any;
+    deleteAt?: Date;
+    listeners?: any;
 
+    @Column('simple-array')
+    roles?: UserRole[];
 
+    @Column({unique: true})
+    username?: string;
     
 }
+
+export enum UserRole {
+    ADMIN = 'admin',
+    USER = 'user',
+  }
