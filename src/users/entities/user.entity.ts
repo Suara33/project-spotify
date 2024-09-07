@@ -1,3 +1,4 @@
+import { Likesong } from "src/likesongs/entities/likesong.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -18,6 +19,9 @@ export class User {
 
     @OneToMany(() => Playlist, playlist =>  playlist.user)
     playlists: Playlist[]
+
+    @OneToMany(() => Likesong, likesong => likesong.userId)
+    likesongs: Likesong[]
 
 
     @CreateDateColumn()

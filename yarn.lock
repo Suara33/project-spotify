@@ -750,10 +750,9 @@
     tslib "2.6.3"
     uid "2.0.2"
 
-"@nestjs/jwt@^10.2.0":
+"@nestjs/jwt@github:nestjs/jwt":
   version "10.2.0"
-  resolved "https://registry.npmjs.org/@nestjs/jwt/-/jwt-10.2.0.tgz"
-  integrity sha512-x8cG90SURkEiLOehNaN2aRlotxT0KZESUliOPKKnjWiyJOcWurkF3w345WOX0P4MgFzUjGoZ1Sy0aZnxeihT0g==
+  resolved "git+ssh://git@github.com/nestjs/jwt.git#134eee804c0f7d71ca2ae21d661539a20f000142"
   dependencies:
     "@types/jsonwebtoken" "9.0.5"
     jsonwebtoken "9.0.2"
