@@ -14,6 +14,7 @@ import { SearchModule } from './search/search.module';
 import { AuthorModule } from './authors/author.module';
 import { PlaylistModule } from './playlists/playlist.module';
 import { ListenersModule } from './listeners/listeners.module';
+import { LikesongsModule } from './likesongs/likesongs.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ListenersModule } from './listeners/listeners.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    
     AlbumModule,
     MusicsModule,
     UsersModule,
@@ -38,6 +40,7 @@ import { ListenersModule } from './listeners/listeners.module';
     SearchModule,
     PlaylistModule,
     ListenersModule,
+    LikesongsModule,
   ],
   controllers: [AppController, SearchController],
   providers: [AppService, SearchService],

@@ -19,9 +19,6 @@ export class MusicsRepository {
 
   async findAll() {
     return await this.musicsRepository.find();
-
-    // const music = this.findOne(1);
-    // const foundMusic = await music;
   }
 
   async findOne(id: number) {
