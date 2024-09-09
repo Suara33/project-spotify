@@ -27,8 +27,8 @@ export class User {
     updateAt?: Date;
 
     @DeleteDateColumn()
-    deleteAt?: Date;
-    listeners?: any;
+    deleteAt: Date;
+    listeners: any;
 
     @Column('simple-array')
     roles?: UserRole[];

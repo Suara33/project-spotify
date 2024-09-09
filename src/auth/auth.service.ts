@@ -4,17 +4,16 @@ import * as bcrypt from 'bcrypt';
 import { User, UserRole } from '../users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthService {
-  @InjectRepository(User)
-  private readonly userRepository: Repository<User>
-
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    @InjectRepository(User) private readonly repository: Repository<User>
+  ) {}
 
   async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.userRepository.findOneBy({ username });
+    const user = await this.repository.findOneBy({ username });
     if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user;
       return result;
@@ -29,15 +28,25 @@ export class AuthService {
     };
   }
 
-  async register(username: string, password: string, roles: UserRole[] = [UserRole.USER]) {
+  async register(username: string, password: string, roles: string[] = [UserRole.USER]): Promise<any> {
+    const userRoles: UserRole[] = roles.map(role => {
+      switch (role.toLowerCase()) {
+        case 'admin':
+          return UserRole.ADMIN;
+        case 'user':
+          return UserRole.USER;
+        default:
+          throw new Error(`Invalid role: ${role}`);
+      }
+    });
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser: Partial<User> = {
       username,
       password: hashedPassword,
-      roles,
-      
-  };
-  await this.userRepository.save(newUser);
+      roles: userRoles,
+    };
+    await this.repository.save(newUser);
     return this.login(newUser);
   }
 

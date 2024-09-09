@@ -4,14 +4,16 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { RolesGuard } from './roles.guard';
 import { Roles } from './roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login-dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() body) {
-    const { username, password } = body;
+  async login(@Body() loginDto: LoginDto) {
+    const { username, password } = loginDto;
     const user = await this.authService.validateUser(username, password);
     if (!user) {
       return { message: 'Invalid credentials' };
@@ -20,8 +22,14 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Body() body) {
-    const { username, password, roles } = body;
+  async register(@Body() registerDto: RegisterDto) {
+    const { username, password, roles } = registerDto;
+
+ 
+    if (!Array.isArray(roles)) {
+      throw new Error('Roles must be an array of strings');
+    }
+
     return this.authService.register(username, password, roles);
   }
 
@@ -31,7 +39,6 @@ export class AuthController {
     return req.user;
   }
 
- 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
   @Post('admin')
@@ -39,13 +46,16 @@ export class AuthController {
     return 'Admin data';
   }
 
-
   @Post('refresh')
   async refreshToken(@Body() body) {
     const { token } = body;
     try {
       const payload = this.authService.verify(token);
-      return this.authService.login({ username: payload.username, id: payload.sub, roles: payload.roles });
+      return this.authService.login({
+        username: payload.username,
+        id: payload.sub,
+        roles: payload.roles,
+      });
     } catch (e) {
       return { message: 'Token is invalid or expired' };
     }
