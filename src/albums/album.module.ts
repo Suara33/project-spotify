@@ -11,4 +11,4 @@ import { AlbumRepository } from './repository/album.repository';
   providers: [AlbumService, AlbumRepository],
   exports: [AlbumRepository],
 })
-export class AlbumModule {}
+export class AlbumModule {} 
