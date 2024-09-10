@@ -1,3 +1,4 @@
+import { Role } from "src/auth/roles/roles.enum";
 import { Playlist } from "src/playlists/entities/playlist.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -16,6 +17,9 @@ export class User {
     @Column()
     password: string;
 
+    @Column()
+    role: Role;
+
     @OneToMany(() => Playlist, playlist =>  playlist.user)
     playlists: Playlist[]
 
@@ -29,6 +33,7 @@ export class User {
     @DeleteDateColumn()
     deleteAt: Date;
     listeners: any;
+
 
 
     

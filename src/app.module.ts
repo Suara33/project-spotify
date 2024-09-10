@@ -14,11 +14,21 @@ import { SearchModule } from './search/search.module';
 import { AuthorModule } from './authors/author.module';
 import { PlaylistModule } from './playlists/playlist.module';
 import { ListenersModule } from './listeners/listeners.module';
+import { JwtModule } from '@nestjs/jwt';
+
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    JwtModule.register({
+      secret: process.env.jwtConstants,
+      global:true,
+      signOptions: {
+        expiresIn: '7d'
+      }
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
