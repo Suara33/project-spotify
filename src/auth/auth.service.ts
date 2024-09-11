@@ -28,23 +28,23 @@ export class AuthService {
     };
   }
 
-  async register(username: string, password: string, roles: string[] = [UserRole.USER]): Promise<any> {
-    const userRoles: UserRole[] = roles.map(role => {
-      switch (role.toLowerCase()) {
-        case 'admin':
-          return UserRole.ADMIN;
-        case 'user':
-          return UserRole.USER;
-        default:
-          throw new Error(`Invalid role: ${role}`);
-      }
-    });
+  async register(username: string, password: string, roles: string): Promise<any> {
+    // const userRoles = roles.map(role => {
+    //   switch (role.toLowerCase()) {
+    //     case 'admin':
+    //       return UserRole.ADMIN;
+    //     case 'user':
+    //       return UserRole.USER;
+    //     default:
+    //       throw new Error(`Invalid role: ${role}`);
+    //   }
+    // });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser: Partial<User> = {
       username,
       password: hashedPassword,
-      roles: userRoles,
+      roles: roles,
     };
     await this.repository.save(newUser);
     return this.login(newUser);

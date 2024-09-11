@@ -26,9 +26,6 @@ export class AuthController {
     const { username, password, roles } = registerDto;
 
  
-    if (!Array.isArray(roles)) {
-      throw new Error('Roles must be an array of strings');
-    }
 
     return this.authService.register(username, password, roles);
   }

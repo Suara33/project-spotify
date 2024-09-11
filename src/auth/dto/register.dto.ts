@@ -12,6 +12,6 @@ export class RegisterDto {
   password: string;
 
 
-  @ArrayNotEmpty()
+  @IsString()
   roles: string;
 }

@@ -30,8 +30,8 @@ export class User {
     deleteAt: Date;
     listeners: any;
 
-    @Column('simple-array')
-    roles?: UserRole[];
+    @Column()
+    roles?: string;
 
     @Column({unique: true})
     username?: string;
