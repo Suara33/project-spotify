@@ -1,40 +1,56 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersRepository } from 'src/users/users.repository';
-import * as bcrypt from 'bcryptjs';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { User, UserRole } from '../users/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    @InjectRepository(User) private readonly repository: Repository<User>
+  ) {}
 
-  async login(email: string, pass: string) {
-    const user = await this.usersRepository.findOneByEmail(email);
-
-    if (!user) {
-      throw new UnauthorizedException('acces denied');
+  async validateUser(username: string, password: string): Promise<any> {
+    const user = await this.repository.findOneBy({ username });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const { password, ...result } = user;
+      return result;
     }
+    return null;
+  }
 
-    const passwordIsCorrect = await bcrypt.compare(pass, user.password);
+  async login(user: any) {
+    const payload = { username: user.username, sub: user.id, roles: user.roles };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
 
-    if (!passwordIsCorrect) {
-      throw new UnauthorizedException('acces denied!');
-    }
+  async register(username: string, password: string, roles: string): Promise<any> {
+    // const userRoles = roles.map(role => {
+    //   switch (role.toLowerCase()) {
+    //     case 'admin':
+    //       return UserRole.ADMIN;
+    //     case 'user':
+    //       return UserRole.USER;
+    //     default:
+    //       throw new Error(`Invalid role: ${role}`);
+    //   }
+    // });
 
-    const { password, ...res } = user;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser: Partial<User> = {
+      username,
+      password: hashedPassword,
+      roles: roles,
+    };
+    await this.repository.save(newUser);
+    return this.login(newUser);
+  }
 
-    return res;
-    
-                  
-    // if(user) {
-
-    //    if( await bcrypt.compare(createAuthDto.password, use)) {
-    //     const {password, ...res} = user
-    //     return res
-    //    } else {
-    //     return 'username or password is not correct'
-    //    }
-    // }else{
-    //     return 'username or password is not correct'
-    // }
+  verify(token: string) {
+    return this.jwtService.verify(token);
   }
 }
