@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { UpdateUsersDto } from './dto/update-user.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersRepository {
@@ -18,11 +19,18 @@ export class UsersRepository {
     newUser.email = data.email;
     newUser.password = data.password;
     newUser.name = data.name;
-
+    
+    
     newUser.password = await bcrypt.hash(newUser.password, 10);
+
+    if(data.password !== data.confirmPassword) {
+      throw new BadRequestException('Paswword do not match')
+    }
+
+    
     return this.usersRepository.save(newUser);
   }
-
+  
   async findOneByEmail(email: string): Promise<User> {
     return await this.usersRepository.findOne({ where: { email } });
   }
