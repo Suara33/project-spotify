@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config'; // Import ConfigModule
-
+import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AlbumModule } from './albums/album.module';
@@ -15,11 +15,23 @@ import { AuthorModule } from './authors/author.module';
 import { PlaylistModule } from './playlists/playlist.module';
 import { ListenersModule } from './listeners/listeners.module';
 import { LikesongsModule } from './likesongs/likesongs.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/guards/auth.guard';
+
+
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: {
+        expiresIn: '7d'
+      }
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -31,7 +43,6 @@ import { LikesongsModule } from './likesongs/likesongs.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    
     AlbumModule,
     MusicsModule,
     UsersModule,
@@ -43,6 +54,12 @@ import { LikesongsModule } from './likesongs/likesongs.module';
     LikesongsModule,
   ],
   controllers: [AppController, SearchController],
-  providers: [AppService, SearchService],
+  providers: [AppService, SearchService, 
+    {
+   provide: APP_GUARD,
+   useClass: AuthGuard,
+    },
+  
+],
 })
 export class AppModule {}

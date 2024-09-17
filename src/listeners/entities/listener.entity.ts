@@ -13,7 +13,7 @@ export class Listener {
     @Column()
     userId: number;
     
-    @ManyToOne(() => MusicEntity, (musicEntity) => MusicEntity.listeners)
+    @ManyToOne(() => MusicEntity, (music) => music .listener)
     music: MusicEntity;
 
     @ManyToOne(() => User, (user) => user.listeners)
