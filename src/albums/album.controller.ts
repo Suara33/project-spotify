@@ -2,9 +2,11 @@ import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
+import { Express } from 'express';
 import {
   Body,
   Param,
+  UploadedFile,
 } from '@nestjs/common/decorators/http/route-params.decorator';
 
 @Controller('album')
@@ -12,8 +14,10 @@ export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Post()
-  async create(@Body() createAlbumDto: CreateAlbumDto) {
-    return await this.albumService.create(createAlbumDto);
+
+  async create(@Body() createAlbumDto: CreateAlbumDto, 
+  @UploadedFile() file: Express.Multer.File,) {
+    return await this.albumService.create(createAlbumDto, file);
   }
 
   @Get()

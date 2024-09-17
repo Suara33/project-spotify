@@ -9,8 +9,6 @@ import {InjectRepository} from '@nestjs/typeorm'
 export class AlbumRepository {
   
   constructor(@InjectRepository(AlbumEntity) private readonly albumRepository: Repository<AlbumEntity>) {}
-   
- 
   
   async create(createAlbumDto: CreateAlbumDto) {
     this.albumRepository.create(createAlbumDto)
