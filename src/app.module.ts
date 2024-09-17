@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config'; // Import ConfigModule
-
+import { ConfigModule } from '@nestjs/config'; 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AlbumModule } from './albums/album.module';
@@ -15,6 +14,11 @@ import { AuthorModule } from './authors/author.module';
 import { PlaylistModule } from './playlists/playlist.module';
 import { ListenersModule } from './listeners/listeners.module';
 import { LikesongsModule } from './likesongs/likesongs.module';
+import { FilesModule } from './files/files.module';
+
+
+
+
 
 @Module({
   imports: [
@@ -31,7 +35,7 @@ import { LikesongsModule } from './likesongs/likesongs.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    
+
     AlbumModule,
     MusicsModule,
     UsersModule,
@@ -41,6 +45,7 @@ import { LikesongsModule } from './likesongs/likesongs.module';
     PlaylistModule,
     ListenersModule,
     LikesongsModule,
+    FilesModule,
   ],
   controllers: [AppController, SearchController],
   providers: [AppService, SearchService],

@@ -18,6 +18,13 @@ export class MusicEntity {
     @IsNumber()
     artistid: number;
 
+    @Column()
+    filePath: string;
+
+    @Column('float')
+    duration: number;
+
+
     @ManyToMany(() => Playlist, playlist => playlist.music)
     playlists: Playlist[]
 

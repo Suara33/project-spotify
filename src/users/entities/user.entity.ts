@@ -1,3 +1,4 @@
+import { FileEntity } from "src/files/entities/file.entity";
 import { Likesong } from "src/likesongs/entities/likesong.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
@@ -16,6 +17,9 @@ export class User {
 
     @Column()
     password: string;
+
+    @OneToMany(() => FileEntity, (file) => file.user)
+    files: FileEntity[]
 
     @OneToMany(() => Playlist, playlist =>  playlist.user)
     playlists: Playlist[]

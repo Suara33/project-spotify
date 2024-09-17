@@ -12,25 +12,26 @@ export class MusicsRepository {
     private musicsRepository: Repository<MusicEntity>,
   ) {}
 
-  async create(data: CreateMusicDto) {
+  async create(data: CreateMusicDto): Promise<MusicEntity> {
     const newMusic = this.musicsRepository.create(data);
     return await this.musicsRepository.save(newMusic);
   }
 
-  async findAll() {
+  async findAll(): Promise<MusicEntity[]> {
     return await this.musicsRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<MusicEntity> {
     return await this.musicsRepository.findOneBy({ id });
   }
 
-  async update(id: number, data: UpdateMusicDto) {
-    return await this.musicsRepository.update(id, data);
+  async update(id: number, data: UpdateMusicDto): Promise<MusicEntity> {
+    await this.update(id, data) 
+    return await this.findOne(id);
   }
 
-  async remove(id: number) {
-    return await this.musicsRepository.softDelete(id);
+  async remove(id: number): Promise<void> {
+     await this.musicsRepository.softDelete(id);
   }
 
   async findByName(name: string) {
