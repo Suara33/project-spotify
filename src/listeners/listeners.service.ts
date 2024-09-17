@@ -19,9 +19,6 @@ export class ListenersService {
     this.listenersRepository.findOne(id)
   }
 
-  
-
-
   delete(id: number) {
     return this.listenersRepository.remove(id);
   }

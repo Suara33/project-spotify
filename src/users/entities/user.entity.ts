@@ -1,5 +1,6 @@
 import { Role } from "src/auth/role.enum";
 import { Likesong } from "src/likesongs/entities/likesong.entity";
+import { Listener } from "src/listeners/entities/listener.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, RoleSpecification, UpdateDateColumn } from "typeorm";
 
@@ -27,6 +28,8 @@ export class User {
     @OneToMany(() => Likesong, likesong => likesong.userId)
     likesongs: Likesong[]
 
+    @OneToMany(() => Listener, (listner) => listner.user)
+    listener: Listener[]
 
     @CreateDateColumn()
     createAt: Date;
