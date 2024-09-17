@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Request } from 'express';
 import { JwtService } from "@nestjs/jwt";
+import { Role } from "../role.enum";
 
 @Injectable()
 
@@ -16,17 +17,22 @@ export class AdminGuard implements CanActivate {
         }
 
         try{
-            const payload = await this.jwtService.verify(token)
+            const payload = await this.jwtService.verifyAsync(token)
 
             request.user = payload
-        } catch{
+
+            if (payload.role !== Role.Admin) {
+                throw new UnauthorizedException('Insufficient permissions');
+            } 
+        }catch{
             throw new UnauthorizedException()
         }
+
         return true;
     }
     private extractTokenFromHeader(request: Request): string | undefined {
         const [type, token] = request.headers.authorization?.split(' ') ?? [];
         return type === 'Bearer' ? token : undefined;
     
+        }
     }
-}
