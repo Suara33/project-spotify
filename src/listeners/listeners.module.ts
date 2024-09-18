@@ -11,5 +11,6 @@ import { MusicEntity } from 'src/musics/entities/music.entity';
   imports: [TypeOrmModule.forFeature([Listener, User, MusicEntity])],
   controllers: [ListenersController],
   providers: [ListenersService, ListenersRepository],
+  exports: [ListenersRepository]
 })
 export class ListenersModule {}

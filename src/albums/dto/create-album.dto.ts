@@ -1,4 +1,4 @@
-import { IsArray ,IsString, ValidateNested } from 'class-validator';
+import { IsArray ,IsNumber,IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateMusicDto } from 'src/musics/dto/create-music.dto';
 
@@ -17,5 +17,8 @@ export class CreateAlbumDto {
 
     @IsString()
     artistName: string;
+
+    @IsNumber()
+    albumId: number;
 
 }

@@ -1,8 +1,9 @@
 import { IsNumber } from "class-validator";
 import { AlbumEntity } from "src/albums/entities/album.entity";
 import { Likesong } from "src/likesongs/entities/likesong.entity";
+import { Listener } from "src/listeners/entities/listener.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity,ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity,ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class MusicEntity {
@@ -17,6 +18,9 @@ export class MusicEntity {
 
     @IsNumber()
     artistid: number;
+
+    @OneToMany(() => Listener, (listener) => listener.music)
+    listeners: Listener[]
 
     @ManyToMany(() => Playlist, playlist => playlist.music)
     playlists: Playlist[]
@@ -35,7 +39,7 @@ export class MusicEntity {
 
     @DeleteDateColumn()
     deleteAt: Date;
-    static listeners: any;
+
 }
 
    

@@ -5,7 +5,9 @@ import { UpdateAlbumDto } from './dto/update-album.dto';
 import {
   Body,
   Param,
+  Query,
 } from '@nestjs/common/decorators/http/route-params.decorator';
+import { AlbumEntity } from './entities/album.entity';
 
 @Controller('album')
 export class AlbumController {
@@ -16,6 +18,11 @@ export class AlbumController {
     return await this.albumService.create(createAlbumDto);
   }
 
+  @Get('popular-albums')
+  async getPopularAlbums(@Query('limit') limit: number = 10): Promise<AlbumEntity[]> {
+    return await this.albumService.getPopularAlbums()
+  }
+  
   @Get()
   async findAll() {
     return await this.albumService.findAll();

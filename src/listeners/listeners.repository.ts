@@ -7,6 +7,9 @@ import { CreateListenerDto } from './dto/create-listener.dto';
 
 @Injectable()
 export class ListenersRepository {
+  createQueryBuilder(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectRepository(Listener)
     private readonly listenersRepository: Repository<Listener>

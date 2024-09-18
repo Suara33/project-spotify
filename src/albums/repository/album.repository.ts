@@ -10,13 +10,10 @@ export class AlbumRepository {
   
   constructor(@InjectRepository(AlbumEntity) private readonly albumRepository: Repository<AlbumEntity>) {}
    
- 
-  
   async create(createAlbumDto: CreateAlbumDto) {
     this.albumRepository.create(createAlbumDto)
     await this.albumRepository.save(createAlbumDto)
     
-  
   }
 
   async findAll() {
@@ -31,6 +28,19 @@ export class AlbumRepository {
    this.albumRepository.update(1, updateAlbumDto);
    await this.albumRepository.save(updateAlbumDto)
 
+  }
+
+  async topAlbums() {
+    return await this.albumRepository
+            .createQueryBuilder('album')
+            .leftJoinAndSelect('album.music','music')
+            // .leftJoinAndSelect('album.photo','photo')
+            // .leftJoinAndSelect('music.audio','audio')
+            .leftJoinAndSelect('music.listeners','listeners')
+            .addSelect('COUNT(listener.id)', 'listenerCount') 
+            .orderBy('listenerCount', 'DESC')
+            .groupBy('music')
+            .getMany()
   }
 
   async delete(id: number) {
