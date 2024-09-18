@@ -1,23 +1,20 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, Body, Get, Param, Patch, Delete } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
-import { Express } from 'express';
-import {
-  Body,
-  Param,
-  UploadedFile,
-} from '@nestjs/common/decorators/http/route-params.decorator';
 
 @Controller('album')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
-  @Post()
-
-  async create(@Body() createAlbumDto: CreateAlbumDto, 
-  @UploadedFile() file: Express.Multer.File,) {
-    return await this.albumService.create(createAlbumDto, file);
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createAlbumDto: CreateAlbumDto,
+  ) {
+    return this.albumService.create(createAlbumDto, file);
   }
 
   @Get()
@@ -31,10 +28,7 @@ export class AlbumController {
   }
 
   @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateAlbumDto: UpdateAlbumDto,
-  ) {
+  async update(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto) {
     return await this.albumService.update(+id, updateAlbumDto);
   }
 
@@ -43,3 +37,50 @@ export class AlbumController {
     return await this.albumService.remove(+id);
   }
 }
+
+
+// import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
+// import { AlbumService } from './album.service';
+// import { CreateAlbumDto } from './dto/create-album.dto';
+// import { UpdateAlbumDto } from './dto/update-album.dto';
+// import { Express } from 'express';
+// import {
+//   Body,
+//   Param,
+//   UploadedFile,
+// } from '@nestjs/common/decorators/http/route-params.decorator';
+
+// @Controller('album')
+// export class AlbumController {
+//   constructor(private readonly albumService: AlbumService) {}
+
+//   @Post()
+
+//   async create(@Body() createAlbumDto: CreateAlbumDto, 
+//   @UploadedFile() file: Express.Multer.File,) {
+//     return await this.albumService.create(createAlbumDto, file);
+//   }
+
+//   @Get()
+//   async findAll() {
+//     return await this.albumService.findAll();
+//   }
+
+//   @Get(':id')
+//   async findOne(@Param('id') id: string) {
+//     return await this.albumService.findOne(+id);
+//   }
+
+//   @Patch(':id')
+//   async update(
+//     @Param('id') id: string,
+//     @Body() updateAlbumDto: UpdateAlbumDto,
+//   ) {
+//     return await this.albumService.update(+id, updateAlbumDto);
+//   }
+
+//   @Delete(':id')
+//   async remove(@Param('id') id: string) {
+//     return await this.albumService.remove(+id);
+//   }
+// }

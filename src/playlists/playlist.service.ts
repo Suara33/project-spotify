@@ -1,10 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable} from '@nestjs/common';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { PlaylistRepository } from './playlist.repository';
-import { UsersService } from 'src/users/users.service';
-import { UsersRepository } from 'src/users/users.repository';
-import { InjectRepository } from '@nestjs/typeorm';
+
 
 @Injectable()
 export class PlaylistService {

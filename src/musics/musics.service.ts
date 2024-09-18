@@ -26,10 +26,10 @@ export class MusicsService {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
 
-    const filePath = `/uploads/music/${file.filename}`;
+    const filePath = `https://eu-north-1.console.aws.amazon.com/s3/buckets/spotify-general-bucket?region=eu-north-1&bucketType=general&tab=objects/uploads/music/${file.filename}`;
     createMusicDto.filePath = filePath;
 
-    const fileBuffer = await fs.readFile(`./uploads/music/${file.filename}`);
+    const fileBuffer = await fs.readFile(`https://eu-north-1.console.aws.amazon.com/s3/buckets/spotify-general-bucket?region=eu-north-1&bucketType=general&tab=objects/uploads/music/${file.filename}`);
 
     try {
       const duration = await getDurationFromBuffer(fileBuffer);

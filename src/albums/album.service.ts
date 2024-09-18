@@ -14,10 +14,10 @@ export class AlbumService {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
 
-    const filePath = `/uploads/music/${file.filename}`;
+    const filePath = `/uploads/album/${file.filename}`;
     createAlbumDto.filePath = filePath; 
 
-    const fileBuffer = await fs.readFile(`./uploads/music/${file.filename}`);
+    const fileBuffer = await fs.readFile(`./uploads/album/${file.filename}`);
 
     try {
       
