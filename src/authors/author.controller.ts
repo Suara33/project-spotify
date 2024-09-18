@@ -11,8 +11,8 @@ export class AuthorController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async create(@Body() createAuthorDto: CreateAuthorDto, @UploadedFile() file: Express.Multer.File) {
-    return await this.authorService.create(createAuthorDto);
-  }
+    return await this.authorService.create(createAuthorDto, file);
+  } 
 
   @Get()
   async findAll() {

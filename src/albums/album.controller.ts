@@ -3,6 +3,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
+import { Express } from 'express';
+
 
 @Controller('album')
 export class AlbumController {
@@ -38,49 +40,3 @@ export class AlbumController {
   }
 }
 
-
-// import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
-// import { AlbumService } from './album.service';
-// import { CreateAlbumDto } from './dto/create-album.dto';
-// import { UpdateAlbumDto } from './dto/update-album.dto';
-// import { Express } from 'express';
-// import {
-//   Body,
-//   Param,
-//   UploadedFile,
-// } from '@nestjs/common/decorators/http/route-params.decorator';
-
-// @Controller('album')
-// export class AlbumController {
-//   constructor(private readonly albumService: AlbumService) {}
-
-//   @Post()
-
-//   async create(@Body() createAlbumDto: CreateAlbumDto, 
-//   @UploadedFile() file: Express.Multer.File,) {
-//     return await this.albumService.create(createAlbumDto, file);
-//   }
-
-//   @Get()
-//   async findAll() {
-//     return await this.albumService.findAll();
-//   }
-
-//   @Get(':id')
-//   async findOne(@Param('id') id: string) {
-//     return await this.albumService.findOne(+id);
-//   }
-
-//   @Patch(':id')
-//   async update(
-//     @Param('id') id: string,
-//     @Body() updateAlbumDto: UpdateAlbumDto,
-//   ) {
-//     return await this.albumService.update(+id, updateAlbumDto);
-//   }
-
-//   @Delete(':id')
-//   async remove(@Param('id') id: string) {
-//     return await this.albumService.remove(+id);
-//   }
-// }

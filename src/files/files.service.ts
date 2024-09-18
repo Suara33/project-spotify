@@ -15,16 +15,17 @@ export class FilesService {
    
     const filename = file.originalname.split('.').slice(0, -1).join('.');
 
-    const result = await this.s3Service.uploadFile(file);
+    const sanitizedFileName = file.filename.replace(/\s+/g, '-')
+
+    const result = await this.s3Service.uploadImage(file);
 
  
 
     const savedFile = await this.filesRepository.save(
-      filename,
-      result.Location,
-      result.Bucket,
-      result.Key
-      
+      sanitizedFileName,
+      result.location,
+      result.bucket,
+      result.key
 
     )
     return savedFile;

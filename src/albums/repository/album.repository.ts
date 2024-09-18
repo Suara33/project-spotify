@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
 import { AlbumEntity } from '../entities/album.entity';
-import { Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm'
 
 @Injectable()
@@ -10,11 +10,8 @@ export class AlbumRepository {
   
   constructor(@InjectRepository(AlbumEntity) private readonly albumRepository: Repository<AlbumEntity>) {}
   
-  async create(createAlbumDto: CreateAlbumDto) {
-    this.albumRepository.create(createAlbumDto)
-    await this.albumRepository.save(createAlbumDto)
-    
-  
+  async create(album: AlbumEntity) {
+    return await this.albumRepository.save(album)
   }
 
   async findAll() {

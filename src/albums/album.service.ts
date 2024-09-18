@@ -1,47 +1,40 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { AlbumRepository } from './repository/album.repository';
-import * as fs from 'fs/promises';
+import { S3Service } from 'src/files/services/s3.service';
+import { AlbumEntity } from './entities/album.entity';
+import { AuthorRepository } from 'src/authors/repository/author.repository';
 const ffmpeg = require('fluent-ffmpeg');
 
 @Injectable()
 export class AlbumService {
-  constructor(private readonly albumRepository: AlbumRepository) {}
+  constructor(private readonly albumRepository: AlbumRepository,
+              private readonly s3service: S3Service,
+              private readonly authorRepo : AuthorRepository
+  ) {}
 
   async create(createAlbumDto: CreateAlbumDto, file: Express.Multer.File) {
+
+    const author = await this.authorRepo.findAuthorByName(createAlbumDto.artistName)
+    if(!author) throw new NotFoundException('author not found')
+
     if (!file) {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
-
-    const filePath = `/uploads/album/${file.filename}`;
-    createAlbumDto.filePath = filePath; 
-
-    const fileBuffer = await fs.readFile(`./uploads/album/${file.filename}`);
-
-    try {
-      
-      const duration = await this.getDurationFromBuffer(fileBuffer);
-      createAlbumDto.duration = duration; 
-    } catch (error) {
-      throw new HttpException('Error processing audio file', HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     
-    return await this.albumRepository.create(createAlbumDto);
+    const image = await this.s3service.uploadImage(file)
+
+   const album = new AlbumEntity()
+   album.title = createAlbumDto.title
+   album.author = author
+   album.artistName =createAlbumDto.artistName
+   album.photo = image.location
+   
+    return await this.albumRepository.create(album)
+   
   }
 
-  private getDurationFromBuffer(buffer: Buffer): Promise<number> {
-    return new Promise((resolve, reject) => {
-      ffmpeg.ffprobe(buffer, (err: any, metadata: any) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(metadata.format.duration);
-        }
-      });
-    });
-  }
   async findAll() {
     return await this.albumRepository.findAll();
   }
@@ -55,7 +48,6 @@ export class AlbumService {
     return album;
   }
 
-  
   async update(id: number, updateAlbumDto: UpdateAlbumDto) {
     const album = await this.albumRepository.findOne(id);
     if (!album) {

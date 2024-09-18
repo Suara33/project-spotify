@@ -13,7 +13,7 @@ export class UsersRepository {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  async create(data: CreateUserDto) {
+  async create(data: CreateUserDto): Promise<User> {
     const newUser = new User();
     newUser.email = data.email;
     newUser.password = data.password;

@@ -1,8 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, JoinTable, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, JoinTable, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
 import { MusicEntity } from 'src/musics/entities/music.entity';
-import { UpdateAlbumDto } from '../dto/update-album.dto';
+import { AuthorEntity } from 'src/authors/entities/author.entity';
+import { FileEntity } from 'src/files/entities/file.entity';
 
-@Entity()
+
+@Entity({ })
 export class AlbumEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -13,7 +15,14 @@ export class AlbumEntity {
   @Column()
   releaseDate: string;
 
+  @OneToMany(() => FileEntity, (file) =>  file.album)
+  file: FileEntity
 
+  @Column()
+  photo: string;
+
+  @ManyToOne(() => AuthorEntity, (author) => author.albums)
+  author: AuthorEntity
 
   @Column()
   artistName: string;
