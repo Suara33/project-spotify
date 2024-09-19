@@ -7,7 +7,7 @@ import {
   Param,
 } from '@nestjs/common/decorators/http/route-params.decorator';
 
-@Controller('album')
+@Controller('albums')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 

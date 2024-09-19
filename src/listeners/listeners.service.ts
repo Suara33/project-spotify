@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateListenerDto } from './dto/create-listener.dto';
-import { UpdateListenerDto } from './dto/update-listener.dto';
 import { ListenersRepository } from './listeners.repository';
-import { Listener } from './entities/listener.entity';
+
 
 @Injectable()
 export class ListenersService {
