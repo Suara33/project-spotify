@@ -26,6 +26,11 @@ export class AlbumController {
     return await this.albumService.findOne(+id);
   }
 
+  @Get('top')
+  async topAlbums() {
+    return await this.albumService.topAlbums()
+  }
+
   @Patch(':id')
   async update(
     @Param('id') id: string,

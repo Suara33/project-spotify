@@ -43,4 +43,17 @@ export class AlbumRepository {
       .where('album.title Like :name', { name: '%${name}%'})
       .getMany()
   }
+
+
+  async topAlbums() {
+    return await this.albumRepository
+          .createQueryBuilder('album')
+          .leftJoinAndSelect('album.photo','photo')
+          .leftJoinAndSelect('album.music','music')
+          .leftJoinAndSelect('music.listener','listener')
+          .leftJoinAndSelect('SUM(listener)','totalListener')
+          .orderBy('totalListener')
+          .limit(10)
+          .getMany()
+  }
 }

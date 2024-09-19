@@ -19,6 +19,10 @@ export class AlbumService {
     return await this.albumRepository.findOne(id);
   }
 
+  async topAlbums() {
+    return await this.albumRepository.topAlbums()
+  }
+
   async update(id: number, updateAlbumDto: UpdateAlbumDto) {
     await this.albumRepository.update(id, updateAlbumDto);
     return this.albumRepository.findOne(id);
