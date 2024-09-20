@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config'; // Import ConfigModule
-
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AlbumModule } from './albums/album.module';
@@ -15,6 +14,10 @@ import { AuthorModule } from './authors/author.module';
 import { PlaylistModule } from './playlists/playlist.module';
 import { ListenersModule } from './listeners/listeners.module';
 import { JwtModule } from '@nestjs/jwt';
+import { LikesongsModule } from './likesongs/likesongs.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/guards/auth.guard';
+
 
 
 
@@ -24,8 +27,8 @@ import { JwtModule } from '@nestjs/jwt';
       isGlobal: true,
     }),
     JwtModule.register({
-      secret: process.env.jwtConstants,
-      global:true,
+      global: true,
+      secret: process.env.JWT_SECRET,
       signOptions: {
         expiresIn: '7d'
       }
@@ -48,8 +51,15 @@ import { JwtModule } from '@nestjs/jwt';
     SearchModule,
     PlaylistModule,
     ListenersModule,
+    LikesongsModule,
   ],
   controllers: [AppController, SearchController],
-  providers: [AppService, SearchService],
+  providers: [AppService, SearchService, 
+    {
+   provide: APP_GUARD,
+   useClass: AuthGuard,
+    },
+  
+],
 })
 export class AppModule {}

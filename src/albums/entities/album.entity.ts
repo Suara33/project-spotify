@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, JoinTable, JoinColumn } from 'typeorm';
 import { MusicEntity } from 'src/musics/entities/music.entity';
-import { UpdateAlbumDto } from '../dto/update-album.dto';
 
 @Entity()
 export class AlbumEntity {
@@ -12,8 +11,6 @@ export class AlbumEntity {
 
   @Column()
   releaseDate: string;
-
-
 
   @Column()
   artistName: string;

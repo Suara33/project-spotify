@@ -1,7 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import 'dotenv/config';
+import * as dotenv from 'dotenv'
+
+dotenv.config({path: '.env'})
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -11,6 +13,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  
   await app.listen(3000);
 }
 bootstrap();
