@@ -15,30 +15,17 @@ export class PlaylistRepository {
     ) {}
 
     async create(data: CreatePlaylistDto) {
-        
+
     const newPlaylist = this.playlistRepository.create(data)
 
-    const arrayOfTracks = [] 
+    const arrayOfTracks = []
 
-    for(let i = 0 ; i < data.trackIds.length; i++) {
+    for(const trackId of data.musicIds) {
         const newMusic = new MusicEntity()
-        newMusic.id = data.trackIds[i]
+        newMusic.id = trackId
         arrayOfTracks.push(newMusic)
     }
-        newPlaylist.music = arrayOfTracks
-
-       return this.playlistRepository.save(newPlaylist)
-
-    // const newPlaylist = this.playlistRepository.create(data)
-
-    // const arrayOfTracks = []
-
-    // for(const trackId of data.musics) {
-    //     const newMusic = new MusicEntity()
-    //     newMusic.id = trackId
-    //     arrayOfTracks.push(newMusic)
-    // }
-    //     return this.playlistRepository.save(newPlaylist)
+        return await this.playlistRepository.save(newPlaylist)
     }
 
     async findAll() {

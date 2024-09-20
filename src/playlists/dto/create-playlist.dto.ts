@@ -16,4 +16,10 @@ export class CreatePlaylistDto {
     
     @IsString()
     userId: number;
+
+    @IsArray()
+    @ArrayNotEmpty()
+    musicIds: number[]
+
+
 }

@@ -11,6 +11,10 @@ export class MusicsService {
     return await this.musicsRepository.create(createMusicDto);
   }
 
+  async topHits() {
+    return await this.musicsRepository.topHits()
+  }
+
   async findAll() {
     return await this.musicsRepository.findAll();
   }

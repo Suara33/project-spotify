@@ -17,6 +17,19 @@ export class MusicsRepository {
     return await this.musicsRepository.save(newMusic);
   }
 
+  async topHits() {
+    return await this.musicsRepository
+      .createQueryBuilder('music')
+      .leftJoinAndSelect('music.image', 'image')
+      .leftJoinAndSelect('music.listener', 'listener')
+      .addSelect('COUNT(listener.id)', 'totalListener')
+      .groupBy('music.id')
+      .addGroupBy('photo.id') 
+      .orderBy('totalListener', 'DESC')
+      .limit(10)
+      .getMany()
+  }
+
   async findAll() {
     return await this.musicsRepository.find();
   }
@@ -25,8 +38,9 @@ export class MusicsRepository {
     return await this.musicsRepository.findOneBy({ id });
   }
 
-  async update(id: number, data: UpdateMusicDto) {
-    return await this.musicsRepository.update(id, data);
+  async update(id: number, updateMusicDto: UpdateMusicDto) {
+     await this.update(id, updateMusicDto)
+     return this.musicsRepository.findOne({where: {id}})
   }
 
   async remove(id: number) {

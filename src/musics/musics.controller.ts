@@ -24,6 +24,11 @@ export class MusicsController {
     return await this.musicsService.create(createMusicDto);
   }
 
+  @Get('tophits')
+  async topHits() {
+    return await this.musicsService.topHits()
+  }
+
   
   @Get()
   async findAll() {

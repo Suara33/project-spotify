@@ -6,8 +6,9 @@ import { AuthorRepository } from './repository/author.repository';
 @Injectable()
 export class AuthorService {
   constructor (private readonly authorRepository: AuthorRepository) {}
+  
   async create(createAuthorDto: CreateAuthorDto) {
-    return await this.authorRepository.findAll() ;
+    return await this.authorRepository.create(createAuthorDto) ;
   }
 
   async findAll() {
