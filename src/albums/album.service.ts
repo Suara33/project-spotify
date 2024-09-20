@@ -25,14 +25,9 @@ export class AlbumService {
     
     const image = await this.s3service.uploadImage(file)
 
-   const album = new AlbumEntity()
-   album.title = createAlbumDto.title
-   album.author = author
-   album.artistName =createAlbumDto.artistName
-   album.photo = image.location
+
    
-    return await this.albumRepository.create(album)
-   
+    return await this.albumRepository.create(createAlbumDto,image.location,author)
   }
 
   async findAll() {

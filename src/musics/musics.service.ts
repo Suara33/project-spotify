@@ -26,7 +26,9 @@ export class MusicsService {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
 
+    
     const filePath = `https://eu-north-1.console.aws.amazon.com/s3/buckets/spotify-general-bucket?region=eu-north-1&bucketType=general&tab=objects/uploads/music/${file.filename}`;
+    
     createMusicDto.filePath = filePath;
 
     const fileBuffer = await fs.readFile(`https://eu-north-1.console.aws.amazon.com/s3/buckets/spotify-general-bucket?region=eu-north-1&bucketType=general&tab=objects/uploads/music/${file.filename}`);

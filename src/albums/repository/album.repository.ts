@@ -4,14 +4,23 @@ import { UpdateAlbumDto } from '../dto/update-album.dto';
 import { AlbumEntity } from '../entities/album.entity';
 import { Repository } from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm'
+import { AuthorEntity } from 'src/authors/entities/author.entity';
 
 @Injectable()
 export class AlbumRepository {
   
   constructor(@InjectRepository(AlbumEntity) private readonly albumRepository: Repository<AlbumEntity>) {}
   
-  async create(album: AlbumEntity) {
+  async create(createAlbumDto: CreateAlbumDto,file:string,author:AuthorEntity) {
+
+    const album = new AlbumEntity()
+    album.title = createAlbumDto.title
+    album.author = author
+    album.artistName =createAlbumDto.artistName
+    album.photo = file
+
     return await this.albumRepository.save(album)
+  
   }
 
   async findAll() {
@@ -19,11 +28,11 @@ export class AlbumRepository {
   }
 
   async findOne(id: number) {
-    return await this.albumRepository.findOneBy({id: 1});
+    return await this.albumRepository.findOneBy({id});
   }
 
   async update(id: number, updateAlbumDto: UpdateAlbumDto) {
-   this.albumRepository.update(1, updateAlbumDto);
+   this.albumRepository.update(id, updateAlbumDto);
    await this.albumRepository.save(updateAlbumDto)
 
   }

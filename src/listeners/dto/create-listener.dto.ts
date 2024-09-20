@@ -12,7 +12,7 @@ export class CreateListenerDto {
     @Column()
     userId: number;
     
-    @ManyToOne(() => MusicEntity, (music) => MusicEntity.listeners)
+    @ManyToOne(() => MusicEntity, (music) => music.listeners)
     music: MusicEntity;
 
     @ManyToOne(() => User, (user) => user.listeners)

@@ -15,6 +15,9 @@ export class AlbumEntity {
   @Column()
   releaseDate: string;
 
+  @Column()
+  fileId: number;
+
   @OneToMany(() => FileEntity, (file) =>  file.album)
   file: FileEntity
 

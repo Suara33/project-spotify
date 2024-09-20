@@ -9,8 +9,8 @@ export class PlaylistService {
   constructor ( private readonly playlistRepository: PlaylistRepository ) {}
 
 
-  async create(createPlaylistDto: CreatePlaylistDto) {
-    return  this.playlistRepository.create(createPlaylistDto);
+  async create(createPlaylistDto: CreatePlaylistDto, file: Express.Multer.File) {
+    return  await this.playlistRepository.create(createPlaylistDto, file);
   }
 
   findAll() {

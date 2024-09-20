@@ -13,15 +13,14 @@ export class AuthorRepository {
     private readonly authorRepository: Repository<AuthorEntity>,
     private readonly s3Service: S3Service
   ) {}
-  async create(data: CreateAuthorDto, file: Express.Multer.File) {
-    const image = await this.s3Service.uploadImage(file)
+  async create(data: CreateAuthorDto, image: string) {
 
     const author = new AuthorEntity()
     author.firstName = data.firstName
     author.lastName = data.lastName
-    author.image = image.location
+    author.image = image
 
-    return await this.authorRepository.save(author)
+    return await this.authorRepository.save(data)
   }
 
   async findAll() {

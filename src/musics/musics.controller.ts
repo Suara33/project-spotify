@@ -8,8 +8,6 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
-  HttpException,
-  HttpStatus,
 } from '@nestjs/common';
 import { MusicsService } from './musics.service';
 import { CreateMusicDto } from './dto/create-music.dto';
