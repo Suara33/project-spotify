@@ -1,4 +1,5 @@
-import { IsArray ,IsNumber,IsOptional,IsString, ValidateNested } from 'class-validator';
+
+import { IsArray ,IsString, IsUrl, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateMusicDto } from 'src/musics/dto/create-music.dto';
 
@@ -19,10 +20,6 @@ export class CreateAlbumDto {
     @IsString()
     artistName: string;
 
-    // @IsString()
-    // fileUrl: string;
-
-    // @IsNumber()
-    // duration: number;
-
+    @IsUrl()
+    image: '';
 }

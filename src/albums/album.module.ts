@@ -14,4 +14,4 @@ import { AuthorEntity } from 'src/authors/entities/author.entity';
   providers: [AlbumService, AlbumRepository,S3Service,AuthorRepository],
   exports: [AlbumRepository],
 })
-export class AlbumModule {}
+export class AlbumModule {} 

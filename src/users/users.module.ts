@@ -11,6 +11,6 @@ import { FileEntity } from 'src/files/entities/file.entity';
     imports: [TypeOrmModule.forFeature([User,FileEntity])],
     controllers: [UsersController],
     providers: [UsersService, UsersRepository],
-    exports: [UsersRepository]
+    exports: [UsersRepository,UsersModule]
 })
 export class UsersModule {}

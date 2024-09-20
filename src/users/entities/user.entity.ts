@@ -1,5 +1,5 @@
-import { FileEntity } from "src/files/entities/file.entity";
-import { Role } from "src/auth/role.enum";
+
+import { Role } from "src/auth/roles/roles.enum";
 import { Likesong } from "src/likesongs/entities/likesong.entity";
 import { Listener } from "src/listeners/entities/listener.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
@@ -41,6 +41,7 @@ export class User {
     @DeleteDateColumn()
     deleteAt: Date;
     listeners: any;
+
 
 
     

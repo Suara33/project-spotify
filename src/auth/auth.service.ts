@@ -1,34 +1,35 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, PayloadTooLargeException, UnauthorizedException } from '@nestjs/common';
 import { UsersRepository } from 'src/users/users.repository';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 
-
-
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly usersRepository: UsersRepository, 
-    private readonly jwtService: JwtService,  
+  constructor(private readonly usersRepository: UsersRepository,
+              private readonly jwtService: JwtService
   ) {}
 
   async login(email: string, pass: string) {
     const user = await this.usersRepository.findOneByEmail(email);
 
-    if(user) {
-      const passwordIsValid = await bcrypt.compare(pass, user.password);
-
-      if (passwordIsValid) {
-        const payload = { userId: user.id, userEmail: user.email, role: user.role};
-        const jwtToken = await this.jwtService.signAsync(payload);
-
-        return { access_token: jwtToken };
-      } else {
-        throw new BadRequestException('Password is not correct');
-      }
-
-    } else {
-      throw new BadRequestException('Email is not correct');
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
     }
+
+    const passwordIsCorrect = await bcrypt.compare(pass, user.password);
+
+    if (!passwordIsCorrect) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const payload = { 
+      sub: user.id,
+      userEmail: user.email,
+      role: user.role
+      
+    }
+
+
+    return { access_token: await this.jwtService.signAsync(payload)}
   }
 }
