@@ -8,11 +8,14 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { MusicsService } from './musics.service';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
 import { FileInterceptor } from '@nestjs/platform-express'; 
+
+
 
 @Controller('musics')
 export class MusicsController {
@@ -28,11 +31,13 @@ export class MusicsController {
     return await this.musicsService.create(createMusicDto, file);
   }
 
+  
   @Get()
   async findAll() {
     return await this.musicsService.findAll();
   }
 
+  
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.musicsService.findOne(+id);

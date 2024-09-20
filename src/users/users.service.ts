@@ -1,14 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUsersDto } from './dto/update-user.dto';
+import { JwtService } from '@nestjs/jwt';
+
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly jwtService : JwtService
+
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
-    return await this.usersRepository.create(createUserDto);
+    const user = await this.usersRepository.findOneByEmail(createUserDto.email)
+
+    if(user) { throw new NotFoundException(`user with email already exist`) }
+
+    const createUser = await this.usersRepository.create(createUserDto)
+
+    const payload = { userId: createUser.id, userEmail: createUser.email,role: createUser.role };
+        const jwtToken = await this.jwtService.signAsync(payload);
+
+
+    return {access_token: jwtToken,user: createUser}
   }
 
   async findAll() {

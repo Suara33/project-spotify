@@ -37,6 +37,9 @@ export class MusicEntity {
     @ManyToMany(() => AlbumEntity, (album) => album.music)
     albums: AlbumEntity[];
 
+    @OneToMany(() => Listener, (listner) => listner.music)
+    listener: Listener[]
+
     @CreateDateColumn()
     createAt: Date;
 

@@ -21,8 +21,6 @@ export class AlbumEntity {
   @OneToMany(() => FileEntity, (file) =>  file.album)
   file: FileEntity
 
-  @Column()
-  photo: string;
 
   @ManyToOne(() => AuthorEntity, (author) => author.albums)
   author: AuthorEntity

@@ -6,7 +6,7 @@ import { UpdateAlbumDto } from './dto/update-album.dto';
 import { Express } from 'express';
 
 
-@Controller('album')
+@Controller('albums')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
