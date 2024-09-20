@@ -9,6 +9,13 @@ export class CreateMusicDto {
 
     @IsNumber()
     artistId: number;
+
+    @IsString()
+    filePath: string;
+    
+    @IsNumber()
+    duration: number;
+
     
 }
 

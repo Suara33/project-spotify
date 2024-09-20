@@ -1,6 +1,6 @@
 import { MusicEntity } from "src/musics/entities/music.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Listener {
@@ -12,8 +12,11 @@ export class Listener {
 
     @Column()
     userId: number;
+
+    @CreateDateColumn()
+    createAt: Date;
     
-    @ManyToOne(() => MusicEntity, (music) => music .listener)
+    @ManyToOne(() => MusicEntity, (musicEntity) => musicEntity.listeners)
     music: MusicEntity;
 
     @ManyToOne(() => User, (user) => user.listeners)

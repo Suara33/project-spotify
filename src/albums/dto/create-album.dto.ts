@@ -1,3 +1,4 @@
+
 import { IsArray ,IsString, IsUrl, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateMusicDto } from 'src/musics/dto/create-music.dto';
@@ -7,10 +8,11 @@ export class CreateAlbumDto {
     @IsString()
     title: string;
 
-    @IsString()
-    releaseDate: string;
+    // @IsString()
+    // releaseDate: string;
 
     @IsArray()
+    @IsOptional()
     @ValidateNested({ each: true })
     @Type(() => CreateMusicDto)
     musics: CreateMusicDto;
@@ -19,5 +21,5 @@ export class CreateAlbumDto {
     artistName: string;
 
     @IsUrl()
-    image: ''
+    image: '';
 }

@@ -35,8 +35,6 @@ export class ListenersRepository {
      return listener;
   }
 
-  
-
   async remove(id: number) {
     const listener = await this.findOne(id)
     if(!listener) {

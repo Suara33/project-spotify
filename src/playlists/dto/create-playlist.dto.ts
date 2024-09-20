@@ -1,5 +1,6 @@
 
 import { ArrayNotEmpty, IsArray, IsNumber, IsOptional, IsString } from "class-validator"
+import { MusicEntity } from "src/musics/entities/music.entity";
 
 export class CreatePlaylistDto {
 
@@ -13,6 +14,9 @@ export class CreatePlaylistDto {
     @ArrayNotEmpty()
     @IsArray()
     trackIds: number[];
+
+    @IsArray()
+    musicIds: number[];
     
     @IsString()
     userId: number;
