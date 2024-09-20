@@ -1,16 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('author')
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
-  @Post()
-  async create(@Body() createAuthorDto: CreateAuthorDto) {
-    return await this.authorService.create(createAuthorDto);
-  }
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async create(@Body() createAuthorDto: CreateAuthorDto, @UploadedFile() file: Express.Multer.File) {
+    return await this.authorService.create(createAuthorDto, file);
+  } 
 
   @Get()
   async findAll() {

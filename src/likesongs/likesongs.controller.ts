@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { LikesongsService } from './likesongs.service';
 import { CreateLikesongDto } from './dto/create-likesong.dto';
 import { UpdateLikesongDto } from './dto/update-likesong.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('likesongs')
 export class LikesongsController {
