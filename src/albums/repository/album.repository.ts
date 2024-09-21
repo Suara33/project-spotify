@@ -17,7 +17,7 @@ export class AlbumRepository {
     album.title = createAlbumDto.title
     album.author = author
     album.artistName =createAlbumDto.artistName
-    album.photo = file
+    // album.file = file
 
     return await this.albumRepository.save(album)
   

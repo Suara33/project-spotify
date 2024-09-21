@@ -30,9 +30,6 @@ export class MusicEntity {
     @Column('float')
     duration: number;
 
-    @OneToMany(() => Listener, (listener) => listener.music)
-    listeners: Listener[]
-
     @ManyToMany(() => Playlist, playlist => playlist.music)
     playlists: Playlist[]
 

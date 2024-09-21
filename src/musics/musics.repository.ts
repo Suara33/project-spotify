@@ -31,8 +31,6 @@ export class MusicsRepository {
       .getMany()
   }
 
-  async findAll() {
-
   async findAll(): Promise<MusicEntity[]> {
 
     return await this.musicsRepository.find();
@@ -45,7 +43,7 @@ export class MusicsRepository {
   async update(id: number, updateMusicDto: UpdateMusicDto) {
      await this.update(id, updateMusicDto)
      return this.musicsRepository.findOne({where: {id}})
-
+  }
   async remove(id: number): Promise<void> {
      await this.musicsRepository.softDelete(id);
   }

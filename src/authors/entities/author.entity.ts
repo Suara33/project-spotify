@@ -1,5 +1,5 @@
 import { MusicEntity } from 'src/musics/entities/music.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { AlbumEntity } from 'src/albums/entities/album.entity';
 
 

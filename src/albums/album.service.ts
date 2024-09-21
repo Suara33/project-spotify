@@ -24,7 +24,7 @@ export class AlbumService {
     }
     
     const image = await this.s3service.uploadImage(file)
-
+    
 
    
     return await this.albumRepository.create(createAlbumDto,image.location,author)

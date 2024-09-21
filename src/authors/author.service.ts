@@ -24,7 +24,7 @@ export class AuthorService {
    
     return await this.authorRepository.create(createAuthorDto, image.location)
 
-
+  }
 
   async findAll() {
     return await this.authorRepository.findAll();

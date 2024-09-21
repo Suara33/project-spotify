@@ -22,8 +22,4 @@ export class FileEntity {
 
     @ManyToOne(() =>AlbumEntity, (album) => album.file)
     album:AlbumEntity
-
-
-    @ManyToOne(() => User, (user) => user.files)
-    user: User
 }

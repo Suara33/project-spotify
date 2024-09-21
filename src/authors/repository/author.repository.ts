@@ -22,7 +22,7 @@ export class AuthorRepository {
     author.lastName = data.lastName
     author.image = image
 
-    return await this.authorRepository.save(data,image)
+    return await this.authorRepository.save(data)
   }
 
   async findAll() {
