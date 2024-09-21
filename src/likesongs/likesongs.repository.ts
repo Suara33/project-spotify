@@ -5,7 +5,6 @@ import { Likesong } from "./entities/likesong.entity";
 import { Repository } from "typeorm";
 import { CreateLikesongDto } from "./dto/create-likesong.dto";
 import { MusicEntity } from "src/musics/entities/music.entity";
-import { User } from "src/users/entities/user.entity";
 import { UpdateLikesongDto } from "./dto/update-likesong.dto";
 
 @Injectable()

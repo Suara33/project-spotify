@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AlbumModule } from './albums/album.module';
@@ -14,7 +13,9 @@ import { SearchModule } from './search/search.module';
 import { AuthorModule } from './authors/author.module';
 import { PlaylistModule } from './playlists/playlist.module';
 import { ListenersModule } from './listeners/listeners.module';
+import { JwtModule } from '@nestjs/jwt';
 import { LikesongsModule } from './likesongs/likesongs.module';
+import { FilesModule } from './files/files.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guards/auth.guard';
 
@@ -52,6 +53,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
     PlaylistModule,
     ListenersModule,
     LikesongsModule,
+    FilesModule,
   ],
   controllers: [AppController, SearchController],
   providers: [AppService, SearchService, 

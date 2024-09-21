@@ -14,7 +14,11 @@ export class PlaylistRepository {
         private readonly playlistRepository: Repository <Playlist>
     ) {}
 
-    async create(data: CreatePlaylistDto) {
+    async create(
+        data: CreatePlaylistDto, 
+        file: Express.Multer.File
+    ) {
+
 
     const newPlaylist = this.playlistRepository.create(data)
 
@@ -25,7 +29,15 @@ export class PlaylistRepository {
         newMusic.id = trackId
         arrayOfTracks.push(newMusic)
     }
+
         return await this.playlistRepository.save(newPlaylist)
+
+    newPlaylist.music = arrayOfTracks
+    if (file) {
+       
+    }
+
+        return this.playlistRepository.save(newPlaylist)
     }
 
     async findAll() {

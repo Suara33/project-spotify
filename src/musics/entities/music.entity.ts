@@ -24,6 +24,15 @@ export class MusicEntity {
     @OneToMany(() => AuthorEntity, (author) => author.musics)
     author: AuthorEntity
 
+    @Column()
+    filePath: string;
+
+    @Column('float')
+    duration: number;
+
+    @OneToMany(() => Listener, (listener) => listener.music)
+    listeners: Listener[]
+
     @ManyToMany(() => Playlist, playlist => playlist.music)
     playlists: Playlist[]
 
@@ -44,7 +53,6 @@ export class MusicEntity {
 
     @DeleteDateColumn()
     deleteAt: Date;
-    
 }
 
    

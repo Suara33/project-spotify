@@ -1,5 +1,8 @@
 import { MusicEntity } from 'src/musics/entities/music.entity';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, ManyToOne } from 'typeorm';
+import { AlbumEntity } from 'src/albums/entities/album.entity';
+
+
 
 
 @Entity()
@@ -18,6 +21,12 @@ export class AuthorEntity {
 
   @ManyToOne(() => MusicEntity, (music) => music.author)
   musics: MusicEntity[]
+
+  @Column()
+  image: string;
+
+  @OneToMany(() => AlbumEntity, (album) => album.author)
+  albums: AlbumEntity[]
 
   @CreateDateColumn()
   createdAt: Date;

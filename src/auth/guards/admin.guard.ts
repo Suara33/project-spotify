@@ -15,20 +15,23 @@ export class AdminGuard implements CanActivate {
         if(!token) {
             throw new UnauthorizedException()
         }
+        try {
+            const payload = await this.jwtService.verifyAsync(token,
+                {
+                    secret: process.env.jwtConstants
+                  }
+            );
+            request.user = payload;
 
-        try{
-            const payload = await this.jwtService.verifyAsync(token)
-
-            request.user = payload
-
-            if (payload.role !== Role.Admin) {
-                throw new UnauthorizedException('Insufficient permissions');
-            } 
-        }catch{
-            throw new UnauthorizedException()
+            if(request.user.Role !== Role.Admin) {
+                throw new UnauthorizedException('You do not have admin privileges')
+            }
+            return true;
+            
+        } catch (err){
+            throw new UnauthorizedException();
         }
-
-        return true;
+        
     }
     private extractTokenFromHeader(request: Request): string | undefined {
         const [type, token] = request.headers.authorization?.split(' ') ?? [];
