@@ -21,6 +21,25 @@ export class S3Service {
     this.bucketName = process.env.AWS_S3_BUCKET_NAME;
   }
 
+  async uploadFile(bucketName: string, fileKey: string, buffer: Buffer, mimetype: string): Promise<string> {
+    const uploadParams = {
+      Bucket: bucketName,
+      Key: fileKey,
+      Body: buffer,
+      ContentType: mimetype,
+      ContentDisposition: 'inline',
+    };
+
+    try {
+      await this.s3Client.send(new PutObjectCommand(uploadParams));
+      const fileLocation = `https://${bucketName}.s3.amazonaws.com/${fileKey}`;
+      return fileLocation;
+    } catch (err) {
+      console.error('Error uploading file to S3:', err);
+      throw new Error('File upload failed');
+    }
+  }
+
   async uploadImage(file: Express.Multer.File) {
     const fileKey = `${uuid()}-${file.originalname}`; 
 

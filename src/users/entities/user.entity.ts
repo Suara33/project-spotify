@@ -29,8 +29,8 @@ export class User {
     @OneToMany(() => Likesong, likesong => likesong.userId)
     likesongs: Likesong[]
 
-    @OneToMany(() => Listener, (listner) => listner.user)
-    listener: Listener[]
+    @OneToMany(() => Listener, (listener) => listener.user)
+    listeners: Listener[]
 
     @CreateDateColumn()
     createAt: Date;
@@ -40,7 +40,6 @@ export class User {
 
     @DeleteDateColumn()
     deleteAt: Date;
-    listeners: any;
 
 
     

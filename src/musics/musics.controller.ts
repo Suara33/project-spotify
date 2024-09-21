@@ -8,7 +8,6 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
-  UseGuards,
 } from '@nestjs/common';
 import { MusicsService } from './musics.service';
 import { CreateMusicDto } from './dto/create-music.dto';
@@ -23,7 +22,7 @@ export class MusicsController {
   @Post()
   @UseInterceptors(
     FileInterceptor('file'),
-  )
+  ) 
   async create(
     @Body() createMusicDto: CreateMusicDto,
     @UploadedFile() file: Express.Multer.File,

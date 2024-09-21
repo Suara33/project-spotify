@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UseGuards } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUsersDto } from './dto/update-user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { UserGuard } from 'src/auth/guards/user.guard';
 
 
 @Injectable()
@@ -14,19 +15,21 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const user = await this.usersRepository.findOneByEmail(createUserDto.email)
+    const existingUser = await this.usersRepository.findOneByEmail(createUserDto.email)
 
-    if(user) { throw new NotFoundException(`user with email already exist`) }
+    if(existingUser) { 
+      
+      throw new ConflictException(`User with email ${createUserDto.email} already exists`) }
 
     const createUser = await this.usersRepository.create(createUserDto)
 
     const payload = { userId: createUser.id, userEmail: createUser.email,role: createUser.role };
-        const jwtToken = await this.jwtService.signAsync(payload);
 
+    const jwtToken = await this.jwtService.signAsync(payload);
 
     return {access_token: jwtToken,user: createUser}
   }
-
+  
   async findAll() {
     return await this.usersRepository.findAll();
   }

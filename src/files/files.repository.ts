@@ -20,6 +20,6 @@ async save(filename: string, location: string, bucket: string, key: string): Pro
 }
 
 async findOne(id: number) {
-     return this.filesRepository.findOne({where: {id}})
+     return this.filesRepository.findOne({where: {id}}) 
     }
 }

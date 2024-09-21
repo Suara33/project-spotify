@@ -18,6 +18,9 @@ export class AlbumEntity {
   @Column()
   fileId: number;
 
+  @Column()
+  photo: string;
+
   @OneToMany(() => FileEntity, (file) =>  file.album)
   file: FileEntity
 
