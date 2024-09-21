@@ -56,7 +56,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
     FilesModule,
   ],
   controllers: [AppController, SearchController],
-  providers: [AppService, SearchService, 
+  providers: [AppService, SearchService,
     {
    provide: APP_GUARD,
    useClass: AuthGuard,

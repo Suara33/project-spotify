@@ -25,7 +25,7 @@ export class MusicsRepository {
       .leftJoinAndSelect('music.listener', 'listener')
       .addSelect('COUNT(listener.id)', 'totalListener')
       .groupBy('music.id')
-      .addGroupBy('photo.id') 
+      .addGroupBy('image.id') 
       .orderBy('totalListener', 'DESC')
       .limit(10)
       .getMany()

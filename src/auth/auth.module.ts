@@ -19,12 +19,7 @@ import { ConfigModule } from '@nestjs/config';
     })
   ],
   controllers: [AuthController],
-  providers: [AuthService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: AdminGuard,
-    // }
-  ],
+  providers: [AuthService],
   exports: [AuthService],
 
 })

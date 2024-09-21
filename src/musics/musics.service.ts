@@ -3,7 +3,12 @@ import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
 import { MusicsRepository } from './musics.repository';
 import * as fs from 'fs/promises';
+import { S3Service } from 'src/files/services/s3.service';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+
 const ffmpeg = require('fluent-ffmpeg');
+
 
 function getDurationFromBuffer(buffer: Buffer): Promise<number> {
   return new Promise((resolve, reject) => {
@@ -19,36 +24,45 @@ function getDurationFromBuffer(buffer: Buffer): Promise<number> {
 
 @Injectable()
 export class MusicsService {
-  constructor(private readonly musicsRepository: MusicsRepository) {}
+  private bucketName = 'spotify-general-bucket';
+  
+  constructor(
+    private readonly musicsRepository: MusicsRepository,
+    private readonly s3Service: S3Service,
+  ) {}
+
+  async uploadFile(file: Express.Multer.File): Promise<string> {
+    const fileKey = `uploads/music/${uuidv4()}${path.extname(file.originalname)}`;
+
+    try {
+      const fileUrl = await this.s3Service.uploadFile(this.bucketName, fileKey, file.buffer, file.mimetype);
+      return fileUrl;
+    } catch (error) {
+      throw new HttpException('Failed to upload file to S3', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   async create(createMusicDto: CreateMusicDto, file: Express.Multer.File): Promise<any> {
     if (!file) {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
 
-    
-    const filePath = `https://eu-north-1.console.aws.amazon.com/s3/buckets/spotify-general-bucket?region=eu-north-1&bucketType=general&tab=objects/uploads/music/${file.filename}`;
-    
+    const filePath = await this.uploadFile(file);
     createMusicDto.filePath = filePath;
 
-    const fileBuffer = await fs.readFile(`https://eu-north-1.console.aws.amazon.com/s3/buckets/spotify-general-bucket?region=eu-north-1&bucketType=general&tab=objects/uploads/music/${file.filename}`);
-
     try {
-      const duration = await getDurationFromBuffer(fileBuffer);
+      const duration = await getDurationFromBuffer(file.buffer);
       createMusicDto.duration = duration;
     } catch (error) {
       throw new HttpException('Error processing audio file', HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-     return await this.musicsRepository.create(createMusicDto)
-    
+    return await this.musicsRepository.create(createMusicDto);
   }
-
 
   async topHits() {
-    return await this.musicsRepository.topHits()
+    return await this.musicsRepository.topHits();
   }
-
 
   async findAll() {
     return await this.musicsRepository.findAll();
@@ -66,3 +80,7 @@ export class MusicsService {
     return await this.musicsRepository.remove(id);
   }
 }
+
+
+
+
