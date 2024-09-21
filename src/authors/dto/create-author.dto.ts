@@ -1,4 +1,5 @@
 import { IsArray ,IsString} from 'class-validator';
+import { MusicEntity } from 'src/musics/entities/music.entity';
 export class CreateAuthorDto {
 
     @IsString()
@@ -8,7 +9,7 @@ export class CreateAuthorDto {
     lastName: string;
 
     @IsArray()
-    musics: CreateAuthorDto;
+    musics: MusicEntity[];
 
     @IsString()
     biography: string;

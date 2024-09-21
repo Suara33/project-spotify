@@ -1,5 +1,6 @@
 import { IsNumber } from "class-validator";
 import { AlbumEntity } from "src/albums/entities/album.entity";
+import { AuthorEntity } from "src/authors/entities/author.entity";
 import { Likesong } from "src/likesongs/entities/likesong.entity";
 import { Listener } from "src/listeners/entities/listener.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
@@ -7,6 +8,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity,ManyToMany, ManyToOn
 
 @Entity()
 export class MusicEntity {
+    [x: string]: any;
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -16,8 +18,11 @@ export class MusicEntity {
     @Column()
     url: string;
 
-    @IsNumber()
-    artistid: number;
+    @Column()
+    artistId: number;
+
+    @OneToMany(() => AuthorEntity, (author) => author.musics)
+    author: AuthorEntity
 
     @Column()
     filePath: string;
@@ -37,8 +42,8 @@ export class MusicEntity {
     @ManyToMany(() => AlbumEntity, (album) => album.music)
     albums: AlbumEntity[];
 
-    @OneToMany(() => Listener, (listner) => listner.music)
-    listener: Listener[]
+    @OneToMany(() => Listener, (listener) => listener.musicId)
+    listeners: Listener[]
 
     @CreateDateColumn()
     createAt: Date;
@@ -48,8 +53,6 @@ export class MusicEntity {
 
     @DeleteDateColumn()
     deleteAt: Date;
-
-
 }
 
    

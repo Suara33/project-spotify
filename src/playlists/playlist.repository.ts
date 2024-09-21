@@ -19,6 +19,7 @@ export class PlaylistRepository {
         file: Express.Multer.File
     ) {
 
+
     const newPlaylist = this.playlistRepository.create(data)
 
     const arrayOfTracks = []
@@ -28,6 +29,8 @@ export class PlaylistRepository {
         newMusic.id = trackId
         arrayOfTracks.push(newMusic)
     }
+
+        return await this.playlistRepository.save(newPlaylist)
 
     newPlaylist.music = arrayOfTracks
     if (file) {

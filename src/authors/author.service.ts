@@ -6,6 +6,7 @@ import { S3Service } from 'src/files/services/s3.service';
 
 @Injectable()
 export class AuthorService {
+
   constructor (
     private readonly authorRepository: AuthorRepository,
               private readonly s3Service: S3Service,
@@ -20,10 +21,9 @@ export class AuthorService {
     
     const image = await this.s3Service.uploadImage(file)
 
-
    
     return await this.authorRepository.create(createAuthorDto, image.location)
-  }
+
 
 
   async findAll() {

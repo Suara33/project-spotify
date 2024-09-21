@@ -16,8 +16,7 @@ export class Listener {
     @CreateDateColumn()
     createAt: Date;
     
-    @ManyToOne(() => MusicEntity, (musicEntity) => musicEntity.listeners)
-    music: MusicEntity;
+    @ManyToOne(() => MusicEntity, (music) => music.listeners)
 
     @ManyToOne(() => User, (user) => user.listeners)
     user: User;

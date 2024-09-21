@@ -45,6 +45,11 @@ export class MusicsService {
   }
 
 
+  async topHits() {
+    return await this.musicsRepository.topHits()
+  }
+
+
   async findAll() {
     return await this.musicsRepository.findAll();
   }

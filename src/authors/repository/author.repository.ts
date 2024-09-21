@@ -6,6 +6,7 @@ import {InjectRepository} from '@nestjs/typeorm'
 import {Repository } from 'typeorm';
 import { S3Service } from 'src/files/services/s3.service';
 
+
 @Injectable()
 export class AuthorRepository {
   constructor(
@@ -13,6 +14,7 @@ export class AuthorRepository {
     private readonly authorRepository: Repository<AuthorEntity>,
     private readonly s3Service: S3Service
   ) {}
+
   async create(data: CreateAuthorDto, image: string) {
 
     const author = new AuthorEntity()
@@ -20,7 +22,7 @@ export class AuthorRepository {
     author.lastName = data.lastName
     author.image = image
 
-    return await this.authorRepository.save(data)
+    return await this.authorRepository.save(data,image)
   }
 
   async findAll() {
@@ -32,7 +34,8 @@ export class AuthorRepository {
   }
 
   async update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    return await this.authorRepository.update(id, updateAuthorDto);
+     await this.update(id, updateAuthorDto)
+     return this.authorRepository.findOneBy({id})
   }
 
   async delete(id: number) { 
