@@ -23,11 +23,11 @@ export class MusicsController {
   @UseInterceptors(
     FileInterceptor('file'),
   ) 
-  async create(
+  async addMusic(
     @Body() createMusicDto: CreateMusicDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return await this.musicsService.create(createMusicDto, file);
+    return await this.musicsService.addMusic(createMusicDto, file);
   }
 
   

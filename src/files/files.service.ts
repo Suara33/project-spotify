@@ -1,21 +1,22 @@
 import { Injectable } from "@nestjs/common";
 import { S3Service } from "./services/s3.service";
-import { FilesRepsoitory } from "./files.repository";
+import { FilesRepository } from "./files.repository";
+import { CreateFileDto } from "./dto/create-file.dto";
 
 
 
 
 @Injectable()
 export class FilesService {
-  constructor(private readonly filesRepository: FilesRepsoitory,
+  constructor(private readonly filesRepository: FilesRepository,
               private readonly s3Service: S3Service
   ) {}
 
-  async uploadFile(file: Express.Multer.File) {
+  async uploadFile(file: Express.Multer.File): Promise<CreateFileDto> {
    
     const filename = file.originalname.split('.').slice(0, -1).join('.');
 
-    const sanitizedFileName = file.filename.replace(/\s+/g, '-')
+    const sanitizedFileName = filename.replace(/\s+/g, '-')
 
     const result = await this.s3Service.uploadImage(file);
 
@@ -28,10 +29,10 @@ export class FilesService {
       result.key
 
     )
-    return savedFile;
+    return  savedFile;
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<CreateFileDto> {
     const file = await this.filesRepository.findOne(id);
     
     if (!file) {
@@ -41,9 +42,10 @@ export class FilesService {
     return file;
   }
 
-  async getfile(fileId: number) {
+  async getfile(fileId: number): Promise<CreateFileDto> {
     const file = await this.filesRepository.findOne(fileId);
 
     return file
   }
+
 }

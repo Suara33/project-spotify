@@ -1,9 +1,8 @@
 import { AlbumEntity } from "src/albums/entities/album.entity";
-import { User } from "src/users/entities/user.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
-@Entity()
+@Entity({ name: 'file'})
 export class FileEntity {
     @PrimaryGeneratedColumn()
     id: number;
@@ -22,8 +21,4 @@ export class FileEntity {
 
     @ManyToOne(() =>AlbumEntity, (album) => album.file)
     album:AlbumEntity
-
-
-    // @ManyToOne(() => User, (user) => user.files)
-    // user: User
 }

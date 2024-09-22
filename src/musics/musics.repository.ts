@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MusicEntity } from './entities/music.entity';
@@ -12,10 +12,14 @@ export class MusicsRepository {
     private musicsRepository: Repository<MusicEntity>,
   ) {}
 
-  async create(data: CreateMusicDto): Promise<MusicEntity> {
-    const newMusic = this.musicsRepository.create(data);
-    return await this.musicsRepository.save(newMusic);
-  }
+  async addMusic(data: CreateMusicDto): Promise<MusicEntity> {
+    try {
+        const newMusic = this.musicsRepository.create(data);
+        return await this.musicsRepository.save(newMusic);
+    } catch (error) {
+        throw new HttpException('Failed to create music entry', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
 
   async findAll(): Promise<MusicEntity[]> {
     return await this.musicsRepository.find();
@@ -26,7 +30,7 @@ export class MusicsRepository {
   }
 
   async update(id: number, data: UpdateMusicDto): Promise<MusicEntity> {
-    await this.update(id, data) 
+    await this.musicsRepository.update(id, data);
     return await this.findOne(id);
   }
 

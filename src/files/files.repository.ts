@@ -4,8 +4,8 @@ import { FileEntity } from "./entities/file.entity";
 import { Repository } from "typeorm";
 import { CreateFileDto } from "./dto/create-file.dto";
 
-Injectable()
-export class FilesRepsoitory {
+@Injectable()
+export class FilesRepository {
     constructor(@InjectRepository(FileEntity)
                 private readonly filesRepository: Repository<FileEntity>) {}
 

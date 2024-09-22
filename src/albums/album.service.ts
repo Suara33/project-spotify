@@ -3,9 +3,8 @@ import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { AlbumRepository } from './repository/album.repository';
 import { S3Service } from 'src/files/services/s3.service';
-import { AlbumEntity } from './entities/album.entity';
 import { AuthorRepository } from 'src/authors/repository/author.repository';
-const ffmpeg = require('fluent-ffmpeg');
+
 
 @Injectable()
 export class AlbumService {
@@ -60,8 +59,8 @@ export class AlbumService {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
 
-    await this.albumRepository.delete(id);
-    return { deleted: true }; 
+    return await this.albumRepository.delete(id);
+    
   }
 }
 
