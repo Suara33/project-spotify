@@ -29,7 +29,7 @@ export class UsersService {
 
     return {access_token: jwtToken,user: createUser}
   }
-  
+
   async findAll() {
     return await this.usersRepository.findAll();
   }
