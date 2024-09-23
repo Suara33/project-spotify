@@ -16,7 +16,7 @@ import { PlaylistModule } from './playlists/playlist.module';
 import { ListenersModule } from './listeners/listeners.module';
 import { LikesongsModule } from './likesongs/likesongs.module';
 import { FilesModule } from './files/files.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, Reflector } from '@nestjs/core';
 import { AuthGuard } from './auth/guards/auth.guard';
 
 
@@ -61,6 +61,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
    provide: APP_GUARD,
    useClass: AuthGuard,
     },
+    Reflector
   
 ],
 })

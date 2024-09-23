@@ -10,6 +10,7 @@ export class AuthController {
     @Public()
     @Post('login')
     async create(@Body() createAuthDto: CreateAuthDto) {
+        console.log(createAuthDto )
         return await this.authService.login(createAuthDto.email,createAuthDto.password)  
     }
 

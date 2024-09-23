@@ -19,6 +19,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('musics')
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
+  
   @Post()
   @UseInterceptors(
     FileInterceptor('file'),

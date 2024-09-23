@@ -29,7 +29,7 @@ export class MusicsService {
   ) {}
 
   async uploadFile(file: Express.Multer.File): Promise<string> {
-    const fileKey = `uploads/music/${uuidv4()}${path.extname(file.originalname)}`;
+    const fileKey = `uploads/music/${uuidv4()}-${file.originalname}`;
 
     try {
       const fileUrl = await this.s3Service.uploadFile(this.bucketName, fileKey, file.buffer, file.mimetype);
