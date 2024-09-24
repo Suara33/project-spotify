@@ -11,6 +11,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUsersDto } from './dto/update-user.dto';
 import { Public} from 'src/auth/roles/roles.decorator';
+import { UserId } from 'src/auth/decorators/userId.decorator';
 
 
 @Controller('users')
@@ -25,7 +26,10 @@ export class UsersController {
 
    
   @Get()
-  async findAll() {
+  async findAll(
+    @UserId() userId:number
+  ) {
+    console.log(userId)
     return await this.usersService.findAll();
   }
 

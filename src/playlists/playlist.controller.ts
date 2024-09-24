@@ -13,7 +13,9 @@ import { PlaylistService } from './playlist.service';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import multer from 'multer';
+import { Request } from 'express';
+import { UserId } from 'src/auth/decorators/userId.decorator';
+
 
 @Controller('playlist')
 export class PlaylistController {
@@ -22,14 +24,19 @@ export class PlaylistController {
  @UseInterceptors(FileInterceptor('file'))
  @Post()
  async create(
+  @UserId() userId: number,
+  
   @Body() createPlaylistDto: CreatePlaylistDto,
   @UploadedFile() file: Express.Multer.File) {
+    createPlaylistDto.userId = userId
     return await this.playlistService.create(createPlaylistDto, file)
   }
 
   @Get()
-  async findAll() {
-    return await this.playlistService.findAll();
+
+  async findAll(@UserId() userId: number) {
+    
+    return  this.playlistService.findAll(userId);
   }
 
   @Get(':id')

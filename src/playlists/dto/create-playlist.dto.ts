@@ -6,21 +6,24 @@ export class CreatePlaylistDto {
 
     @IsString()
     name: string;
+
+
+    
+    // @IsString()
+    // @IsOptional()
+    // description?: string;
+    
+    // @ArrayNotEmpty()
+    // @IsArray()
+    // trackIds: number[];
     
     @IsString()
     @IsOptional()
-    description?: string;
-    
-    @ArrayNotEmpty()
-    @IsArray()
-    trackIds: number[];
-    
-    @IsString()
-    userId: number;
+    userId?: number;
 
-    @IsArray()
-    @ArrayNotEmpty()
-    musicIds: number[]
+    // @IsArray()
+    // @ArrayNotEmpty()
+    // musicIds: number[]
 
 
 }
