@@ -1,9 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable} from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { ManagedUpload} from 'aws-sdk/lib/s3/managed_upload';
 import SendData = ManagedUpload.SendData;
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { v4 as uuid } from 'uuid';
 import { MimeType } from 'aws-sdk/clients/kendra';
 
 @Injectable()
@@ -43,7 +41,7 @@ export class S3Service {
   async upload(data: {
   file: Buffer;
   name: string;
-  mimetype: string;
+  mimetype: MimeType;
   bucket?: string;
 }): Promise<SendData> {
     const params = {
