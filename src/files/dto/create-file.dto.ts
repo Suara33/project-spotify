@@ -4,8 +4,8 @@ export class CreateFileDto {
 
     
 
-    // @IsString()
-    // filename: string;
+    @IsString()
+    fileName: string;
 
     // @IsString()
     // bucketName: string;
