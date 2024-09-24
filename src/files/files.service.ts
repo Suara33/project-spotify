@@ -1,13 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { S3Service } from "./services/s3.service";
-import { FilesRepsoitory } from "./files.repository";
+import { FilesRepository} from "./files.repository";
+import { buffer } from "stream/consumers";
 
 
 
 
 @Injectable()
 export class FilesService {
-  constructor(private readonly filesRepository: FilesRepsoitory,
+  constructor(private readonly filesRepository: FilesRepository,
               private readonly s3Service: S3Service
   ) {}
 
@@ -15,17 +16,21 @@ export class FilesService {
    
     const filename = file.originalname.split('.').slice(0, -1).join('.');
 
-    const sanitizedFileName = file.filename.replace(/\s+/g, '-')
+    const sanitizedFileName = filename.replace(/\s+/g, '-')
 
-    const result = await this.s3Service.uploadImage(file);
+    const result = await this.s3Service.upload({
+      file: file.buffer,
+      name: sanitizedFileName,
+      mimetype: file.mimetype,
+    });
 
  
 
     const savedFile = await this.filesRepository.save(
       sanitizedFileName,
-      result.location,
-      result.bucket,
-      result.key
+      result.Location,
+      result.Bucket,
+      result.Key
 
     )
     return savedFile;
@@ -46,4 +51,4 @@ export class FilesService {
 
     return file
   }
-}
+} 

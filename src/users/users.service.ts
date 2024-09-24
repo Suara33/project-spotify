@@ -24,7 +24,7 @@ export class UsersService {
         const jwtToken = await this.jwtService.signAsync(payload);
 
 
-    return {access_token: jwtToken,user: createUser}
+    return createUser
   }
 
   async findAll() {

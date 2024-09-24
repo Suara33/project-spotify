@@ -3,7 +3,7 @@ import { User } from "src/users/entities/user.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
-export class Likesong {
+export class Favorite {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -13,9 +13,9 @@ export class Likesong {
     @Column()
     musicId: number;
 
-    @ManyToOne(() => User, user => user.likesongs)
+    @ManyToOne(() => User, user => user.favorites)
     user: User;
 
-    @ManyToOne(() => MusicEntity, musicEntity => musicEntity.likesongs)
+    @ManyToOne(() => MusicEntity, musicEntity => musicEntity.favorites)
     music: MusicEntity[];
 }
