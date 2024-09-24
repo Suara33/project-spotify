@@ -46,7 +46,7 @@ export class S3Service {
 }): Promise<SendData> {
     const params = {
       Bucket: data.bucket || this.bucketName,
-      Key: String(name),
+      Key: String(data.name),
       Body: data.file,
       ContentType: data.mimetype,
       ContentDisposition: 'inline',

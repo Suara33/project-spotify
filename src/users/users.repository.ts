@@ -19,14 +19,15 @@ export class UsersRepository {
     newUser.email = data.email;
     newUser.password = data.password;
    
-    
+  
     
     newUser.password = await bcrypt.hash(newUser.password, 10);
 
+    const { password, ... result} = newUser
     
 
     
-    return this.usersRepository.save(newUser);
+    return this.usersRepository.save(result);
   }
   
   async findOneByEmail(email: string): Promise<User> {

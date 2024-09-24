@@ -8,7 +8,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
-  @Post('upload')
+  @Post()
   @UseInterceptors(FileInterceptor('file'))
   async create(@Body() createAuthorDto: CreateAuthorDto, @UploadedFile() file: Express.Multer.File) {
     return await this.authorService.create(createAuthorDto, file);

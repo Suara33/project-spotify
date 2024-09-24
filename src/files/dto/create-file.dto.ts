@@ -5,22 +5,22 @@ export class CreateFileDto {
     
 
     @IsString()
-    fileName: string;
+    name: string;
 
-    // @IsString()
-    // bucketName: string;
+    // // @IsString()
+    // // bucketName: string;
 
-    // @IsString()
-    // key: string;
+    // // @IsString()
+    // // key: string;
 
-    // @IsString()
-    // url: string;
+    // // @IsString()
+    // // url: string;
     
-    @IsString()
-    audioFile: string;
+    // @IsString()
+    // audioFile: string;
 
-    @IsString()
-    imgFile: string;
+    // @IsString()
+    // imgFile: string;
 
 
 
