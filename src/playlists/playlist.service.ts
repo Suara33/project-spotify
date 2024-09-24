@@ -2,6 +2,7 @@ import { Injectable} from '@nestjs/common';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { PlaylistRepository } from './playlist.repository';
+import { UserId } from 'src/auth/decorators/userId.decorator';
 
 
 @Injectable()
@@ -13,8 +14,8 @@ export class PlaylistService {
     return  await this.playlistRepository.create(createPlaylistDto, file);
   }
 
-  findAll() {
-    return this.playlistRepository.findAll();
+  findAll(userId:number) {
+    return this.playlistRepository.findAll(userId);
   }
 
   findOne(id: number) {

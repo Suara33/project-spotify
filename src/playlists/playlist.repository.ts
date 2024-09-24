@@ -16,32 +16,24 @@ export class PlaylistRepository {
 
     async create(
         data: CreatePlaylistDto, 
-        file: Express.Multer.File
+        file: Express.Multer.File,
+ 
     ) {
-
-
-    const newPlaylist = this.playlistRepository.create(data)
-
-    const arrayOfTracks = []
-
-    for(const trackId of data.musicIds) {
-        const newMusic = new MusicEntity()
-        newMusic.id = trackId
-        arrayOfTracks.push(newMusic)
-    }
-
+        const newPlaylist = new Playlist()
+        newPlaylist.name = data.name
+        newPlaylist.userId = data.userId
+        
         return await this.playlistRepository.save(newPlaylist)
-
-    newPlaylist.music = arrayOfTracks
-    if (file) {
-       
     }
+    
 
-        return this.playlistRepository.save(newPlaylist)
-    }
-
-    async findAll() {
-        return await this.playlistRepository.find({ relations: {music: true}})
+     findAll(userId:number) {
+        return  this.playlistRepository
+            .createQueryBuilder('playlist')
+            .leftJoinAndSelect('playlist.music','music')
+            .leftJoin('playlist.user', 'user')
+            .where('user.id = : userId',{userId})
+            .getMany()
     }
 
     async findOne(id: number) {
