@@ -6,20 +6,21 @@ import * as fs from 'fs/promises';
 import { S3Service } from 'src/files/services/s3.service';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-const ffmpeg = require('fluent-ffmpeg');
 
-function getDurationFromBuffer(buffer: Buffer): Promise<number> {
-  return new Promise((resolve, reject) => {
-    ffmpeg.ffprobe(buffer, (err: any, metadata: any) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(metadata.format.duration);
-    });
-  });
+
+function getDurationFromBuffer(buffer: Buffer): number {
+  return 90
+  // return new Promise((resolve, reject) => {
+  //   ffmpeg.ffprobe(buffer, (err: any, metadata: any) => {
+  //     if (err) {
+  //       reject(err);
+  //       return 90;
+  //     }
+  //     resolve(metadata.format.duration);
+  //   });
+  // });
 }
-
+   
 @Injectable()
 export class MusicsService {
   private bucketName = 'spotify-general-bucket';

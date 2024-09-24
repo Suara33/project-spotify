@@ -5,7 +5,7 @@ import { AlbumRepository } from './repository/album.repository';
 import { S3Service } from 'src/files/services/s3.service';
 import { AlbumEntity } from './entities/album.entity';
 import { AuthorRepository } from 'src/authors/repository/author.repository';
-const ffmpeg = require('fluent-ffmpeg');
+
 
 @Injectable()
 export class AlbumService {
