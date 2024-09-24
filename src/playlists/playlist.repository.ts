@@ -32,7 +32,7 @@ export class PlaylistRepository {
             .createQueryBuilder('playlist')
             .leftJoinAndSelect('playlist.music','music')
             .leftJoin('playlist.user', 'user')
-            .where('user.id = : userId',{userId})
+            .where('user.id = :userId',{userId})
             .getMany()
     }
 

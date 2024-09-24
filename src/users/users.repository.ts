@@ -18,14 +18,12 @@ export class UsersRepository {
     const newUser = new User();
     newUser.email = data.email;
     newUser.password = data.password;
-    newUser.name = data.name;
+   
     
     
     newUser.password = await bcrypt.hash(newUser.password, 10);
 
-    if(data.password !== data.confirmPassword) {
-      throw new BadRequestException('Paswword do not match')
-    }
+    
 
     
     return this.usersRepository.save(newUser);
