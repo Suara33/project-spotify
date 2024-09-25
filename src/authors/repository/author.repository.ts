@@ -18,11 +18,35 @@ export class AuthorRepository {
   async create(data: CreateAuthorDto, image: string) {
 
     const author = new AuthorEntity()
-    author.firstName = data.firstName
-    author.lastName = data.lastName
+    author.fullName = data.fullName
+    
     author.image = image
 
     return await this.authorRepository.save(data)
+  }
+
+  async findAuthorWithAlbums(authorId:number) {
+    return await this.authorRepository
+        .createQueryBuilder('author')
+        .leftJoinAndSelect('author.albums','album')
+        .where('author.id =:authorId',{authorId})
+        .getOne()
+
+  }
+
+  async topSongsOfArtist() {
+    return await this.authorRepository
+      .createQueryBuilder('author')
+      .leftJoinAndSelect('author.image', "image")
+      .leftJoinAndSelect('author.music', 'music')
+      .leftJoinAndSelect('music.listener', 'listener')
+      .addSelect('COUNT(listener.id)', 'totalListener')
+      .groupBy('author.id')
+      .addGroupBy('image.id') 
+      .addGroupBy('music.id')
+      .orderBy('totalListener', 'DESC')
+      .limit(10)
+      .getMany()
   }
 
   async findAll() {

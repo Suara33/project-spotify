@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -39,7 +39,7 @@ export class UsersRepository {
   async findAll() {
     return await this.usersRepository
       .createQueryBuilder('users')
-      .select(['users.id', 'users.name', 'users.email'])
+      .select(['users.id', 'users.email', 'users.createAt', 'users.password'])
       .getMany();
   }
 

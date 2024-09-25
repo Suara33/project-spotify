@@ -29,7 +29,6 @@ export class UsersController {
   async findAll(
     @UserId() userId:number
   ) {
-    console.log(userId)
     return await this.usersService.findAll();
   }
 

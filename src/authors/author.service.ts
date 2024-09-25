@@ -19,11 +19,7 @@ export class AuthorService {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
     
-    const image = await this.s3Service.upload({
-      file: file.buffer,
-      mimetype: file.mimetype,
-      name: file.filename
-    })
+    const image = await this.s3Service.upload(file)
 
    
     return await this.authorRepository.create(createAuthorDto, image.Location)

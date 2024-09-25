@@ -19,11 +19,7 @@ export class FilesService {
     const sanitizedFileName = filename.replace(/\s+/g, '-')
     console.log(sanitizedFileName)
 
-    const result = await this.s3Service.upload({
-      file: file.buffer,
-      name: sanitizedFileName,
-      mimetype: file.mimetype,
-    });
+    const result = await this.s3Service.upload(file);
 
  
 

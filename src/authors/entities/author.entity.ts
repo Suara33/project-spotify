@@ -1,9 +1,7 @@
 import { MusicEntity } from 'src/musics/entities/music.entity';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { AlbumEntity } from 'src/albums/entities/album.entity';
-
-
-
+import { FileEntity } from 'src/files/entities/file.entity';
 
 @Entity()
 export class AuthorEntity {
@@ -11,10 +9,7 @@ export class AuthorEntity {
   id: number;
 
   @Column()
-  firstName: string;
-
-  @Column()
-  lastName: string;
+  fullName: string;
 
   @Column()
   biography: string;
@@ -24,6 +19,9 @@ export class AuthorEntity {
 
   @Column()
   image: string;
+
+  @OneToMany(() => FileEntity, (file) => file.authors)
+  file: FileEntity;
 
   @OneToMany(() => AlbumEntity, (album) => album.author)
   albums: AlbumEntity[]

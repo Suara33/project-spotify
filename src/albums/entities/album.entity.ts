@@ -2,6 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { MusicEntity } from 'src/musics/entities/music.entity';
 import { AuthorEntity } from 'src/authors/entities/author.entity';
 import { FileEntity } from 'src/files/entities/file.entity';
+import { userIdType } from 'aws-sdk/clients/sts';
+import { UserHierarchyGroupSearchConditionList } from 'aws-sdk/clients/connect';
 
 
 @Entity({ })
@@ -44,4 +46,5 @@ export class AlbumEntity {
   deleteAt: Date;
 
 }
+
 

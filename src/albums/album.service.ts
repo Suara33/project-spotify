@@ -23,11 +23,7 @@ export class AlbumService {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
     
-    const image = await this.s3service.upload({file: file.buffer,
-      name: file.filename,
-      mimetype: file.mimetype,
-       
-    })
+    const image = await this.s3service.upload(file)
     
 
    
