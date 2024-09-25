@@ -13,7 +13,6 @@ import { PlaylistService } from './playlist.service';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Request } from 'express';
 import { UserId } from 'src/auth/decorators/userId.decorator';
 
 
@@ -21,11 +20,11 @@ import { UserId } from 'src/auth/decorators/userId.decorator';
 export class PlaylistController {
   constructor(private readonly playlistService: PlaylistService) {}
 
- @UseInterceptors(FileInterceptor('file'))
+ 
  @Post()
+ @UseInterceptors(FileInterceptor('file'))
  async create(
   @UserId() userId: number,
-  
   @Body() createPlaylistDto: CreatePlaylistDto,
   @UploadedFile() file: Express.Multer.File) {
     createPlaylistDto.userId = userId

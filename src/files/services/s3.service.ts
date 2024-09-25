@@ -7,11 +7,10 @@ import { MimeType } from 'aws-sdk/clients/kendra';
 @Injectable()
 export class S3Service {
   private s3:  AWS.S3;
-  private bucketName: string;
-
+  private bucketName: string
   constructor() {
     this.s3 = new AWS.S3({
-        accessKeyId: process.env.AWS_ACCESS_KEY, 
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID, 
         secretAccessKey: process.env.AWS_SECRET_KEY,
         region: 'eu-north-1',
         signatureVersion: 'v4',
@@ -38,17 +37,14 @@ export class S3Service {
     }
   }
 
-  async upload(data: {
-  file: Buffer;
-  name: string;
-  mimetype: MimeType;
-  bucket?: string;
-}): Promise<SendData> {
+  async upload(
+  file: Express.Multer.File
+): Promise<SendData> {
     const params = {
-      Bucket: data.bucket || this.bucketName,
-      Key: String(data.name),
-      Body: data.file,
-      ContentType: data.mimetype,
+      Bucket: this.bucketName,
+      Key: String(file.originalname),
+      Body: file.buffer,
+      ContentType: file.mimetype,
       ContentDisposition: 'inline',
       CreateBucketConfiguration: {
         LocationConstraint: 'eu-north-1',
@@ -58,7 +54,7 @@ export class S3Service {
     try {
       return await this.s3.upload(params).promise();
     } catch (e) {
-      console.log('Could not upload file to s3', { e, name, mimetype: data.mimetype });
+      console.log('Could not upload file to s3', { e, name: file.originalname, mimetype: file.mimetype });
 
       throw e
 

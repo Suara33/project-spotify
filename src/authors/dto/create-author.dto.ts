@@ -3,13 +3,10 @@ import { MusicEntity } from 'src/musics/entities/music.entity';
 export class CreateAuthorDto {
 
     @IsString()
-    firstName: string;
+   fullName: string;
 
-    @IsString()
-    lastName: string;
-
-    @IsArray()
-    musics: MusicEntity[];
+    // @IsArray()
+    // musics: MusicEntity[];
 
     @IsString()
     biography: string;

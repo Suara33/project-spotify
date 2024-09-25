@@ -34,12 +34,7 @@ export class MusicsService {
     const fileKey = `uploads/music/${uuidv4()}${path.extname(file.originalname)}`;
 
     try {
-      const fileUrl = await this.s3Service.upload({
-        file: file.buffer,
-        bucket: this.bucketName,
-        name: fileKey,
-        mimetype: file.mimetype,
-      });
+      const fileUrl = await this.s3Service.upload(file);
       return fileUrl.Location;
     } catch (error) {
       throw new HttpException('Failed to upload file to S3', HttpStatus.INTERNAL_SERVER_ERROR);

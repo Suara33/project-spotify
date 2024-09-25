@@ -1,6 +1,7 @@
+import { FileEntity } from "src/files/entities/file.entity";
 import { MusicEntity } from "src/musics/entities/music.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany,ManyToOne,OneToOne,PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany,ManyToOne,OneToOne,PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Playlist {
@@ -17,7 +18,9 @@ export class Playlist {
         @Column()
         userId: number;
 
-        // @OneToOne(() => )
+        @OneToOne(() => FileEntity)
+        @JoinColumn()
+        file: FileEntity
 
         @ManyToMany(() => MusicEntity, musicEntity => musicEntity.playlists)
         @JoinTable()

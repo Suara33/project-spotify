@@ -3,7 +3,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Playlist } from "./entities/playlist.entity";
 import { Repository } from "typeorm";
 import { CreatePlaylistDto } from "./dto/create-playlist.dto";
-import { MusicEntity } from "src/musics/entities/music.entity";
 import { UpdatePlaylistDto } from "./dto/update-playlist.dto";
 
 
@@ -16,12 +15,13 @@ export class PlaylistRepository {
 
     async create(
         data: CreatePlaylistDto, 
-        file: Express.Multer.File,
+        image: any,
  
     ) {
         const newPlaylist = new Playlist()
         newPlaylist.name = data.name
         newPlaylist.userId = data.userId
+        newPlaylist.file = image
         
         return await this.playlistRepository.save(newPlaylist)
     }
