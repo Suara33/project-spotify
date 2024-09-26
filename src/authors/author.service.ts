@@ -21,6 +21,7 @@ export class AuthorService {
     
     const image = await this.s3Service.upload(file)
 
+
    
     return await this.authorRepository.create(createAuthorDto, image.Location)
 

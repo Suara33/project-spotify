@@ -19,10 +19,10 @@ export class AuthorRepository {
 
     const author = new AuthorEntity()
     author.fullName = data.fullName
-    
+    author.biography = data.biography
     author.image = image
 
-    return await this.authorRepository.save(data)
+    return await this.authorRepository.save(author)
   }
 
   async findAuthorWithAlbums(authorId:number) {
@@ -30,8 +30,7 @@ export class AuthorRepository {
         .createQueryBuilder('author')
         .leftJoinAndSelect('author.albums','album')
         .where('author.id =:authorId',{authorId})
-        .getOne()
-
+        .getOne() 
   }
 
   async topSongsOfArtist() {
