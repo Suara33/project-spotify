@@ -22,12 +22,8 @@ export class UsersRepository {
   
     
     newUser.password = await bcrypt.hash(newUser.password, 10);
-
-    const { password, ... result} = newUser
     
-
-    
-    return this.usersRepository.save(result);
+    return this.usersRepository.save(newUser);
   }
   
   async findOneByEmail(email: string): Promise<User> {
@@ -50,7 +46,7 @@ export class UsersRepository {
   async remove(id: number) {
     return await this.usersRepository
       .createQueryBuilder('users')
-      .softDelete()
+      .delete()
       .where('user.id = :id', { id })
       .execute();
   }

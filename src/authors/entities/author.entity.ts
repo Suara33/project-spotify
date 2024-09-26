@@ -20,7 +20,7 @@ export class AuthorEntity {
   @Column()
   image: string;
 
-  @OneToMany(() => FileEntity, (file) => file.authors)
+  @OneToMany(() => FileEntity, (file) => file.authors, {cascade: true})
   file: FileEntity;
 
   @OneToMany(() => AlbumEntity, (album) => album.author)

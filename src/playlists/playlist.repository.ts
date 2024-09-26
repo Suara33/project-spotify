@@ -4,6 +4,8 @@ import { Playlist } from "./entities/playlist.entity";
 import { Repository } from "typeorm";
 import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 import { UpdatePlaylistDto } from "./dto/update-playlist.dto";
+import { ManagedUpload } from "aws-sdk/clients/s3";
+import { FileEntity } from "src/files/entities/file.entity";
 
 
 @Injectable()
@@ -15,13 +17,18 @@ export class PlaylistRepository {
 
     async create(
         data: CreatePlaylistDto, 
-        image: any,
+        image: ManagedUpload.SendData,
  
     ) {
+        const newFile = new FileEntity()
+        newFile.bucketName = image.Bucket
+        newFile.key = image.Key
+        newFile.url = image.Location
+
         const newPlaylist = new Playlist()
         newPlaylist.name = data.name
         newPlaylist.userId = data.userId
-        newPlaylist.file = image
+        newPlaylist.file = newFile
         
         return await this.playlistRepository.save(newPlaylist)
     }

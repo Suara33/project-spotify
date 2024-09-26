@@ -9,7 +9,8 @@ import { AuthorEntity } from 'src/authors/entities/author.entity';
 @Injectable()
 export class AlbumRepository {
   
-  constructor(@InjectRepository(AlbumEntity) private readonly albumRepository: Repository<AlbumEntity>) {}
+  constructor(@InjectRepository(AlbumEntity) 
+  private readonly albumRepository: Repository<AlbumEntity>) {}
   
   async create(createAlbumDto: CreateAlbumDto,file:string,author:AuthorEntity) {
 

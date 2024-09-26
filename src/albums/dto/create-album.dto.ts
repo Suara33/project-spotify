@@ -20,6 +20,6 @@ export class CreateAlbumDto {
     @IsString()
     artistName: string;
 
-    @IsUrl()
-    image: '';
+    // @IsUrl()
+    // image: '';
 }

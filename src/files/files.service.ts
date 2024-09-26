@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { S3Service } from "./services/s3.service";
 import { FilesRepository} from "./files.repository";
-import { buffer } from "stream/consumers";
+
 
 
 
@@ -17,7 +17,7 @@ export class FilesService {
     const filename = file.originalname.split('.').slice(0, -1).join('.');
 
     const sanitizedFileName = filename.replace(/\s+/g, '-')
-    console.log(sanitizedFileName)
+   
 
     const result = await this.s3Service.upload(file);
 
