@@ -36,12 +36,12 @@ export class AuthorService {
   }
 
   async update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    await  this.authorRepository.update(id, updateAuthorDto);
-    return this.authorRepository.findOne(id)
+    
+    return await  this.authorRepository.update(id, updateAuthorDto);
+    
   }
 
   async remove(id: number) {
-    await this.authorRepository.delete(id);
-    return {deleted :true};
-  }
+    return await this.authorRepository.delete(id);
+   }
 }

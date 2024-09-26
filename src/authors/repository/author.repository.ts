@@ -57,12 +57,19 @@ export class AuthorRepository {
   }
 
   async update(id: number, updateAuthorDto: UpdateAuthorDto) {
-     await this.update(id, updateAuthorDto)
-     return this.authorRepository.findOneBy({id})
+    const author = await this.authorRepository.findOneBy({ id });
+
+    if (!author) {
+      throw new Error('Author not found');
+    }
+
+    Object.assign(author, updateAuthorDto);
+
+    return await this.authorRepository.save(author);
   }
 
   async delete(id: number) { 
-    return await this.authorRepository.softDelete(id);
+    return await this.authorRepository.delete(id);
   }
 
   async findAuthorByName(name: string) {
