@@ -8,8 +8,8 @@ export class CreateMusicDto {
     artistId: number;
 
     
-    @IsNumber()
-    duration: number;
+    @IsNumberString()
+    duration?: number;
 
     // @IsString()
     // filePath: string;
