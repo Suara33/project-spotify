@@ -4,13 +4,17 @@ import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('author')
+@Controller('authors')
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  async create(@Body() createAuthorDto: CreateAuthorDto, @UploadedFile() file: Express.Multer.File) {
+  async create(
+    @Body() createAuthorDto: CreateAuthorDto, 
+    @UploadedFile() file: Express.Multer.File
+  ) {
+
     return await this.authorService.create(createAuthorDto, file);
   } 
 

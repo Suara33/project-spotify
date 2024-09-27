@@ -27,18 +27,18 @@ export class PlaylistService {
   }
 
 
-//   async addMusicToPlaylist(playlistId:number,musicId:number) {
-//     const playlist = await this.playlistRepository.findOne(playlistId)
-//     if(!playlist) throw new NotFoundException(`playlist with given id ${playlistId} not found`)
+  async addMusicToPlaylist(playlistId:number,musicId:number) {
+    const playlist = await this.playlistRepository.findOne(playlistId)
+    if(!playlist) throw new NotFoundException(`playlist with given id ${playlistId} not found`)
 
-//     const music = await this.musicsRepository.findOne(musicId)
-//     if(!music) throw new NotFoundException(`music with id ${musicId} not found`)
+    const music = await this.musicsRepository.findOne(musicId)
+    if(!music) throw new NotFoundException(`music with id ${musicId} not found`)
 
-//     playlist.music.push(music)
-//     playlist.count = playlist.music.length
+    playlist.music.push(music)
+    playlist.count = playlist.music.length
 
-//     return this.playlistRepository.save(playlist)
-// }
+    // return this.playlistRepository.create(playlist)
+}
 
   async findAll(userId:number) {
     return await this.playlistRepository.findAll(userId);

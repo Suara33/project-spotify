@@ -30,7 +30,13 @@ export class AlbumEntity {
   @Column()
   artistName: string;
 
-  @ManyToMany(() => MusicEntity, (music) => music.albums)
+  @Column()
+  coverImage: string;
+
+  @Column()
+  count: number;
+
+  @ManyToMany(() => MusicEntity, (music) => music.albums, {cascade: true})
   @JoinTable({
     name: 'album_music'
   })

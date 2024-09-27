@@ -10,9 +10,9 @@ import { Express } from 'express';
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
-  @Post('upload')
+  @Post()
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(
+  async create(
     @UploadedFile() file: Express.Multer.File,
     @Body() createAlbumDto: CreateAlbumDto,
   ) {

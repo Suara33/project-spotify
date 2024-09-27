@@ -75,14 +75,14 @@ export class AuthorRepository {
   async findAuthorByName(name: string) {
     return await this.authorRepository
       .createQueryBuilder('author')
-      .where('author.firstName = :name',{name})
+      .where('author.fullName = :name',{name})
       .getOne();
   }
 
   async findByName(name: string) {
     return await this.authorRepository
       .createQueryBuilder('author')
-      .where('author.firstName Like :name', { name: '%${name}%' })
+      .where('author.fullName Like :name', { name: '%${name}%' })
       .getMany();
   }
 }
