@@ -15,10 +15,11 @@ export class AlbumRepository {
   async create(createAlbumDto: CreateAlbumDto,file:string,author:AuthorEntity) {
 
     const album = new AlbumEntity()
-    album.title = createAlbumDto.title
-    album.author = author
-    album.artistName =createAlbumDto.artistName
-    // album.file = file
+    album.title = createAlbumDto.albumTitle;
+    album.author = author;
+    album.artistName =createAlbumDto.artistName;
+    album.coverImage = file;
+    
 
     return await this.albumRepository.save(album)
   
@@ -33,13 +34,16 @@ export class AlbumRepository {
   }
 
   async update(id: number, updateAlbumDto: UpdateAlbumDto) {
-   this.albumRepository.update(id, updateAlbumDto);
-   await this.albumRepository.save(updateAlbumDto)
+    return await this.albumRepository.update(id, updateAlbumDto);
+ }
 
-  }
+
+   async save(album: AlbumEntity) {
+    return await this.albumRepository.save(album)
+   }
 
   async delete(id: number) {
-    return await this.albumRepository.softDelete(id);
+    return await this.albumRepository.delete(id);
   }
 
   async findByName(name: string) {
