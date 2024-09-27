@@ -98,7 +98,7 @@ export class MusicsService {
     const duration = await this.getDurationFromBuffer(file.buffer)
     createMusicDto.duration = duration;
 
-    return await this.musicsRepository.create(createMusicDto);
+    return await this.musicsRepository.create(createMusicDto,filePath);
   }
 
   async topHits() {

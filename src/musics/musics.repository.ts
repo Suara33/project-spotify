@@ -12,8 +12,9 @@ export class MusicsRepository {
     private musicsRepository: Repository<MusicEntity>,
   ) {}
 
-  async create(data: CreateMusicDto): Promise<MusicEntity> {
-    const newMusic = this.musicsRepository.create(data);
+  async create(data: CreateMusicDto, url: string): Promise<MusicEntity> {
+    const newMusic = this.musicsRepository.create({...data, url}
+    );
     return await this.musicsRepository.save(newMusic);
   }
 
