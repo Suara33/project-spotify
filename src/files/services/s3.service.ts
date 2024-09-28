@@ -2,7 +2,7 @@ import { Injectable} from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { ManagedUpload} from 'aws-sdk/lib/s3/managed_upload';
 import SendData = ManagedUpload.SendData;
-import { MimeType } from 'aws-sdk/clients/kendra';
+
 
 @Injectable()
 export class S3Service {

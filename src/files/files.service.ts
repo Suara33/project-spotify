@@ -2,10 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { S3Service } from "./services/s3.service";
 import { FilesRepository} from "./files.repository";
 
-
-
-
-
 @Injectable()
 export class FilesService {
   constructor(private readonly filesRepository: FilesRepository,
