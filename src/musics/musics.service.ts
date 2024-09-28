@@ -41,8 +41,13 @@ export class MusicsService {
       await fs.writeFile(tempFilePath, buffer);
 
       return getAudioDurationInSeconds(tempFilePath).then((duration) => {
-        const dura =  duration.toFixed(0)
-        console.log(dura)
+
+        const minutes =  Math.round((duration.toFixed()/60))
+        const seconds = duration.toFixed()%60
+        
+
+        return `${minutes}:${seconds}`
+       
       })
     } catch (error) {
       throw new Error(`Failed to process buffer: ${error.durationFailed}`);

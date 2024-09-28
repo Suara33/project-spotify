@@ -8,7 +8,7 @@ import { Listener } from "src/listeners/entities/listener.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity,JoinColumn,ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity( {name: 'musics'} )
+@Entity()
 export class MusicEntity {
 
     @PrimaryGeneratedColumn()
@@ -26,10 +26,10 @@ export class MusicEntity {
     @OneToMany(() => AuthorEntity, (author) => author.musics)
     author: AuthorEntity
 
-    @Column()
-    filePath: string;
+    // @Column()
+    // filePath: string;
 
-    @Column('float')
+    @Column({ type: 'varchar', length: 5 })
     duration: number;
 
     @ManyToMany(() => Playlist, playlist => playlist.music)
