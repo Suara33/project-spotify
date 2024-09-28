@@ -3,6 +3,7 @@ import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { AuthorRepository } from './repository/author.repository';
 import { S3Service } from 'src/files/services/s3.service';
+import { AuthorEntity } from './entities/author.entity';
 
 @Injectable()
 export class AuthorService {
@@ -35,7 +36,7 @@ export class AuthorService {
     return await this.authorRepository.findOne( id )
   }
 
-  async update(id: number, updateAuthorDto: UpdateAuthorDto) {
+  async update(id: number, updateAuthorDto: UpdateAuthorDto): Promise<AuthorEntity> {
     
     return await  this.authorRepository.update(id, updateAuthorDto);
     

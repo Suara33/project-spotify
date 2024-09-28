@@ -41,8 +41,8 @@ export class MusicsRepository {
   }
 
   async update(id: number, updateMusicDto: UpdateMusicDto) {
-     await this.update(id, updateMusicDto)
-     return this.musicsRepository.findOne({where: {id}})
+    const updateMusic =  await this.update(id, updateMusicDto)
+     return this.musicsRepository.save(updateMusic)
   }
   async remove(id: number): Promise<void> {
      await this.musicsRepository.softDelete(id);

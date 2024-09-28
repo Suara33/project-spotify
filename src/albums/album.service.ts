@@ -39,7 +39,7 @@ export class AlbumService {
     if(!album) throw new NotFoundException(`playlist with given id ${albumId} not found`)
 
     const music = await this.musicsRepository.findOne(musicId)
-    if(!music) throw new NotFoundException(`music with id ${musicId} not found`)
+    if(!music) throw new NotFoundException(`music with given id ${musicId} not found`)
 
     if (!album.music.includes(music)) {
         album.count++;

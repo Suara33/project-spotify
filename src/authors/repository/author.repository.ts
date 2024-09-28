@@ -1,4 +1,4 @@
-import { Injectable, Search } from '@nestjs/common';
+import { Injectable} from '@nestjs/common';
 import { CreateAuthorDto } from '../dto/create-author.dto';
 import { UpdateAuthorDto } from '../dto/update-author.dto';
 import { AuthorEntity } from '../entities/author.entity';
@@ -57,15 +57,15 @@ export class AuthorRepository {
   }
 
   async update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    const author = await this.authorRepository.findOneBy({ id });
+   const author = await this.authorRepository.findOne({ where: {id}})
 
-    if (!author) {
-      throw new Error('Author not found');
-    }
+   if(!author) {
+    throw new Error('Author not found')
+   }
 
-    Object.assign(author, updateAuthorDto);
+   Object.assign(author, updateAuthorDto)
 
-    return await this.authorRepository.save(author);
+    return  this.authorRepository.save(author);
   }
 
   async delete(id: number) { 

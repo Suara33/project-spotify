@@ -5,6 +5,7 @@ import { AlbumEntity } from '../entities/album.entity';
 import { Repository } from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm'
 import { AuthorEntity } from 'src/authors/entities/author.entity';
+import { title } from 'process';
 
 @Injectable()
 export class AlbumRepository {
@@ -15,7 +16,7 @@ export class AlbumRepository {
   async create(createAlbumDto: CreateAlbumDto,file:string,author:AuthorEntity) {
 
     const album = new AlbumEntity()
-    album.title = createAlbumDto.albumTitle;
+    album.title = createAlbumDto.title;
     album.author = author;
     album.artistName =createAlbumDto.artistName;
     album.coverImage = file;
@@ -34,16 +35,26 @@ export class AlbumRepository {
   }
 
   async update(id: number, updateAlbumDto: UpdateAlbumDto) {
-    return await this.albumRepository.update(id, updateAlbumDto);
+    return await this.albumRepository
+      .createQueryBuilder('album')
+      .update('AlbumEntity')
+      .set({
+        title: updateAlbumDto.title,
+        releaseDate: updateAlbumDto.releaseDate,
+        artistName: updateAlbumDto.artistName
+      })
+      .where('id = :id', { id })
+      .execute()
  }
 
+ 
 
    async save(album: AlbumEntity) {
     return await this.albumRepository.save(album)
    }
 
   async delete(id: number) {
-    return await this.albumRepository.delete(id);
+    return await this.albumRepository.softDelete(id);
   }
 
   async findByName(name: string) {

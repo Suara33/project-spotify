@@ -2,11 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { MusicEntity } from 'src/musics/entities/music.entity';
 import { AuthorEntity } from 'src/authors/entities/author.entity';
 import { FileEntity } from 'src/files/entities/file.entity';
-import { userIdType } from 'aws-sdk/clients/sts';
-import { UserHierarchyGroupSearchConditionList } from 'aws-sdk/clients/connect';
 
-
-@Entity({ })
+@Entity()
 export class AlbumEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -14,15 +11,11 @@ export class AlbumEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 10})
   releaseDate: string;
-
-  @Column()
-  fileId: number;
 
   @OneToMany(() => FileEntity, (file) =>  file.album)
   file: FileEntity
-
 
   @ManyToOne(() => AuthorEntity, (author) => author.albums)
   author: AuthorEntity

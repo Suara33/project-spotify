@@ -1,5 +1,4 @@
-import { IsArray ,IsString} from 'class-validator';
-import { MusicEntity } from 'src/musics/entities/music.entity';
+import {IsString} from 'class-validator';
 export class CreateAuthorDto {
 
     @IsString()

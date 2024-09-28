@@ -1,14 +1,16 @@
 
-import { IsArray ,IsNumber,IsNumberString,IsOptional,IsString, IsUrl, ValidateNested } from 'class-validator';
+import { IsArray ,IsDateString,IsNumber,IsNumberString,IsOptional,IsString, Matches, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateMusicDto } from 'src/musics/dto/create-music.dto';
 
 
 export class CreateAlbumDto {
     @IsString()
-    albumTitle: string;
+    title: string;
 
+    @IsOptional()
     @IsNumberString()
+    @Matches(/^\d{4}\/\d{2}\/\d{2}$/, { message: 'releaseDate must be in the format YYYY/MM/DD' })
     releaseDate: string;
 
     @IsArray()

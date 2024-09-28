@@ -48,13 +48,13 @@ export class MusicsController {
     return await this.musicsService.findOne(+id);
   }
 
-  @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateMusicDto: UpdateMusicDto,
-  ) {
-    return await this.musicsService.update(+id, updateMusicDto);
-  }
+  // @Patch(':id')
+  // async update(
+  //   @Param('id') id: string,
+  //   @Body() updateMusicDto: UpdateMusicDto,
+  // ) {
+  //   return await this.musicsService.updateMusic(+id, updateMusicDto);
+  // }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
