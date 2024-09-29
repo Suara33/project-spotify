@@ -10,13 +10,14 @@ import { Express } from 'express';
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
-  @Post()
+  @Post(':id')
   @UseInterceptors(FileInterceptor('file'))
   async create(
+    @Param('id') artistId: number, 
     @UploadedFile() file: Express.Multer.File,
     @Body() createAlbumDto: CreateAlbumDto,
   ) {
-    return this.albumService.create(createAlbumDto, file);
+    return this.albumService.create(createAlbumDto, file, artistId);
   }
 
   @Get()

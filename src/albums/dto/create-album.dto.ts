@@ -19,7 +19,6 @@ export class CreateAlbumDto {
     @Type(() => CreateMusicDto)
     musics: CreateMusicDto;
 
-    @IsString()
-    artistName: string;
+    
 
 }

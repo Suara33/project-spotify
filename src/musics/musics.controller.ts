@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { MusicsService } from './musics.service';
 import { CreateMusicDto } from './dto/create-music.dto';
@@ -20,15 +21,16 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('musics')
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
-  @Post()
+  @Post(':albumId')
   @UseInterceptors(
     FileInterceptor('file'),
   )
   async create(
+    @Param('albumId') albumId: number,
     @Body() createMusicDto: CreateMusicDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return await this.musicsService.create(createMusicDto, file);
+    return await this.musicsService.create(createMusicDto, file, albumId);
   }
 
   @Get('tophits')
@@ -48,13 +50,12 @@ export class MusicsController {
     return await this.musicsService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // async update(
-  //   @Param('id') id: string,
-  //   @Body() updateMusicDto: UpdateMusicDto,
-  // ) {
-  //   return await this.musicsService.updateMusic(+id, updateMusicDto);
-  // }
+  @Put(':id')
+  async update(@Param('id') id: number, @Body() updateMusicDto: UpdateMusicDto,) {
+
+    console.log(updateMusicDto)
+    return await this.musicsService.update(id, updateMusicDto);
+  }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {

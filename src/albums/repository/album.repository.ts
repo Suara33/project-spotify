@@ -13,38 +13,47 @@ export class AlbumRepository {
   constructor(@InjectRepository(AlbumEntity) 
   private readonly albumRepository: Repository<AlbumEntity>) {}
   
-  async create(createAlbumDto: CreateAlbumDto,file:string,author:AuthorEntity) {
+  async create(createAlbumDto: CreateAlbumDto, file:string, author:AuthorEntity) {
 
     const album = new AlbumEntity()
     album.title = createAlbumDto.title;
     album.author = author;
-    album.artistName =createAlbumDto.artistName;
+    album.artistName = author.fullName;
     album.coverImage = file;
     
-
     return await this.albumRepository.save(album)
-  
+    
   }
 
   async findAll() {
-    return await this.albumRepository.find();
+    return await this.albumRepository
+      .createQueryBuilder('album')
+      .getMany()
   }
 
   async findOne(id: number) {
-    return await this.albumRepository.findOneBy({id});
+    return await this.albumRepository
+      .createQueryBuilder('album')
+      .leftJoinAndSelect('album.musics', 'musics')
+      .leftJoinAndSelect('album.author', 'author')
+      .where('album.id = :id', {id})
+      .getOne()
   }
 
   async update(id: number, updateAlbumDto: UpdateAlbumDto) {
-    return await this.albumRepository
+     await this.albumRepository
       .createQueryBuilder('album')
       .update('AlbumEntity')
       .set({
         title: updateAlbumDto.title,
         releaseDate: updateAlbumDto.releaseDate,
-        artistName: updateAlbumDto.artistName
       })
       .where('id = :id', { id })
       .execute()
+
+      const updatedAlbum = await this.albumRepository.findOne({where: {id}})
+
+      return updatedAlbum
  }
 
  

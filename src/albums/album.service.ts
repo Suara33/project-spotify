@@ -18,9 +18,9 @@ export class AlbumService {
 
   ) {}
 
-  async create(createAlbumDto: CreateAlbumDto, file: Express.Multer.File) {
+  async create(createAlbumDto: CreateAlbumDto, file: Express.Multer.File, artistId: number) {
 
-    const author = await this.authorRepository.findAuthorByName(createAlbumDto.artistName)
+    const author = await this.authorRepository.findAuthorById(artistId)
 
     if(!author) throw new NotFoundException('author not found')
 
@@ -34,21 +34,21 @@ export class AlbumService {
     return await this.albumRepository.create(createAlbumDto,image.Location,author)
   }
 
-  async addMusicToAlbum(albumId:number,musicId:number) {
-    const album = await this.albumRepository.findOne(albumId)
-    if(!album) throw new NotFoundException(`playlist with given id ${albumId} not found`)
+  // async addMusicToAlbum(albumId:number,musicId:number) {
+  //   const album = await this.albumRepository.findOne(albumId)
+  //   if(!album) throw new NotFoundException(`playlist with given id ${albumId} not found`)
 
-    const music = await this.musicsRepository.findOne(musicId)
-    if(!music) throw new NotFoundException(`music with given id ${musicId} not found`)
+  //   const music = await this.musicsRepository.findOne(musicId)
+  //   if(!music) throw new NotFoundException(`music with given id ${musicId} not found`)
 
-    if (!album.music.includes(music)) {
-        album.count++;
-        album.music.push(music);
-        return this.albumRepository.save(album);
-      } else {
-        throw new HttpException('Music already exists in the album', HttpStatus.CONFLICT);
-      }
-    }
+  //   if (!album.musics.includes(music)) {
+  //       album.count++;
+  //       album.musics.push(music);
+  //       return this.albumRepository.save(album);
+  //     } else {
+  //       throw new HttpException('Music already exists in the album', HttpStatus.CONFLICT);
+  //     }
+  //   }
 
 
   async findAll() {

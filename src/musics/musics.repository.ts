@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { MusicEntity } from './entities/music.entity';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
+import { AuthorEntity } from 'src/authors/entities/author.entity';
 
 @Injectable()
 export class MusicsRepository {
@@ -12,11 +13,23 @@ export class MusicsRepository {
     private musicsRepository: Repository<MusicEntity>,
   ) {}
 
-  async create(data: CreateMusicDto, url: string): Promise<MusicEntity> {
-    const newMusic = this.musicsRepository.create({...data, url});
+  async create(data: CreateMusicDto, url: string, author: AuthorEntity): Promise<MusicEntity> {
+    console.log(author)
+    const newMusic = new MusicEntity ()
+    newMusic.title = data.trackTitle
+    newMusic.filePath = url
+    newMusic.authorId = author.id
+    newMusic.authorName = author.fullName
+    newMusic.duration = data.duration
+
+    
+
     return await this.musicsRepository.save(newMusic);
   }
 
+  async update(music: MusicEntity) {
+    return await this.musicsRepository.save(music)
+  }
 
   async topHits() {
     return await this.musicsRepository
@@ -36,14 +49,21 @@ export class MusicsRepository {
     return await this.musicsRepository.find();
   }
 
-  async findOne(id: number): Promise<MusicEntity> {
-    return await this.musicsRepository.findOneBy({ id });
+  async findOne(id: number) {
+    
+    return await this.musicsRepository
+      .createQueryBuilder('music')
+      .leftJoinAndSelect('music.author', 'author')
+      .leftJoinAndSelect('music.albums', 'albums')
+      .where('music.id = :id',{ id })
+      .getOne()
+   
   }
 
-  async update(id: number, updateMusicDto: UpdateMusicDto) {
-    const updateMusic =  await this.update(id, updateMusicDto)
-     return this.musicsRepository.save(updateMusic)
-  }
+  // async update(id: number, updateMusicDto: UpdateMusicDto) {
+  //  return 
+  // }
+
   async remove(id: number): Promise<void> {
      await this.musicsRepository.softDelete(id);
   }

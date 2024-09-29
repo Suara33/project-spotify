@@ -6,6 +6,7 @@ import { UserId } from 'src/auth/decorators/userId.decorator';
 import { S3Service } from 'src/files/services/s3.service';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
 import { MusicsRepository } from 'src/musics/musics.repository';
+import { count } from 'console';
 
 
 @Injectable()
@@ -33,11 +34,11 @@ export class PlaylistService {
 
     const music = await this.musicsRepository.findOne(musicId)
     if(!music) throw new NotFoundException(`music with id ${musicId} not found`)
+    // playlist.count = count++
+    // playlist.music.push(music)
+    // playlist.count = playlist.music.length
 
-    playlist.music.push(music)
-    playlist.count = playlist.music.length
-
-    // return this.playlistRepository.create(playlist)
+    // return this.playlistRepository.save(playlist)
 }
 
   async findAll(userId:number) {
