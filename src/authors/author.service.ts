@@ -36,11 +36,11 @@ export class AuthorService {
     return await this.authorRepository.findOne( id )
   }
 
-  async update(id: number, updateAuthorDto: UpdateAuthorDto): Promise<AuthorEntity> {
+  // async update(id: number, updateAuthorDto: UpdateAuthorDto): Promise<AuthorEntity> {
     
-    return await  this.authorRepository.update(id, updateAuthorDto);
+  //   return await  this.authorRepository.update(id, updateAuthorDto);
     
-  }
+  // }
 
   async remove(id: number) {
     return await this.authorRepository.delete(id);

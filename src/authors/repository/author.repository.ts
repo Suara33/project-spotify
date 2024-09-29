@@ -31,7 +31,9 @@ export class AuthorRepository {
         .leftJoinAndSelect('author.albums','album')
         .where('author.id =:authorId',{authorId})
         .getOne() 
+  
   }
+  
 
   async topSongsOfArtist() {
     return await this.authorRepository
@@ -57,25 +59,34 @@ export class AuthorRepository {
   }
 
   async update(id: number, updateAuthorDto: UpdateAuthorDto) {
-   const author = await this.authorRepository.findOne({ where: {id}})
+  //  const author = await this.authorRepository.findOne({ where: {id}})
 
-   if(!author) {
-    throw new Error('Author not found')
-   }
+  //  if(!author) {
+  //   throw new Error('Author not found')
+  //  }
 
-   Object.assign(author, updateAuthorDto)
+  //  Object.assign(author, updateAuthorDto)
+  await this.authorRepository
+    .createQueryBuilder('author')
+    .update(AuthorEntity)
+    .set({
+      fullName: updateAuthorDto.fullName,
+      biography: updateAuthorDto.biography
+    });
 
-    return  this.authorRepository.save(author);
+    const updatedAuthor = this.authorRepository.update(id, updateAuthorDto)
+
+    return  updatedAuthor;
   }
 
   async delete(id: number) { 
     return await this.authorRepository.delete(id);
   }
 
-  async findAuthorByName(name: string) {
+  async findAuthorById(id: number) {
     return await this.authorRepository
       .createQueryBuilder('author')
-      .where('author.fullName = :name',{name})
+      .where('author.id = :id',{id})
       .getOne();
   }
 

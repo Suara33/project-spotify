@@ -9,6 +9,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { promises as fs } from 'fs';
 import * as os from 'os';
 import { error } from 'console';
+import { FileEntity } from 'src/files/entities/file.entity';
+import { MusicEntity } from './entities/music.entity';
+import { AlbumRepository } from 'src/albums/repository/album.repository';
+import { AlbumEntity } from 'src/albums/entities/album.entity';
 
 const { getAudioDurationInSeconds } = require('get-audio-duration')
 
@@ -21,6 +25,7 @@ export class MusicsService {
   constructor(
     private readonly musicsRepository: MusicsRepository,
     private readonly s3Service: S3Service,
+    private readonly albumRepository: AlbumRepository,
   ) {}
 
   async upload(file: Express.Multer.File): Promise<string> {
@@ -56,16 +61,27 @@ export class MusicsService {
     
   }
 
-  async create(createMusicDto: CreateMusicDto, file: Express.Multer.File): Promise<any> {
+  async create(createMusicDto: CreateMusicDto, file: Express.Multer.File, albumId: number): Promise<MusicEntity> {
     if (!file) {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
+    const album = await this.albumRepository.findOne(albumId)
 
     const filePath = await this.upload(file);
+
     const duration = await this.getDurationFromBuffer(file.buffer)
+
     createMusicDto.duration = duration;
 
-    return await this.musicsRepository.create(createMusicDto,filePath);
+    const music =  await this.musicsRepository.create(createMusicDto,filePath, album.author);
+
+    album.musics.push(music)
+    
+    album.count++
+
+    await  this.albumRepository.save(album)
+
+    return music
   }
 
   async topHits() {
@@ -76,8 +92,8 @@ export class MusicsService {
     return await this.musicsRepository.findAll();
   }
 
-  findOne(id: number) {
-    return this.musicsRepository.findOne(id);
+  async findOne(id: number) {
+    return await this.musicsRepository.findOne(id);
   }
 
   async update(id: number, updateMusicDto: UpdateMusicDto) {
@@ -86,6 +102,10 @@ export class MusicsService {
       throw new NotFoundException(`Music with ID ${id} not found`)
     }
 
+    music.title = updateMusicDto.trackTitle
+    const updateMusic = await this.musicsRepository.update(music)
+   
+    return updateMusic
   }
 
   async delete(id: number) {
