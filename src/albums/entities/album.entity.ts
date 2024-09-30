@@ -3,7 +3,7 @@ import { MusicEntity } from 'src/musics/entities/music.entity';
 import { AuthorEntity } from 'src/authors/entities/author.entity';
 import { FileEntity } from 'src/files/entities/file.entity';
 
-@Entity()
+@Entity({name: 'album'})
 export class AlbumEntity {
   @PrimaryGeneratedColumn()
   id: number;

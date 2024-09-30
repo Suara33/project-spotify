@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { FileEntity } from 'src/files/entities/file.entity';
 
-@Entity()
+@Entity({name: 'author'})
 export class AuthorEntity {
   @PrimaryGeneratedColumn()
   id: number;

@@ -5,7 +5,7 @@ import { Playlist } from "src/playlists/entities/playlist.entity";
 import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
-@Entity()
+@Entity({name: 'file'})
 export class FileEntity {
     @PrimaryGeneratedColumn()
     id: number;
