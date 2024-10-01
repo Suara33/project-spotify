@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateListenerDto } from './dto/create-listener.dto';
 import { ListenersRepository } from './listeners.repository';
 
@@ -6,6 +6,7 @@ import { ListenersRepository } from './listeners.repository';
 @Injectable()
 export class ListenersService {
   constructor(private readonly listenersRepository: ListenersRepository) {}
+
   create(musicId:number,userId:number) {
     return this.listenersRepository.create(musicId,userId);
   }
@@ -15,7 +16,11 @@ export class ListenersService {
   }
 
   findOne(id: number) {
-    this.listenersRepository.findOne(id)
+    const listener = this.listenersRepository.findOne(id);
+    if (!listener) {
+      throw new NotFoundException(`Listener with ID ${id} not found`);
+    }
+    return listener;
   }
 
   delete(id: number) {

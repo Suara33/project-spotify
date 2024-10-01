@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, JoinTable, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, JoinTable, OneToMany, ManyToOne } from 'typeorm';
 import { MusicEntity } from 'src/musics/entities/music.entity';
 import { AuthorEntity } from 'src/authors/entities/author.entity';
 import { FileEntity } from 'src/files/entities/file.entity';

@@ -13,7 +13,7 @@ export class MusicsRepository {
   ) {}
 
   async create(data: CreateMusicDto, url: string, author: AuthorEntity): Promise<MusicEntity> {
-    console.log(author)
+  
     const newMusic = new MusicEntity ()
     newMusic.title = data.trackTitle
     newMusic.filePath = url

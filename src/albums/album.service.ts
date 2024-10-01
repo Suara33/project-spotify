@@ -3,9 +3,7 @@ import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { AlbumRepository } from './repository/album.repository';
 import { S3Service } from 'src/files/services/s3.service';
-import { AlbumEntity } from './entities/album.entity';
 import { AuthorRepository } from 'src/authors/repository/author.repository';
-import { AuthorEntity } from 'src/authors/entities/author.entity';
 import { MusicsRepository } from 'src/musics/musics.repository';
 
 

@@ -15,7 +15,6 @@ const { getAudioDurationInSeconds } = require('get-audio-duration')
 
 @Injectable()
 export class MusicsService {
-  // private bucketName = 'our-general-spotify-bucket';
 
   constructor(
     private readonly musicsRepository: MusicsRepository,
@@ -69,7 +68,6 @@ export class MusicsService {
     const duration = await this.getDurationFromBuffer(file.buffer)
 
     createMusicDto.duration = duration;
-    console.log(album , 'albummm')
 
     const music =  await this.musicsRepository.create(createMusicDto,filePath, album.author);
 

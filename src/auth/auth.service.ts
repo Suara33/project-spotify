@@ -1,4 +1,4 @@
-import { Injectable, PayloadTooLargeException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersRepository } from 'src/users/users.repository';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';

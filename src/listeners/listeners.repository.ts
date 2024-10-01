@@ -29,7 +29,7 @@ export class ListenersRepository {
   async findOne(id: number, options?: { relations: string[]; }): Promise<Listener>{
      const listener = await this.listenersRepository.findOne({where: {id}, relations: ['music', 'user']})
      if(!listener) {
-      throw new NotFoundException('Listener Not Found');
+      throw new NotFoundException('Listener not found');
      }
      return listener;
   }
@@ -37,7 +37,7 @@ export class ListenersRepository {
   async remove(id: number) { 
     const listener = await this.findOne(id)
     if(!listener) {
-        throw new NotFoundException(`Listner with {id} not found`);
+        throw new NotFoundException(`Listener  not found`);
     }
     return await this.listenersRepository.delete(listener.id)
   }

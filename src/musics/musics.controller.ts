@@ -3,12 +3,10 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseInterceptors,
   UploadedFile,
-  UseGuards,
   Put,
 } from '@nestjs/common';
 import { MusicsService } from './musics.service';
@@ -16,7 +14,6 @@ import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
 import { FileInterceptor } from '@nestjs/platform-express'; 
 import { UserId } from 'src/auth/decorators/userId.decorator';
-
 
 
 @Controller('musics')
@@ -32,7 +29,7 @@ export class MusicsController {
     @Body() createMusicDto: CreateMusicDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log(createMusicDto , 'musicdtoo')
+  
     return await this.musicsService.create(createMusicDto, file);
   }
 
