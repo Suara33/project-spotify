@@ -23,13 +23,19 @@ export class UsersRepository {
     
     return this.usersRepository.save(newUser);
   }
+
+  async save(user: User) {
+    return await this.usersRepository.save(user)
+  }
   
   async findOneByEmail(email: string): Promise<User> {
     return await this.usersRepository.findOne({ where: { email } });
   }
+
   async findById(id: number) {
     return await this.usersRepository.findOne({ where: { id } });
   }
+  
   async findAll() {
     return await this.usersRepository
       .createQueryBuilder('users')
