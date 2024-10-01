@@ -13,6 +13,7 @@ import { FileEntity } from 'src/files/entities/file.entity';
 import { MusicEntity } from './entities/music.entity';
 import { AlbumRepository } from 'src/albums/repository/album.repository';
 import { AlbumEntity } from 'src/albums/entities/album.entity';
+import { ListenersRepository } from 'src/listeners/listeners.repository';
 
 const { getAudioDurationInSeconds } = require('get-audio-duration')
 
@@ -26,6 +27,7 @@ export class MusicsService {
     private readonly musicsRepository: MusicsRepository,
     private readonly s3Service: S3Service,
     private readonly albumRepository: AlbumRepository,
+    private readonly listenersRepository: ListenersRepository
   ) {}
 
   async upload(file: Express.Multer.File): Promise<string> {
@@ -92,8 +94,12 @@ export class MusicsService {
     return await this.musicsRepository.findAll();
   }
 
-  async findOne(id: number) {
-    return await this.musicsRepository.findOne(id);
+  async findOne(id: number,userId:number) {
+   const mus = await this.musicsRepository.findOne(id);
+  if(mus) {
+    await this.listenersRepository.create(id,userId)
+  }
+  return mus
   }
 
   async update(id: number, updateMusicDto: UpdateMusicDto) {

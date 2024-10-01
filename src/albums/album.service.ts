@@ -34,21 +34,30 @@ export class AlbumService {
     return await this.albumRepository.create(createAlbumDto,image.Location,author)
   }
 
-  // async addMusicToAlbum(albumId:number,musicId:number) {
-  //   const album = await this.albumRepository.findOne(albumId)
-  //   if(!album) throw new NotFoundException(`playlist with given id ${albumId} not found`)
+  async addMusicToAlbum(albumId:number,musicId:number) {
+    const album = await this.albumRepository.findOne(albumId)
+    if(!album) throw new NotFoundException(`playlist with given id ${albumId} not found`)
 
-  //   const music = await this.musicsRepository.findOne(musicId)
-  //   if(!music) throw new NotFoundException(`music with given id ${musicId} not found`)
+    const music = await this.musicsRepository.findOne(musicId)
+    if(!music) throw new NotFoundException(`music with given id ${musicId} not found`)
 
-  //   if (!album.musics.includes(music)) {
-  //       album.count++;
-  //       album.musics.push(music);
-  //       return this.albumRepository.save(album);
-  //     } else {
-  //       throw new HttpException('Music already exists in the album', HttpStatus.CONFLICT);
-  //     }
-  //   }
+    if (!album.musics.includes(music)) {
+        album.count++;
+        album.musics.push(music);
+
+        console.log(album)
+        console.log(album.musics)
+      
+      } else {
+        throw new HttpException('Music already exists in the album', HttpStatus.CONFLICT);
+      }
+
+      return this.albumRepository.save(album);
+    }
+
+    async topAlbumsOfArtist() {
+      return await this.albumRepository.topAlbumsOfArtist();
+    }
 
 
   async findAll() {

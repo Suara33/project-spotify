@@ -3,6 +3,7 @@ import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUsersDto } from './dto/update-user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from 'src/auth/roles/roles.enum';
 
 
 @Injectable()
@@ -20,11 +21,10 @@ export class UsersService {
 
     const createUser = await this.usersRepository.create(createUserDto)
 
-    const payload = { userId: createUser.id, userEmail: createUser.email,role: createUser.role };
-        const jwtToken = await this.jwtService.signAsync(payload);
+    const payload = { userId: createUser.id, userEmail: createUser.email, role: Role.User};
 
-
-    return createUser
+    
+    return payload
   }
 
   async findAll() {

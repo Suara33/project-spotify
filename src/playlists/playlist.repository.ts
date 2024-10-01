@@ -6,6 +6,7 @@ import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 import { UpdatePlaylistDto } from "./dto/update-playlist.dto";
 import { ManagedUpload } from "aws-sdk/clients/s3";
 import { FileEntity } from "src/files/entities/file.entity";
+import { User } from "src/users/entities/user.entity";
 
 
 @Injectable()
@@ -18,6 +19,7 @@ export class PlaylistRepository {
     async create(
         data: CreatePlaylistDto, 
         image: ManagedUpload.SendData,
+        user:User
  
     ) {
         const newFile = new FileEntity()
@@ -27,24 +29,35 @@ export class PlaylistRepository {
 
         const newPlaylist = new Playlist()
         newPlaylist.name = data.name
-        newPlaylist.userId = data.userId
+        newPlaylist.user = user
         newPlaylist.file = newFile
-        
+        newPlaylist.image = newFile.url
+
         return await this.playlistRepository.save(newPlaylist)
+
     }
     
-
-     findAll(userId:number) {
-        return  this.playlistRepository
+    async save(playlist: Playlist) {
+        return this.playlistRepository.save(playlist)
+}
+    async findAll(userId:number) {
+            const allPlaylist =  await this.playlistRepository
             .createQueryBuilder('playlist')
             .leftJoinAndSelect('playlist.music','music')
             .leftJoin('playlist.user', 'user')
             .where('user.id = :userId',{userId})
             .getMany()
+ 
+            return allPlaylist
     }
 
     async findOne(id: number) {
-        const playlist =  await this.playlistRepository.findOneBy({id});
+        const playlist =  await this.playlistRepository.findOne({
+            where: {id},
+            relations: ['music', 'user']
+        });
+
+        
         if(!playlist) {
             throw new NotFoundException(`playlist with ID ${id} not found`)
         }

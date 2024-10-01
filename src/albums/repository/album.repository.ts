@@ -5,7 +5,7 @@ import { AlbumEntity } from '../entities/album.entity';
 import { Repository } from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm'
 import { AuthorEntity } from 'src/authors/entities/author.entity';
-import { title } from 'process';
+
 
 @Injectable()
 export class AlbumRepository {
@@ -20,9 +20,26 @@ export class AlbumRepository {
     album.author = author;
     album.artistName = author.fullName;
     album.coverImage = file;
+    album.releaseDate = createAlbumDto.releaseDate
     
     return await this.albumRepository.save(album)
     
+  }
+
+
+  async topAlbumsOfArtist() {
+    return await this.albumRepository
+      .createQueryBuilder('album')
+      .leftJoinAndSelect('album.image', "image")
+      .leftJoinAndSelect('album.music', 'music')
+      .leftJoinAndSelect('music.listener', 'listener')
+      .addSelect('COUNT(listener.id)', 'totalListener')
+      .groupBy('album.id')
+      .addGroupBy('image.id') 
+      .addGroupBy('music.id')
+      .orderBy('totalListener', 'DESC')
+      .limit(10)
+      .getMany()
   }
 
   async findAll() {

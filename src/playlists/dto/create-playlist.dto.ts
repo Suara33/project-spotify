@@ -1,15 +1,13 @@
 
-import { ArrayNotEmpty, IsArray, IsNumber, IsOptional, IsString } from "class-validator"
-import { MusicEntity } from "src/musics/entities/music.entity";
-
+import { IsOptional, IsString } from "class-validator"
 export class CreatePlaylistDto {
 
     @IsString()
     name: string;
     
-    @IsOptional()
-    @IsString()
-    userId?: number;
+    // @IsOptional()
+    // @IsString()
+    // userId?: number;
 
     // @IsString()
     // fileUrl: string;
@@ -17,6 +15,5 @@ export class CreatePlaylistDto {
     // @IsArray()
     // @ArrayNotEmpty()
     // musicIds: number[]
-
 
 }

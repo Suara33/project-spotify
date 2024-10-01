@@ -11,3 +11,7 @@ export class CreateFavoriteDto {
     trackIds: number[]
 
 }
+// dto საერთოდ წავშალო
+
+// get da post  კონტროლერში del
+

@@ -18,6 +18,12 @@ export class AuthorController {
     return await this.authorService.create(createAuthorDto, file);
   } 
 
+
+  @Get('topArtists')
+  async topArtists() {
+    return await this.authorService.topArtists();
+  }
+
   @Get()
   async findAll() {
     return await this.authorService.findAll();
@@ -28,10 +34,10 @@ export class AuthorController {
     return await this.authorService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // async update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
-  //   return await this.authorService.update(+id, updateAuthorDto);
-  // }
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
+    return await this.authorService.update(+id, updateAuthorDto);
+  }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {

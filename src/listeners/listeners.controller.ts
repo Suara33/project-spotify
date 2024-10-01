@@ -8,7 +8,7 @@ export class ListenersController {
 
   @Post()
   create(@Body() createListenerDto: CreateListenerDto) {
-    return this.listenersService.create(createListenerDto);
+    // return this.listenersService.create(msuicId,UserId);
   }
 
   @Get()

@@ -24,17 +24,24 @@ export class PlaylistController {
  @Post()
  @UseInterceptors(FileInterceptor('file'))
  async create(
-  @UserId() userId: number,
+  
   @Body() createPlaylistDto: CreatePlaylistDto,
-  @UploadedFile() file: Express.Multer.File) {
-    createPlaylistDto.userId = userId
-    return await this.playlistService.create(createPlaylistDto, file)
+  @UploadedFile() file: Express.Multer.File, userId: number) {
+
+     return await this.playlistService.create(createPlaylistDto, file, userId)
+  }
+
+  @Patch(':id/music/:musicId')
+  async addMusicToPlaylist(
+    @Param('id') playlistId:number,
+    @Param('musicId') musicId
+    
+  ) {
+    return await this.playlistService.addMusicToPlaylist(playlistId, musicId)
   }
 
   @Get()
-
   async findAll(@UserId() userId: number) {
-    
     return  this.playlistService.findAll(userId);
   }
 
@@ -50,6 +57,8 @@ export class PlaylistController {
   ) {
     return await this.playlistService.update(+id, updatePlaylistDto);
   }
+
+  
 
   @Delete(':id')
   async remove(@Param('id') id: string) {

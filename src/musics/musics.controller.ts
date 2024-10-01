@@ -15,12 +15,14 @@ import { MusicsService } from './musics.service';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
 import { FileInterceptor } from '@nestjs/platform-express'; 
+import { UserId } from 'src/auth/decorators/userId.decorator';
 
 
 
 @Controller('musics')
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
+  
   @Post(':albumId')
   @UseInterceptors(
     FileInterceptor('file'),
@@ -46,14 +48,13 @@ export class MusicsController {
 
   
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.musicsService.findOne(+id);
+  async findOne(@UserId() userId:number,@Param('id') id: string) {
+    return await this.musicsService.findOne(+id,userId);
   }
 
   @Put(':id')
   async update(@Param('id') id: number, @Body() updateMusicDto: UpdateMusicDto,) {
 
-    console.log(updateMusicDto)
     return await this.musicsService.update(id, updateMusicDto);
   }
 
