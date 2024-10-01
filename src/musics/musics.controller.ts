@@ -23,16 +23,17 @@ import { UserId } from 'src/auth/decorators/userId.decorator';
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
   
-  @Post(':albumId')
+  @Post()
   @UseInterceptors(
     FileInterceptor('file'),
   )
   async create(
-    @Param('albumId') albumId: number,
+    
     @Body() createMusicDto: CreateMusicDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return await this.musicsService.create(createMusicDto, file, albumId);
+    console.log(createMusicDto , 'musicdtoo')
+    return await this.musicsService.create(createMusicDto, file);
   }
 
   @Get('tophits')

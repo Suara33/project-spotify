@@ -4,15 +4,9 @@ import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
 import { MusicsRepository } from './musics.repository';
 import { S3Service } from 'src/files/services/s3.service';
-import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { promises as fs } from 'fs';
-import * as os from 'os';
-import { error } from 'console';
-import { FileEntity } from 'src/files/entities/file.entity';
 import { MusicEntity } from './entities/music.entity';
 import { AlbumRepository } from 'src/albums/repository/album.repository';
-import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { ListenersRepository } from 'src/listeners/listeners.repository';
 
 const { getAudioDurationInSeconds } = require('get-audio-duration')
@@ -42,10 +36,11 @@ export class MusicsService {
   }
 
   private async getDurationFromBuffer(buffer: Buffer): Promise<number> {
+
+    
     const tempFilePath = `./${uuidv4()}.mp3`;
 
     try {
-      await fs.writeFile(tempFilePath, buffer);
 
       return getAudioDurationInSeconds(tempFilePath).then((duration) => {
 
@@ -63,17 +58,18 @@ export class MusicsService {
     
   }
 
-  async create(createMusicDto: CreateMusicDto, file: Express.Multer.File, albumId: number): Promise<MusicEntity> {
+  async create(createMusicDto: CreateMusicDto, file: Express.Multer.File): Promise<MusicEntity> {
     if (!file) {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
-    const album = await this.albumRepository.findOne(albumId)
+    const album = await this.albumRepository.findOne(+createMusicDto.albumId)
 
     const filePath = await this.upload(file);
 
     const duration = await this.getDurationFromBuffer(file.buffer)
 
     createMusicDto.duration = duration;
+    console.log(album , 'albummm')
 
     const music =  await this.musicsRepository.create(createMusicDto,filePath, album.author);
 

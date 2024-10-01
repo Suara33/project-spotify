@@ -3,6 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesService } from './files.service';
 import { Public } from 'src/auth/roles/roles.decorator';
 import { CreateFileDto } from './dto/create-file.dto';
+import { create } from 'domain';
 
 @Controller('files')
 export class FilesController {

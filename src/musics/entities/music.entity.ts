@@ -18,6 +18,9 @@ export class MusicEntity {
     title: string;
 
     @Column()
+    albumId: number;
+
+    @Column()
     authorName: string;
 
     @Column()

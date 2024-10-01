@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNumber, IsNumberString, IsOptional, IsString } from "class-validator";
 export class CreateMusicDto {
 
     @IsString()
@@ -7,6 +7,11 @@ export class CreateMusicDto {
     @IsOptional()
     @IsNumber()
     duration?: number;
+    
+    @IsOptional()
+    @IsNumberString()
+    albumId?: number;
+    
     
 }
 
