@@ -1,4 +1,3 @@
-
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Listener } from './entities/listener.entity';
@@ -12,11 +11,11 @@ export class ListenersRepository {
     private readonly listenersRepository: Repository<Listener>
   ) {}
 
-  async create(data: CreateListenerDto){
+  async create(musicId:number,userId:number){
 
-    const listener =  this.listenersRepository.create(data)
-    listener.musicId = data.musicId
-    listener.userId = data.userId
+    const listener =  new Listener()
+    listener.musicId = musicId
+    listener.userId = userId
    
     return await this.listenersRepository.save(listener)
     
@@ -35,11 +34,11 @@ export class ListenersRepository {
      return listener;
   }
 
-  async remove(id: number) {
+  async remove(id: number) { 
     const listener = await this.findOne(id)
     if(!listener) {
         throw new NotFoundException(`Listner with {id} not found`);
     }
-    await this.listenersRepository.delete(listener.id)
+    return await this.listenersRepository.delete(listener.id)
   }
 }

@@ -20,6 +20,11 @@ export class AlbumController {
     return this.albumService.create(createAlbumDto, file, artistId);
   }
 
+  @Get('topAlbumsOfArtists')
+  async topAlbumsOfArtists() {
+    return await this.albumService.topAlbumsOfArtist()
+  }
+
   @Get()
   async findAll() {
     return await this.albumService.findAll();

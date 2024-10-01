@@ -3,7 +3,7 @@ import { Role } from "src/auth/roles/roles.enum";
 import { Favorite} from "src/favorites/entities/favorite.entity";
 import { Listener } from "src/listeners/entities/listener.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, RoleSpecification, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn, RoleSpecification, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -37,9 +37,5 @@ export class User {
 
     @DeleteDateColumn()
     deleteAt: Date;
-  
-
-
-
     
 }

@@ -35,7 +35,7 @@ export class AuthorRepository {
   }
   
 
-  async topSongsOfArtist() {
+  async topArtist() {
     return await this.authorRepository
       .createQueryBuilder('author')
       .leftJoinAndSelect('author.image', "image")
@@ -59,13 +59,12 @@ export class AuthorRepository {
   }
 
   async update(id: number, updateAuthorDto: UpdateAuthorDto) {
-  //  const author = await this.authorRepository.findOne({ where: {id}})
+   const author = await this.authorRepository.findOne({ where: {id}})
 
-  //  if(!author) {
-  //   throw new Error('Author not found')
-  //  }
-
-  //  Object.assign(author, updateAuthorDto)
+   if(!author) {
+    throw new Error('Author not found')
+   }
+ 
   await this.authorRepository
     .createQueryBuilder('author')
     .update(AuthorEntity)

@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MusicEntity } from './entities/music.entity';
 import { CreateMusicDto } from './dto/create-music.dto';
-import { UpdateMusicDto } from './dto/update-music.dto';
 import { AuthorEntity } from 'src/authors/entities/author.entity';
 
 @Injectable()
@@ -51,13 +50,13 @@ export class MusicsRepository {
 
   async findOne(id: number) {
     
-    return await this.musicsRepository
+    return  await this.musicsRepository
       .createQueryBuilder('music')
       .leftJoinAndSelect('music.author', 'author')
       .leftJoinAndSelect('music.albums', 'albums')
       .where('music.id = :id',{ id })
       .getOne()
-   
+      
   }
 
   // async update(id: number, updateMusicDto: UpdateMusicDto) {

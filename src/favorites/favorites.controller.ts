@@ -8,10 +8,10 @@ import { FavoritesService } from './favorites.service';
 export class favoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}
 
-  @Post()
-  async create(@Body() createFavoriteDto: CreateFavoriteDto) {
-    return await this.favoritesService.create(createFavoriteDto);
-  }
+  // @Post()
+  // async create(@Body() createFavoriteDto: CreateFavoriteDto) {
+  //   return await this.favoritesService.create(createFavoriteDto);
+  // }
 
   @Get()
   findAll() {
@@ -21,6 +21,11 @@ export class favoritesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.favoritesService.findOne(+id);
+  }
+
+  @Patch(':addMusicToFavorites')
+  async addMusicToFavorites(musicId: number) {
+    return await this.favoritesService.addMusicToFavorites(musicId)
   }
 
   @Patch(':id')

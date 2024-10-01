@@ -6,8 +6,8 @@ import { ListenersRepository } from './listeners.repository';
 @Injectable()
 export class ListenersService {
   constructor(private readonly listenersRepository: ListenersRepository) {}
-  create(createListenerDto: CreateListenerDto) {
-    return this.listenersRepository.create(createListenerDto);
+  create(musicId:number,userId:number) {
+    return this.listenersRepository.create(musicId,userId);
   }
 
   findAll() {

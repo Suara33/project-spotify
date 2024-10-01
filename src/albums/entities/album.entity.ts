@@ -12,7 +12,7 @@ export class AlbumEntity {
   title: string;
 
   @Column({ type: 'varchar', length: 10})
-  releaseDate: string;
+  releaseDate: Date;
 
   @OneToMany(() => FileEntity, (file) =>  file.album)
   file: FileEntity
