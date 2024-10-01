@@ -4,6 +4,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUsersDto } from './dto/update-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from 'src/auth/roles/roles.enum';
+import { ChangePasswordDto } from './dto/change-password-for-admin.dto';
+import * as bcrypt from 'bcryptjs';
 
 
 @Injectable()
@@ -35,6 +37,21 @@ export class UsersService {
     return this.usersRepository.findById(id);
   }
 
+  async changePassword(userId: number, changePasswordDto: ChangePasswordDto) {
+      
+    const user = await this.usersRepository.findById(userId)
+
+    if(!user) {
+        throw new NotFoundException(`User with ID ${userId} does not exist`)
+      }
+
+    const hashedPassword = await bcrypt.hash(changePasswordDto.newPassword, 10)
+
+    user.password = hashedPassword
+
+    return await this.usersRepository.save(user)
+
+  }
   async update(id: string, updateUsersDto: UpdateUsersDto) {
     await this.usersRepository.update(id, updateUsersDto);
 
