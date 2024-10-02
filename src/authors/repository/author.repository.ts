@@ -67,16 +67,22 @@ return total
 
   async topArtist() {
     return await this.authorRepository
-      .createQueryBuilder('author')
-      .leftJoinAndSelect('author.music', 'music')
-      .leftJoinAndSelect('music.listener', 'listener')
-      .addSelect('COUNT(listener.id)', 'totalListener')
-      .groupBy('author.id') 
-      .addGroupBy('music.id')
-      .orderBy('totalListener', 'DESC')
-      .limit(10)
-      .getMany()
-  }
+        .createQueryBuilder('author')
+        .leftJoinAndSelect('author.musics', 'musics') // Join on author's music
+        .leftJoinAndSelect('musics.listeners', 'listeners') // Correctly reference listeners here
+        .select([
+            'author.id AS authorId',
+            'author.fullName AS authorFullName',
+            'musics.id AS musicId',
+            'COUNT(listeners.id) AS totalListener' // Count of listeners
+        ])
+        .groupBy('author.id')
+        .addGroupBy('musics.id')
+        .orderBy('totalListener', 'DESC')
+        .limit(10)
+        .getRawMany();
+}
+
 
   async findAll() {
     return await this.authorRepository.find();
@@ -120,7 +126,7 @@ return total
   async findByName(name: string) {
     return await this.authorRepository
       .createQueryBuilder('author')
-      .where('author.fullName Like :name', { name: '%${name}%' })
+      .where('author.fullName Like :name', { name: `%${name}%` })
       .getMany();
   }
 }

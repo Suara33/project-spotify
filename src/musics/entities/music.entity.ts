@@ -17,13 +17,13 @@ export class MusicEntity {
     @Column()
     title: string;
 
-    @Column()
+    @Column({nullable: true})
     albumId: number;
 
     @Column()
     authorName: string;
 
-    @Column()
+    @Column({nullable: true})
     authorId: number;
 
     @ManyToOne(() => AuthorEntity, (author) => author.musics)
@@ -44,11 +44,10 @@ export class MusicEntity {
     @ManyToMany(() => AlbumEntity, (album) => album.musics)
     albums: AlbumEntity[];
 
-    @OneToMany(() => Listener, (listener) => listener.musicId)
+    @OneToMany(() => Listener, (listener) => listener.music)
     listeners: Listener[]
 
     @OneToOne(() => FileEntity)
-    @JoinColumn()
     file: FileEntity;
 
     @CreateDateColumn()
