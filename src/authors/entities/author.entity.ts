@@ -14,8 +14,15 @@ export class AuthorEntity {
   @Column()
   biography: string;
 
-  @ManyToOne(() => MusicEntity, (music) => music.author)
+  @OneToMany(() => MusicEntity, (music) => music.author)
   musics: MusicEntity[]
+
+  @Column({nullable: true})
+  totalAlbumsOfAuthor: number;
+
+  @Column({nullable: true})
+  totalSongsOfAuthor: number;
+
 
   @Column()
   image: string;

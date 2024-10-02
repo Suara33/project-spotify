@@ -9,11 +9,13 @@ import { AlbumRepository } from 'src/albums/repository/album.repository';
 import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { ListenersRepository } from 'src/listeners/listeners.repository';
 import { Listener } from 'src/listeners/entities/listener.entity';
+import { AuthorRepository } from 'src/authors/repository/author.repository';
+import { AuthorEntity } from 'src/authors/entities/author.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MusicEntity,AlbumEntity,Listener])],
+  imports: [TypeOrmModule.forFeature([MusicEntity,AlbumEntity,Listener,AuthorEntity])],
   controllers: [MusicsController],
-  providers: [MusicsService, MusicsRepository,S3Service,AlbumRepository,ListenersRepository],
+  providers: [MusicsService, MusicsRepository,S3Service,AlbumRepository,ListenersRepository,AuthorRepository],
   exports: [MusicsRepository],
 })
 export class MusicsModule {}

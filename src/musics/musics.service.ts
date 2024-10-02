@@ -1,3 +1,117 @@
+// import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+// import { CreateMusicDto } from './dto/create-music.dto';
+// import { UpdateMusicDto } from './dto/update-music.dto';
+// import { MusicsRepository } from './musics.repository';
+// import { S3Service } from 'src/files/services/s3.service';
+// import { v4 as uuidv4 } from 'uuid';
+// import { MusicEntity } from './entities/music.entity';
+// import { AlbumRepository } from 'src/albums/repository/album.repository';
+// import { ListenersRepository } from 'src/listeners/listeners.repository';
+// import { AuthorRepository } from 'src/authors/repository/author.repository';
+
+// import * as fs from 'fs';
+// import * as path from 'path';
+
+// const { getAudioDurationInSeconds } = require('get-audio-duration');
+
+// @Injectable()
+// export class MusicsService {
+//   constructor(
+//     private readonly musicsRepository: MusicsRepository,
+//     private readonly s3Service: S3Service,
+//     private readonly albumRepository: AlbumRepository,
+//     private readonly listenersRepository: ListenersRepository,
+//     private readonly authorRepository: AuthorRepository,
+//   ) {}
+
+//   async upload(file: Express.Multer.File): Promise<string> {
+//     try {
+//       const duration = await this.getDurationFromBuffer(file.buffer);
+//       const fileUrl = await this.s3Service.upload(file);
+      
+//       console.log(`Audio Duration: ${duration}`); 
+//       return fileUrl.Location;
+//     } catch (error) {
+//       throw new HttpException('Failed to upload file to S3', HttpStatus.INTERNAL_SERVER_ERROR);
+//     }
+//   }
+
+//   private async getDurationFromBuffer(buffer: Buffer): Promise<string> {
+//     const tempFilePath = path.join(__dirname, `${uuidv4()}.mp3`);
+    
+    
+//     fs.writeFileSync(tempFilePath, buffer);
+
+//     try {
+      
+//       const duration = await getAudioDurationInSeconds(tempFilePath);
+      
+      
+//       const minutes = Math.floor(duration / 60);
+//       const seconds = Math.floor(duration % 60);
+
+      
+//       fs.unlinkSync(tempFilePath);
+
+//       return `${minutes}:${seconds}`;
+//     } catch (error) {
+      
+//       fs.unlinkSync(tempFilePath);
+//       throw new Error(`Failed to process buffer: ${error.message}`);
+//     }
+//   }
+
+//   async create(createMusicDto: CreateMusicDto, file: Express.Multer.File): Promise<MusicEntity> {
+//     if (!file) {
+//       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
+//     }
+
+    
+//     const album = await this.albumRepository.findOne(+createMusicDto.albumId);
+//     if (!album) {
+//       throw new NotFoundException(`Album with ID ${createMusicDto.albumId} not found`);
+//     }
+
+//     const filePath = await this.upload(file);
+
+    
+//     const duration = await this.getDurationFromBuffer(file.buffer);
+
+    
+//     createMusicDto.duration = duration;
+
+   
+//     const music = await this.musicsRepository.create(createMusicDto, filePath, album.author);
+    
+//     album.musics.push(music);
+
+//     album.count++;
+
+//     album.author.totalSongsOfAuthor++;
+
+//     await this.authorRepository.save(album.author);
+
+//     await this.albumRepository.save(album);
+
+//     return music;
+//   }
+
+//   async topHits() {
+//     return await this.musicsRepository.topHits();
+//   }
+
+//   async findAll() {
+//     return await this.musicsRepository.findAll();
+//   }
+
+//   async update(id: number, updateMusicDto: UpdateMusicDto) {
+//     return await this.musicsRepository.update(id, updateMusicDto);
+//   }
+
+//   async findOne(id: number, userId: number) {
+//     const mus = await this.musicsRepository.findOne(id);
+   
+//   }
 
 import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMusicDto } from './dto/create-music.dto';
@@ -8,76 +122,94 @@ import { v4 as uuidv4 } from 'uuid';
 import { MusicEntity } from './entities/music.entity';
 import { AlbumRepository } from 'src/albums/repository/album.repository';
 import { ListenersRepository } from 'src/listeners/listeners.repository';
+import { AuthorRepository } from 'src/authors/repository/author.repository';
 
-const { getAudioDurationInSeconds } = require('get-audio-duration')
+import * as fs from 'fs';
+import * as path from 'path';
 
-
+const { getAudioDurationInSeconds } = require('get-audio-duration');
 
 @Injectable()
 export class MusicsService {
-
   constructor(
     private readonly musicsRepository: MusicsRepository,
     private readonly s3Service: S3Service,
     private readonly albumRepository: AlbumRepository,
-    private readonly listenersRepository: ListenersRepository
+    private readonly listenersRepository: ListenersRepository,
+    private readonly authorRepository: AuthorRepository,
   ) {}
 
   async upload(file: Express.Multer.File): Promise<string> {
-
-
     try {
+      const duration = await this.getDurationFromBuffer(file.buffer);
       const fileUrl = await this.s3Service.upload(file);
+      
+      console.log(`Audio Duration: ${duration}`); 
       return fileUrl.Location;
     } catch (error) {
       throw new HttpException('Failed to upload file to S3', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  private async getDurationFromBuffer(buffer: Buffer): Promise<number> {
-
+  private async getDurationFromBuffer(buffer: Buffer): Promise<string> {
     
-    const tempFilePath = `./${uuidv4()}.mp3`;
+    const tempFilePath = path.join(__dirname, `${uuidv4()}.mp3`);
+    
+    
+    fs.writeFileSync(tempFilePath, buffer);
 
     try {
-
-      return getAudioDurationInSeconds(tempFilePath).then((duration) => {
-
-        const minutes =  Math.round((duration.toFixed()/60))
-        const seconds = duration.toFixed()%60
-        
-
-        return `${minutes}:${seconds}`
-       
-      })
-    } catch (error) {
-      throw new Error(`Failed to process buffer: ${error.durationFailed}`);
       
-    } 
-    
+      const duration = await getAudioDurationInSeconds(tempFilePath);
+      
+      
+      const minutes = Math.floor(duration / 60);
+      const seconds = Math.floor(duration % 60);
+
+      
+      fs.unlinkSync(tempFilePath);
+
+      return `${minutes}:${seconds}`;
+    } catch (error) {
+      
+      fs.unlinkSync(tempFilePath);
+      throw new Error(`Failed to process buffer: ${error.message}`);
+    }
   }
 
   async create(createMusicDto: CreateMusicDto, file: Express.Multer.File): Promise<MusicEntity> {
     if (!file) {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
-    const album = await this.albumRepository.findOne(+createMusicDto.albumId)
+
+    
+    const album = await this.albumRepository.findOne(createMusicDto.albumId);
+    if (!album) {
+      throw new NotFoundException(`Album with ID ${createMusicDto.albumId} not found`);
+    }
 
     const filePath = await this.upload(file);
 
-    const duration = await this.getDurationFromBuffer(file.buffer)
+    
+    const duration = await this.getDurationFromBuffer(file.buffer);
 
+    
     createMusicDto.duration = duration;
 
-    const music =  await this.musicsRepository.create(createMusicDto,filePath, album.author);
-
-    album.musics.push(music)
+   
+    const music = await this.musicsRepository.create(createMusicDto, filePath, album.author);
     
-    album.count++
+    album.musics.push(music);
 
-    await  this.albumRepository.save(album)
+    album.count++;
 
-    return music
+    album.author.totalSongsOfAuthor++;
+
+    await this.authorRepository.save(album.author);
+
+    await this.albumRepository.save(album);
+
+    return music;
   }
 
   async topHits() {
@@ -88,31 +220,289 @@ export class MusicsService {
     return await this.musicsRepository.findAll();
   }
 
-  async findOne(id: number,userId:number) {
-   const mus = await this.musicsRepository.findOne(id);
-  if(mus) {
-    await this.listenersRepository.create(id,userId)
-  }
-  return mus
-  }
+  // async update(id: number, updateMusicDto: UpdateMusicDto) {
+  //   const music = await this.musicsRepository.findOne(id)
+  //   if(!music) {
+  //     throw new NotFoundException(`Music with ID ${id} not found`)
+  //   }
 
-  async update(id: number, updateMusicDto: UpdateMusicDto) {
-    const music = await this.musicsRepository.findOne(id)
-    if(!music) {
-      throw new NotFoundException(`Music with ID ${id} not found`)
-    }
+  //   music.title = updateMusicDto.trackTitle
 
-    music.title = updateMusicDto.trackTitle
-    const updateMusic = await this.musicsRepository.update(music)
+  //   const updateMusic = await this.musicsRepository.update(music)
    
-    return updateMusic
-  }
+  //   return updateMusic
+  // }
 
   async delete(id: number) {
     return await this.musicsRepository.remove(id);
   }
 
+  async findOne(id: number,userId:number) {
+       const mus = await this.musicsRepository.findOne(id);
+        if(mus) {
+          await this.listenersRepository.create(id,userId)
+        }
+      return mus
+      }
 }
+
+// import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+// import { CreateMusicDto } from './dto/create-music.dto';
+// import { UpdateMusicDto } from './dto/update-music.dto';
+// import { MusicsRepository } from './musics.repository';
+// import { S3Service } from 'src/files/services/s3.service';
+// import { v4 as uuidv4 } from 'uuid';
+// import { MusicEntity } from './entities/music.entity';
+// import { AlbumRepository } from 'src/albums/repository/album.repository';
+// import { ListenersRepository } from 'src/listeners/listeners.repository';
+// import { AuthorRepository } from 'src/authors/repository/author.repository';
+
+// const { getAudioDurationInSeconds } = require('get-audio-duration')
+
+
+
+// @Injectable()
+// export class MusicsService {
+
+//   constructor(
+//     private readonly musicsRepository: MusicsRepository,
+//     private readonly s3Service: S3Service,
+//     private readonly albumRepository: AlbumRepository,
+//     private readonly listenersRepository: ListenersRepository,
+//     private readonly authorRepository: AuthorRepository
+//   ) {}
+
+//   async upload(file: Express.Multer.File): Promise<string> {
+
+//     try {
+//       const duration = await this.getDurationFromBuffer(file.buffer);
+//       const fileUrl = await this.s3Service.upload(file);
+//       return fileUrl.Location;
+//     } catch (error) {
+//       throw new HttpException('Failed to upload file to S3', HttpStatus.INTERNAL_SERVER_ERROR);
+//     }
+//   }
+
+  
+  
+
+//   private async getDurationFromBuffer(): Promise<number> {
+
+//     const tempFilePath = path.join(__dirname, `${uuidv4()}.mp3`);
+    
+//     // const tempFilePath = `./${uuidv4()}.mp3`;
+//     console.log(tempFilePath)
+//     fs.writeFileSync(tempFilePath, buffer);
+//     try {
+
+//       return getAudioDurationInSeconds(tempFilePath).then((duration) => {
+
+//         const minutes =  Math.round((duration.toFixed()/60))
+//         const seconds = duration.toFixed()%60
+        
+//         fs.unlinkSync(tempFilePath)
+
+//         return `${minutes}:${seconds}`
+       
+//       })
+//     } catch (error) {
+//       throw new Error(`Failed to process buffer: ${error.durationFailed}`);
+      
+//     } 
+    
+//   }
+  
+
+//   async create(createMusicDto: CreateMusicDto, file: Express.Multer.File): Promise<MusicEntity> {
+//     if (!file) {
+//       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
+//     }
+//     const album = await this.albumRepository.findOne(+createMusicDto.albumId)
+
+//     const filePath = await this.upload(file);
+
+//     const duration = await this.getDurationFromBuffer()
+
+//     createMusicDto.duration = duration;
+
+//     const music =  await this.musicsRepository.create(createMusicDto,filePath, album.author);
+
+//     album.musics.push(music)
+    
+//     album.count++
+
+//     album.author.totalSongsOfAuthor++
+//     await this.authorRepository.save(album.author)
+
+//     await  this.albumRepository.save(album)
+
+//     return music
+//   }
+
+//   async topHits() {
+//     return await this.musicsRepository.topHits();
+//   }
+
+//   async findAll() {
+//     return await this.musicsRepository.findAll();
+//   }
+
+//   async findOne(id: number,userId:number) {
+//    const mus = await this.musicsRepository.findOne(id);
+//     if(mus) {
+//       await this.listenersRepository.create(id,userId)
+//     }
+//   return mus
+//   }
+
+//   async update(id: number, updateMusicDto: UpdateMusicDto) {
+//     const music = await this.musicsRepository.findOne(id)
+//     if(!music) {
+//       throw new NotFoundException(`Music with ID ${id} not found`)
+//     }
+
+//     music.title = updateMusicDto.trackTitle
+//     const updateMusic = await this.musicsRepository.update(music)
+   
+//     return updateMusic
+//   }
+
+//   async delete(id: number) {
+//     return await this.musicsRepository.remove(id);
+//   }
+
+// }
+
+
+
+
+
+// import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+// import { CreateMusicDto } from './dto/create-music.dto';
+// import { UpdateMusicDto } from './dto/update-music.dto';
+// import { MusicsRepository } from './musics.repository';
+// import { S3Service } from 'src/files/services/s3.service';
+// import { v4 as uuidv4 } from 'uuid';
+// import { MusicEntity } from './entities/music.entity';
+// import { AlbumRepository } from 'src/albums/repository/album.repository';
+// import { ListenersRepository } from 'src/listeners/listeners.repository';
+// import { AuthorRepository } from 'src/authors/repository/author.repository';
+
+// const { getAudioDurationInSeconds } = require('get-audio-duration')
+
+
+
+// @Injectable()
+// export class MusicsService {
+
+//   constructor(
+//     private readonly musicsRepository: MusicsRepository,
+//     private readonly s3Service: S3Service,
+//     private readonly albumRepository: AlbumRepository,
+//     private readonly listenersRepository: ListenersRepository,
+//     private readonly authorRepository: AuthorRepository
+//   ) {}
+
+//   async upload(file: Express.Multer.File): Promise<string> {
+
+//     try {
+//       const duration = await this.getDurationFromBuffer(file.buffer);
+//       const fileUrl = await this.s3Service.upload(file);
+//       return fileUrl.Location;
+//     } catch (error) {
+//       throw new HttpException('Failed to upload file to S3', HttpStatus.INTERNAL_SERVER_ERROR);
+//     }
+//   }
+
+  
+  
+
+//   private async getDurationFromBuffer(): Promise<number> {
+
+//     const tempFilePath = path.join(__dirname, `${uuidv4()}.mp3`);
+    
+//     // const tempFilePath = `./${uuidv4()}.mp3`;
+//     console.log(tempFilePath)
+//     fs.writeFileSync(tempFilePath, buffer);
+//     try {
+
+//       return getAudioDurationInSeconds(tempFilePath).then((duration) => {
+
+//         const minutes =  Math.round((duration.toFixed()/60))
+//         const seconds = duration.toFixed()%60
+        
+//         fs.unlinkSync(tempFilePath)
+
+//         return `${minutes}:${seconds}`
+       
+//       })
+//     } catch (error) {
+//       throw new Error(`Failed to process buffer: ${error.durationFailed}`);
+      
+//     } 
+    
+//   }
+  
+
+//   async create(createMusicDto: CreateMusicDto, file: Express.Multer.File): Promise<MusicEntity> {
+//     if (!file) {
+//       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
+//     }
+//     const album = await this.albumRepository.findOne(+createMusicDto.albumId)
+
+//     const filePath = await this.upload(file);
+
+//     const duration = await this.getDurationFromBuffer()
+
+//     createMusicDto.duration = duration;
+
+//     const music =  await this.musicsRepository.create(createMusicDto,filePath, album.author);
+
+//     album.musics.push(music)
+    
+//     album.count++
+
+//     album.author.totalSongsOfAuthor++
+//     await this.authorRepository.save(album.author)
+
+//     await  this.albumRepository.save(album)
+
+//     return music
+//   }
+
+//   async topHits() {
+//     return await this.musicsRepository.topHits();
+//   }
+
+//   async findAll() {
+//     return await this.musicsRepository.findAll();
+//   }
+
+//   async findOne(id: number,userId:number) {
+//    const mus = await this.musicsRepository.findOne(id);
+//     if(mus) {
+//       await this.listenersRepository.create(id,userId)
+//     }
+//   return mus
+//   }
+
+//   async update(id: number, updateMusicDto: UpdateMusicDto) {
+//     const music = await this.musicsRepository.findOne(id)
+//     if(!music) {
+//       throw new NotFoundException(`Music with ID ${id} not found`)
+//     }
+
+//     music.title = updateMusicDto.trackTitle
+//     const updateMusic = await this.musicsRepository.update(music)
+   
+//     return updateMusic
+//   }
+
+//   async delete(id: number) {
+//     return await this.musicsRepository.remove(id);
+//   }
+
+// }
 
 
 

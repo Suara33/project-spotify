@@ -26,6 +26,14 @@ export class AuthorService {
 
   }
 
+  async totalAlbumsOfAuthor(id: number){
+    return this.authorRepository.totalAlbumsOfAuthor(id)
+  }
+
+  async totalSongsOfAuthor(id: number) {
+    return await this.authorRepository.totalSongsOfAuthor(id)
+  }
+
   async topArtists(){
     return await this.authorRepository.topArtist();
   }

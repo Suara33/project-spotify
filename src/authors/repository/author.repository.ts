@@ -33,17 +33,45 @@ export class AuthorRepository {
         .getOne() 
   
   }
+
+
+  async save(author:AuthorEntity) {
+    return await this.authorRepository.save(author)
+  }
+
+  async totalAlbumsOfAuthor(id: number) {
+    const total =  await this.authorRepository
+      .createQueryBuilder('author')
+      .leftJoinAndSelect('author.albums', 'album')
+      .leftJoinAndSelect('album.musics', 'music')
+      .addSelect('COUNT(music.id)', 'totalMusics')
+      .groupBy('author.id')
+      .addGroupBy('album.id')
+      .addGroupBy('music.id')
+      .getOne()
+console.log(total)
+return total
+  }
+
+  async totalSongsOfAuthor(id: number) {
+    const songs =  await this.authorRepository
+      .createQueryBuilder('author')
+      .leftJoinAndSelect('author.musics', 'musics')
+      .addSelect('COUNT(music.id)', 'totalSongs')
+      .getOne()
+
+      console.log(songs)
+      return songs
+  }
   
 
   async topArtist() {
     return await this.authorRepository
       .createQueryBuilder('author')
-      .leftJoinAndSelect('author.image', "image")
       .leftJoinAndSelect('author.music', 'music')
       .leftJoinAndSelect('music.listener', 'listener')
       .addSelect('COUNT(listener.id)', 'totalListener')
-      .groupBy('author.id')
-      .addGroupBy('image.id') 
+      .groupBy('author.id') 
       .addGroupBy('music.id')
       .orderBy('totalListener', 'DESC')
       .limit(10)
