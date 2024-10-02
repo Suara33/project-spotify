@@ -21,6 +21,7 @@ export class AlbumService {
     const author = await this.authorRepository.findAuthorById(artistId)
 
     if(!author) throw new NotFoundException('author not found')
+    
 
     if (!file) {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
@@ -28,9 +29,14 @@ export class AlbumService {
     
     const image = await this.s3service.upload(file)
   
+   author.totalAlbumsOfAuthor++
    
+   await this.authorRepository.save(author)
+
     return await this.albumRepository.create(createAlbumDto,image.Location,author)
   }
+
+
 
   async addMusicToAlbum(albumId:number,musicId:number) {
     const album = await this.albumRepository.findOne(albumId)

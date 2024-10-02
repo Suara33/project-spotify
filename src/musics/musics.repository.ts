@@ -21,13 +21,9 @@ export class MusicsRepository {
     newMusic.authorName = author.fullName
     newMusic.duration = data.duration
 
-    
+    console.log(newMusic)
 
     return await this.musicsRepository.save(newMusic);
-  }
-
-  async update(music: MusicEntity) {
-    return await this.musicsRepository.save(music)
   }
 
   async topHits() {
@@ -49,7 +45,6 @@ export class MusicsRepository {
   }
 
   async findOne(id: number) {
-    
     return  await this.musicsRepository
       .createQueryBuilder('music')
       .leftJoinAndSelect('music.author', 'author')
@@ -60,10 +55,10 @@ export class MusicsRepository {
   }
 
   // async update(id: number, updateMusicDto: UpdateMusicDto) {
-  //  return 
+  //   const music = this.musicsRepository.findOne(id)
   // }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number){
      await this.musicsRepository.softDelete(id);
   }
 

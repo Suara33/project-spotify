@@ -18,9 +18,18 @@ export class AuthorController {
     return await this.authorService.create(createAuthorDto, file);
   } 
 
+  @Get('total-albums')
+  async totalAlbumsOfAuthor(@Param('id') id: number) {
+    return await this.authorService.totalAlbumsOfAuthor(id)
+  }
+
+  @Get('total-songs-of-authors')
+  async totalSongsOfAuthor(@Param('id') id: number) {
+    return await this.authorService.totalSongsOfAuthor(id)
+  }
 
   @Get('topArtists')
-  async topArtists() {
+  async topArtists(id: number) {
     return await this.authorService.topArtists();
   }
 

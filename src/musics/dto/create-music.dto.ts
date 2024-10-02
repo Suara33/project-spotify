@@ -5,8 +5,7 @@ export class CreateMusicDto {
     trackTitle: string;
 
     @IsOptional()
-    @IsNumber()
-    duration?: number;
+    duration?: string;
     
     @IsOptional()
     @IsNumberString()

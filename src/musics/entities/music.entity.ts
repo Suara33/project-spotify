@@ -26,14 +26,14 @@ export class MusicEntity {
     @Column()
     authorId: number;
 
-    @OneToMany(() => AuthorEntity, (author) => author.musics)
+    @ManyToOne(() => AuthorEntity, (author) => author.musics)
     author: AuthorEntity
 
     @Column()
     filePath: string;
 
     @Column({ type: 'varchar', length: 5 })
-    duration: number;
+    duration: string;
 
     @ManyToMany(() => Playlist, playlist => playlist.music)
     playlists: Playlist[]
