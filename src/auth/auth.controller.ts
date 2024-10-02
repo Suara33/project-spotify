@@ -1,6 +1,6 @@
 import { Body, Controller, Post} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { CreateAdminAuthDto, CreateAuthDto } from './dto/create-auth.dto';
 import { Public } from './decorators/public.decorator';
 
 @Controller('auth')
@@ -13,6 +13,11 @@ export class AuthController {
         return await this.authService.login(createAuthDto.email,createAuthDto.password)  
     }
 
+    @Public()
+    @Post('admin/login') 
+    async adminLogin(@Body() createAdminAuthDto: CreateAdminAuthDto) {
+        return await this.authService.adminLogin(createAdminAuthDto.email, createAdminAuthDto.password);
+    }
 
 }
 
