@@ -11,6 +11,7 @@ import { AuthorRepository } from 'src/authors/repository/author.repository';
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { UpdateMusicDto } from './dto/update-music.dto';
 
 const { getAudioDurationInSeconds } = require('get-audio-duration');
 
@@ -107,18 +108,18 @@ export class MusicsService {
     return await this.musicsRepository.findAll();
   }
 
-  // async update(id: number, updateMusicDto: UpdateMusicDto) {
-  //   const music = await this.musicsRepository.findOne(id)
-  //   if(!music) {
-  //     throw new NotFoundException(`Music with ID ${id} not found`)
-  //   }
+  async update(id: number, updateMusicDto: UpdateMusicDto) {
+    const music = await this.musicsRepository.findOne(id)
+    if(!music) {
+      throw new NotFoundException(`Music with ID ${id} not found`)
+    }
 
-  //   music.title = updateMusicDto.trackTitle
+    music.title = updateMusicDto.trackTitle
 
-  //   const updateMusic = await this.musicsRepository.update(music)
-   
-  //   return updateMusic
-  // }
+    const updateMusic = await this.musicsRepository.update(id,updateMusicDto)
+
+    return updateMusic
+  }
 
   async delete(id: number) {
     return await this.musicsRepository.remove(id);

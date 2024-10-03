@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { MusicEntity } from './entities/music.entity';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { AuthorEntity } from 'src/authors/entities/author.entity';
+import { UpdateMusicDto } from './dto/update-music.dto';
 
 @Injectable()
 export class MusicsRepository {
@@ -57,9 +58,10 @@ export class MusicsRepository {
       
   }
 
-  // async update(id: number, updateMusicDto: UpdateMusicDto) {
-  //   const music = this.musicsRepository.findOne(id)
-  // }
+
+  async update(id: number, updateMusicDto: UpdateMusicDto) {
+    const music = await this.findOne(id)
+  }
 
   async remove(id: number){
      await this.musicsRepository.softDelete(id);
