@@ -1,7 +1,6 @@
 
 import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMusicDto } from './dto/create-music.dto';
-import { UpdateMusicDto } from './dto/update-music.dto';
 import { MusicsRepository } from './musics.repository';
 import { S3Service } from 'src/files/services/s3.service';
 import { v4 as uuidv4 } from 'uuid';
@@ -100,9 +99,9 @@ export class MusicsService {
     return music;
   }
 
-  async topHits() {
-    return await this.musicsRepository.topHits();
-  }
+  // async topHits() {
+  //   return await this.musicsRepository.topHits();
+  // }
 
   async findAll() {
     return await this.musicsRepository.findAll();

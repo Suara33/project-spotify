@@ -12,7 +12,7 @@ import * as bcrypt from 'bcryptjs';
 export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
-    private readonly jwtService : JwtService
+    // private readonly jwtService : JwtService
 
   ) {}
 
@@ -52,6 +52,37 @@ export class UsersService {
     return await this.usersRepository.save(user)
 
   }
+
+  async blockUser(userId: number) {
+    const user = await this.usersRepository.findById(userId)
+
+    if(!user) {
+      throw new NotFoundException('User not found');
+    }
+    user.isBlocked = true;
+    return this.usersRepository.save(user)
+  }
+
+  async unblockUser(userId: number) {
+    const user = await this.usersRepository.findById(userId)
+
+    if(!user) {
+      throw new NotFoundException('User not found')
+    }
+    user.isBlocked = false
+    return this.usersRepository.save(user)
+  }
+
+  async isUserBlocked(userId: number) {
+    const user = await this.usersRepository.findById(userId)
+
+    if(!user) {
+      throw new NotFoundException('User not found')
+    }
+
+    return user.isBlocked
+  }
+
   async update(id: string, updateUsersDto: UpdateUsersDto) {
     await this.usersRepository.update(id, updateUsersDto);
 

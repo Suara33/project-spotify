@@ -20,6 +20,9 @@ export class User {
     @Column({type: 'enum', enum:Role})
     role: Role;
 
+    @Column({ default: false})
+    isBlocked: boolean;
+
     @OneToMany(() => Playlist, playlist =>  playlist.user)
     playlists: Playlist[]
 
