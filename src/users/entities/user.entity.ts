@@ -20,10 +20,10 @@ export class User {
     @Column({type: 'enum', enum:Role})
     role: Role;
 
-    @Column({ default: false})
+    @Column({ default: false , nullable: true})
     isBlocked: boolean;
 
-    @OneToMany(() => Playlist, playlist =>  playlist.user)
+    @OneToMany(() => Playlist, playlist =>  playlist.user, {nullable: true})
     playlists: Playlist[]
 
     @OneToMany(() => Favorite, favorite => favorite.user)

@@ -19,7 +19,8 @@ export class AuthGuard implements CanActivate {
        if(isPublic) {
            return true
        }
-    
+       
+     
 
        const request = context.switchToHttp().getRequest();
        const token = this.extractTokenFromHeader(request);
@@ -27,6 +28,11 @@ export class AuthGuard implements CanActivate {
        if(!token) {
         throw new UnauthorizedException();
        }
+       console.log(request , 'request')
+       if(request.user.isBlocked == true){
+        throw new UnauthorizedException('user is blocked')
+    }
+
 
        try{
         const payload = await this.jwtService.verify(token)

@@ -18,7 +18,6 @@ import { LikesongsModule } from './favorites/favorites.module';
 import { FilesModule } from './files/files.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guards/auth.guard';
-import { BlockedUserGuard } from './auth/guards/blocked-user.guard';
 import { UsersService } from './users/users.service';
 
 
@@ -44,7 +43,7 @@ import { UsersService } from './users/users.service';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
     }),
     AlbumModule,
     MusicsModule,
@@ -64,13 +63,6 @@ import { UsersService } from './users/users.service';
    useClass: AuthGuard,
   
     },
-
-    {
-      provide: APP_GUARD,
-      useClass: BlockedUserGuard
-    },
-    UsersService 
-
   
 ],
 })

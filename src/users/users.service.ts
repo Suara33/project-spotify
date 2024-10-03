@@ -20,9 +20,7 @@ export class UsersService {
     const user = await this.usersRepository.findOneByEmail(createUserDto.email)
 
     if(user) { throw new NotFoundException(`user with email already exist`) }
-
     const createUser = await this.usersRepository.create(createUserDto)
-
     const payload = { userId: createUser.id, userEmail: createUser.email, role: Role.User};
 
     
@@ -59,8 +57,8 @@ export class UsersService {
     if(!user) {
       throw new NotFoundException('User not found');
     }
-    user.isBlocked = true;
-    return this.usersRepository.save(user)
+    user.isBlocked = false
+    return await this.usersRepository.save(user)
   }
 
   async unblockUser(userId: number) {
