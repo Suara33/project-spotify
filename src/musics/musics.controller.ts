@@ -33,10 +33,10 @@ export class MusicsController {
     return await this.musicsService.create(createMusicDto, file);
   }
 
-  @Get('tophits')
-  async topHits() {
-    return await this.musicsService.topHits()
-  }
+  // @Get('tophits')
+  // async topHits() {
+  //   return await this.musicsService.topHits()
+  // }
 
   
   @Get()

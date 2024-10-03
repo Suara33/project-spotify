@@ -57,6 +57,17 @@ export class UsersController {
       return await this.usersService.changePassword(userId, changePasswordDto)
   }
 
+  @Patch('block-user')
+  async blockUser(@Param('id') id: number) {
+    return await this.usersService.blockUser(id)
+
+  }
+
+  @Patch('unblock-user')
+  async unblockUser(@Param('id') id: number) {
+    return await this.usersService.unblockUser(id)
+  }
+
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.usersService.delete(+id);

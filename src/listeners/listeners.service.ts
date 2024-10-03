@@ -23,6 +23,8 @@ export class ListenersService {
     return listener;
   }
 
+  // totalListenerOftrack(musicId: number, userI)
+
   delete(id: number) {
     return this.listenersRepository.remove(id);
   }
