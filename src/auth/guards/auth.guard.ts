@@ -3,12 +3,13 @@ import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import { IS_PUBLIC_KEY } from "../roles/roles.decorator";
 import { Request } from "express";
+import { UsersRepository } from "src/users/users.repository";
 
 
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private  jwtService: JwtService, private reflector: Reflector) {}
+    constructor(private  jwtService: JwtService, private reflector: Reflector , private readonly userRepository: UsersRepository) {}
     
     async canActivate(context: ExecutionContext): Promise<boolean> {
        const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -24,12 +25,20 @@ export class AuthGuard implements CanActivate {
 
        const request = context.switchToHttp().getRequest();
        const token = this.extractTokenFromHeader(request);
+       const payload = await this.jwtService.verifyAsync(token,
+        {
+            secret: process.env.jwtConstants
+          }
+    );
+    request.user = payload;
+    console.log(request.user, 'userrr')
+    const user = await this.userRepository.findById(request.user.sub)
        
        if(!token) {
         throw new UnauthorizedException();
        }
-       console.log(request , 'request')
-       if(request.user.isBlocked == true){
+     
+       if(user.isBlocked == true){
         throw new UnauthorizedException('user is blocked')
     }
 

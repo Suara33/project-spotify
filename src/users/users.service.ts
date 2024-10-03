@@ -57,7 +57,7 @@ export class UsersService {
     if(!user) {
       throw new NotFoundException('User not found');
     }
-    user.isBlocked = false
+    user.isBlocked = true;
     return await this.usersRepository.save(user)
   }
 
