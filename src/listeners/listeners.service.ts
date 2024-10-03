@@ -23,6 +23,10 @@ export class ListenersService {
     return listener;
   }
 
+  async countListenersForMusic(musicId: number) {
+    return await this.listenersRepository.countListenersForMusic(musicId);
+  }
+
   delete(id: number) {
     return this.listenersRepository.remove(id);
   }

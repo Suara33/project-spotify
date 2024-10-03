@@ -29,7 +29,6 @@ export class MusicsRepository {
   async topHits() {
     return await this.musicsRepository
       .createQueryBuilder('music')
-      .leftJoinAndSelect('music.image', 'image')
       .leftJoinAndSelect('music.listener', 'listener')
       .addSelect('COUNT(listener.id)', 'totalListener')
       .groupBy('music.id')
@@ -37,6 +36,10 @@ export class MusicsRepository {
       .orderBy('totalListener', 'DESC')
       .limit(10)
       .getMany()
+  }
+
+  async save(music: MusicEntity) {
+    return await this.musicsRepository.save(music)
   }
 
   async findAll(): Promise<MusicEntity[]> {

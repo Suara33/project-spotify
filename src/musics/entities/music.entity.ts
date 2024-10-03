@@ -1,5 +1,3 @@
-import { File } from "buffer";
-import { IsNumber } from "class-validator";
 import { AlbumEntity } from "src/albums/entities/album.entity";
 import { AuthorEntity } from "src/authors/entities/author.entity";
 import { Favorite } from "src/favorites/entities/favorite.entity";
@@ -46,6 +44,9 @@ export class MusicEntity {
 
     @OneToMany(() => Listener, (listener) => listener.music)
     listeners: Listener[]
+
+    @Column({ default: 0 , nullable: true})
+    count: number
 
     @OneToOne(() => FileEntity)
     file: FileEntity;

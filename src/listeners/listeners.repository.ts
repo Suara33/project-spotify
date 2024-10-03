@@ -16,6 +16,7 @@ export class ListenersRepository {
     const listener =  new Listener()
     listener.musicId = musicId
     listener.userId = userId
+
    
     return await this.listenersRepository.save(listener)
     
@@ -40,5 +41,9 @@ export class ListenersRepository {
         throw new NotFoundException(`Listener  not found`);
     }
     return await this.listenersRepository.delete(listener.id)
+  }
+
+  async countListenersForMusic(musicId: number) {
+    return await this.listenersRepository.count({ where: { musicId } });
   }
 }
