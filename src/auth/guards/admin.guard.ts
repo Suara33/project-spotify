@@ -15,7 +15,7 @@ export class AdminGuard implements CanActivate {
         if(!token) {
             throw new UnauthorizedException()
         }
-        console.log('11111111')
+        
 
         if(request.user.isBlocked == true){
             throw new UnauthorizedException('user is blocked')

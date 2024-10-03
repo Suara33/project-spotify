@@ -22,7 +22,7 @@ export class MusicsRepository {
     newMusic.authorName = author.fullName
     newMusic.duration = data.duration
 
-    console.log(newMusic)
+  
 
     return await this.musicsRepository.save(newMusic);
   }

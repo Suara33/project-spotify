@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
           }
     );
     request.user = payload;
-    console.log(request.user, 'userrr')
+    
     const user = await this.userRepository.findById(request.user.sub)
        
        if(!token) {

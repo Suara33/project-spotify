@@ -36,7 +36,6 @@ export class PlaylistService {
   async addMusicToPlaylist(playlistId:number,musicId:number) {
     const playlist = await this.playlistRepository.findOne(playlistId) 
     
-    console.log(playlist)
     
     if(!playlist) throw new NotFoundException(`playlist with given id ${playlistId} not found`)
 
@@ -54,7 +53,6 @@ export class PlaylistService {
 
    playlist.count++
 
-   console.log(playlist.count)
    
     return this.playlistRepository.save(playlist)
 }

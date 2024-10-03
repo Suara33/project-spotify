@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUsersDto } from './dto/update-user.dto';
-import { JwtService } from '@nestjs/jwt';
 import { Role } from 'src/auth/roles/roles.enum';
 import { ChangePasswordDto } from './dto/change-password-for-admin.dto';
 import * as bcrypt from 'bcryptjs';

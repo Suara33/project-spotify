@@ -30,7 +30,6 @@ export class MusicsService {
       const duration = await this.getDurationFromBuffer(file.buffer);
       const fileUrl = await this.s3Service.upload(file);
       
-      console.log(`Audio Duration: ${duration}`); 
       return fileUrl.Location;
     } catch (error) {
       throw new HttpException('Failed to upload file to S3', HttpStatus.INTERNAL_SERVER_ERROR);

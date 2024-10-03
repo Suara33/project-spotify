@@ -48,9 +48,6 @@ export class AlbumService {
     if (!album.musics.includes(music)) {
         album.count++;
         album.musics.push(music);
-
-        console.log(album)
-        console.log(album.musics)
       
       } else {
         throw new HttpException('Music already exists in the album', HttpStatus.CONFLICT);
