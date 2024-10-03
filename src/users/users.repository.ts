@@ -44,12 +44,9 @@ export class UsersRepository {
   }
 
   async remove(id: number) {
-    return await this.usersRepository
-      .createQueryBuilder('users')
-      .delete()
-      .where('user.id = :id', { id })
-      .execute();
+    return await this.usersRepository.softDelete(id)
   }
+   
 
   async findByName(name: string) {
     return await this.usersRepository
