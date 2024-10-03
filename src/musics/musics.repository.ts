@@ -30,10 +30,9 @@ export class MusicsRepository {
   async topHits() {
     return await this.musicsRepository
       .createQueryBuilder('music')
-      .leftJoinAndSelect('music.listener', 'listener')
+      .leftJoinAndSelect('music.listeners', 'listener')
       .addSelect('COUNT(listener.id)', 'totalListener')
       .groupBy('music.id')
-      .addGroupBy('image.id') 
       .orderBy('totalListener', 'DESC')
       .limit(10)
       .getMany()

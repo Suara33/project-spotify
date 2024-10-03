@@ -100,9 +100,9 @@ export class MusicsService {
     return music;
   }
 
-  // async topHits() {
-  //   return await this.musicsRepository.topHits();
-  // }
+  async topHits() {
+    return await this.musicsRepository.topHits();
+  }
 
   async findAll() {
     return await this.musicsRepository.findAll();

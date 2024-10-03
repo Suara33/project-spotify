@@ -20,6 +20,7 @@ import { UserId } from 'src/auth/decorators/userId.decorator';
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
   
+  
   @Post(':albumId')
   @UseInterceptors(
     FileInterceptor('file'),
@@ -33,10 +34,10 @@ export class MusicsController {
     return await this.musicsService.create(createMusicDto, file);
   }
 
-  // @Get('tophits')
-  // async topHits() {
-  //   return await this.musicsService.topHits()
-  // }
+  @Get('tophits')
+  async topHits() {
+    return await this.musicsService.topHits()
+  }
 
   
   @Get()
