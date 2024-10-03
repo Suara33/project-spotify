@@ -26,18 +26,18 @@ export class MusicsRepository {
     return await this.musicsRepository.save(newMusic);
   }
 
-  async topHits() {
-    return await this.musicsRepository
-      .createQueryBuilder('music')
-      .leftJoinAndSelect('music.image', 'image')
-      .leftJoinAndSelect('music.listener', 'listener')
-      .addSelect('COUNT(listener.id)', 'totalListener')
-      .groupBy('music.id')
-      .addGroupBy('image.id') 
-      .orderBy('totalListener', 'DESC')
-      .limit(10)
-      .getMany()
-  }
+  // async topHits() {
+  //   return await this.musicsRepository
+  //     .createQueryBuilder('music')
+  //     .leftJoinAndSelect()
+  //     .leftJoinAndSelect('music.listeners', 'listener')
+  //     .leftJoinAndSelect('music.author' , 'author')
+  //     .select(['COUNT(listener.id) as totalListener', 'music.title as musicTitle', 'author.name as authorName'])
+  //     .groupBy('music.id')
+  //     .orderBy('totalListener', 'DESC')
+  //     .limit(10)
+  //     .getRawMany()
+  // }
 
   async findAll(): Promise<MusicEntity[]> {
 

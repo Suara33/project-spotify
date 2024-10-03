@@ -18,6 +18,8 @@ import { LikesongsModule } from './favorites/favorites.module';
 import { FilesModule } from './files/files.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { BlockedUserGuard } from './auth/guards/blocked-user.guard';
+import { UsersService } from './users/users.service';
 
 
 
@@ -60,7 +62,15 @@ import { AuthGuard } from './auth/guards/auth.guard';
     {
    provide: APP_GUARD,
    useClass: AuthGuard,
+  
     },
+
+    {
+      provide: APP_GUARD,
+      useClass: BlockedUserGuard
+    },
+    UsersService 
+
   
 ],
 })
