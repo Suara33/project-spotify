@@ -24,7 +24,7 @@ export class UsersController {
   @Public()
   @Post('register')
   async create(@Body() createUserDto: CreateUserDto) {
-    console.log(createUserDto , 'userdtoo')
+
     return await this.usersService.create(createUserDto);
   }
 

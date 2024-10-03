@@ -14,10 +14,12 @@ export class UsersRepository {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  async create(data: CreateUserDto): Promise<User> {
+  async create(data: CreateUserDto): Promise<Omit<User, 'password'>> {
     const password = await bcrypt.hash(data.password, 10);
-    return  this.usersRepository.create({...data , password})
-    
+    const user = await this.usersRepository.save({ ...data, password });
+
+    const { password: _, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   }
 
   async save(user: User) {

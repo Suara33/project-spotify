@@ -49,18 +49,17 @@ export class AuthorRepository {
       .addGroupBy('album.id')
       .addGroupBy('music.id')
       .getOne()
-console.log(total)
-return total
+
+  return total
   }
 
   async totalSongsOfAuthor(id: number) {
     const songs =  await this.authorRepository
       .createQueryBuilder('author')
       .leftJoinAndSelect('author.musics', 'musics')
-      .addSelect('COUNT(music.id)', 'totalSongs')
+      .addSelect('COUNT(musics.id)', 'totalSongs')
       .getOne()
 
-      console.log(songs)
       return songs
   }
   
@@ -68,13 +67,13 @@ return total
   async topArtist() {
     return await this.authorRepository
         .createQueryBuilder('author')
-        .leftJoinAndSelect('author.musics', 'musics') // Join on author's music
-        .leftJoinAndSelect('musics.listeners', 'listeners') // Correctly reference listeners here
+        .leftJoinAndSelect('author.musics', 'musics') 
+        .leftJoinAndSelect('musics.listeners', 'listeners') 
         .select([
             'author.id AS authorId',
             'author.fullName AS authorFullName',
             'musics.id AS musicId',
-            'COUNT(listeners.id) AS totalListener' // Count of listeners
+            'COUNT(listeners.id) AS totalListener'
         ])
         .groupBy('author.id')
         .addGroupBy('musics.id')
@@ -89,7 +88,12 @@ return total
   }
 
   async findOne(id: number) {
-    return await this.authorRepository.findOneBy({id});
+    return await this.authorRepository
+    .createQueryBuilder("author")
+    .where("author.id = :id", {id: id})
+    .leftJoinAndSelect("author.albums", "albums")
+    .leftJoinAndSelect("albums.musics", "musics")
+    .getOne()
   }
 
   async update(id: number, updateAuthorDto: UpdateAuthorDto) {
