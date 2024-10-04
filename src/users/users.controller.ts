@@ -70,8 +70,6 @@ export class UsersController {
 
   }
 
-
-
   @Patch('unblock/:id')
   async unblockUser(@Param('id') id: number) {
     return await this.usersService.unblockUser(id)

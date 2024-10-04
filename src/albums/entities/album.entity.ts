@@ -29,10 +29,7 @@ export class AlbumEntity {
   @Column()
   count: number;
 
-  @ManyToMany(() => MusicEntity, (musics) => musics.albums, {cascade: true})
-  @JoinTable({
-    name: 'album_music'
-  })
+  @OneToMany(() => MusicEntity, (musics) => musics.album, {cascade: true})
   musics: MusicEntity[]
 
   @CreateDateColumn()

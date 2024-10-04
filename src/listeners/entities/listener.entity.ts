@@ -19,9 +19,6 @@ export class Listener {
     @ManyToOne(() => MusicEntity, (music) => music.listeners)
     music: MusicEntity;
 
-    @Column()
-    count: number;
-
 
     @ManyToOne(() => User, (user) => user.listeners)
     user: User;

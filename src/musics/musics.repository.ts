@@ -30,9 +30,13 @@ export class MusicsRepository {
   async topHits() {
     return await this.musicsRepository
       .createQueryBuilder('music')
+      .leftJoinAndSelect('music.album', 'album')
+      .leftJoinAndSelect('album.file', 'file')
       .leftJoinAndSelect('music.listeners', 'listener')
       .addSelect('COUNT(listener.id)', 'totalListener')
       .groupBy('music.id')
+      .addGroupBy('album.id')
+      .addGroupBy('file.id')
       .orderBy('totalListener', 'DESC')
       .limit(10)
       .getMany()
@@ -51,7 +55,7 @@ export class MusicsRepository {
     return  await this.musicsRepository
       .createQueryBuilder('music')
       .leftJoinAndSelect('music.author', 'author')
-      .leftJoinAndSelect('music.albums', 'albums')
+      .leftJoinAndSelect('music.album', 'albums')
       .where('music.id = :id',{ id })
       .getOne()
       

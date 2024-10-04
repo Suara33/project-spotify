@@ -65,6 +65,8 @@ export class AuthorRepository {
   
 
   async topArtist() {
+
+    console.log('ra xdebaaa')
     return await this.authorRepository
         .createQueryBuilder('author')
         .leftJoinAndSelect('author.musics', 'musics') 
