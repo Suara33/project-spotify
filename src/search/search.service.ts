@@ -27,7 +27,7 @@ export class SearchService {
       return 'there is no search result';
     }
 
-    return {
+    return { 
       music,
       albums,
       author,

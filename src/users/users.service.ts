@@ -52,11 +52,13 @@ export class UsersService {
 
   async blockUser(userId: number) {
     const user = await this.usersRepository.findById(userId)
+    console.log(user)
 
     if(!user) {
       throw new NotFoundException('User not found');
     }
     user.isBlocked = true;
+    console.log(user.isBlocked)
     return await this.usersRepository.save(user)
   }
 

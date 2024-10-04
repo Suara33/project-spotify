@@ -17,7 +17,7 @@ export class AdminGuard implements CanActivate {
         }
         
 
-        if(request.user.isBlocked == true){
+        if(request.user.isBlocked === true){
             throw new UnauthorizedException('user is blocked')
         }
     
