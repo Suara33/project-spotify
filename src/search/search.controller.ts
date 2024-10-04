@@ -1,5 +1,6 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { SearchService } from './search.service';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @Controller('search')
 export class SearchController {
@@ -10,4 +11,14 @@ export class SearchController {
     console.log('shemovida')
     return await this.searchService.search(search);
   }
+
+  @UseGuards(AdminGuard)
+  @Get('user')
+  async searchUser(@Query('searchfield') search: string) {
+    console.log('shemovida')
+    return await this.searchService.searchUser(search);
+  }
+
+
+
 }
