@@ -33,7 +33,13 @@ export class UsersController {
   async findAll(
 
   ) {
+    
     return await this.usersService.findAll();
+  }
+
+  @Get('blocked')
+  async findBlockedUsers() {
+    return await this.usersService.findBlockedUsers()
   }
 
   @Get(':id')
@@ -58,19 +64,15 @@ export class UsersController {
       return await this.usersService.changePassword(userId, changePasswordDto)
   }
 
-  @Patch('block-user')
+  @Patch('block/:id')
   async blockUser(@Param('id') id: number) {
     return await this.usersService.blockUser(id)
 
   }
 
-  @Get('blockedUsers')
-  async findBlockedUsers(@Param('id') id: string) {
-    return await this.usersService.findBlockedUsers()
-  }
 
 
-  @Patch('unblock-user')
+  @Patch('unblock/:id')
   async unblockUser(@Param('id') id: number) {
     return await this.usersService.unblockUser(id)
   }

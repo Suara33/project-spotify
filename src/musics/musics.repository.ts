@@ -69,7 +69,7 @@ export class MusicsRepository {
   async findByName(name: string) {
     return await this.musicsRepository
       .createQueryBuilder('music')
-      .where('music.name Like :name', { name: `%${name}%` })
+      .where('music.title Like :name', { name: `%${name}%` })
       .getMany();
   }
 }

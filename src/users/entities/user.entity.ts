@@ -22,12 +22,7 @@ export class User {
     @Column({type: 'enum', enum:Role})
     role: Role;
 
-    @Column({ 
-        default: isBlockedStatus.FALSE,
-        nullable: true, 
-        type: 'enum', 
-        enum: isBlockedStatus})
-
+    @Column({ default: false, nullable: true})
     isBlocked: boolean;
 
     @OneToMany(() => Playlist, playlist =>  playlist.user, {nullable: true})

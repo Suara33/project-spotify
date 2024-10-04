@@ -32,7 +32,7 @@ export class UsersRepository {
   }
 
   async findById(userId: number) {
-    return await this.usersRepository.findOne({ where: { id: userId } });
+    return await this.usersRepository.findOne({ where: { id: userId } , relations: ['playlists' , 'playlists.music'] });
   }
   
   async findAll() {
@@ -49,19 +49,20 @@ export class UsersRepository {
   async remove(id: number) {
     return await this.usersRepository.softDelete(id)
   }
+
+
   
 async findBlockedUsers() {
-  console.log('shemovida')
   return await this.usersRepository
     .createQueryBuilder('user')
-    .where('user.isBlocked = :isBlocked', {isBlocked: isBlockedStatus.TRUE})
+    .where('user.isBlocked = :isBlocked', {isBlocked: true})
     .getMany()
     
 }
   async findByName(name: string) {
     return await this.usersRepository
       .createQueryBuilder('user')
-      .where('user.name Like :name', { name: `%${name}%` })
+      .where('user.email Like :name', { name: `%${name}%` })
       .getMany();
   }
 }
