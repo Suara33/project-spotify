@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { User } from 'aws-sdk/clients/appstream';
 import { AlbumRepository } from 'src/albums/repository/album.repository';
 import { AuthorRepository } from 'src/authors/repository/author.repository';
 import { MusicsRepository } from 'src/musics/musics.repository';
@@ -13,25 +14,34 @@ export class SearchService {
     private readonly usersRepository: UsersRepository,
   ) {}
 
-  async search(name: string) {
-    if (!name) {
-      throw new NotFoundException('there is no search result');
+
+    async search(name: string) {
+      if (!name) {
+        throw new NotFoundException('there is no search result');
+      }
+
+      const music = await this.musicsRepository.findByName(name);
+      const albums = await this.albumRepository.findByName(name);
+      const author = await this.authorRepository.findByName(name);
+
+      if (!music || !albums || !author) {
+        return 'there is no search result';
+      }
+
+      return { 
+        music,
+        albums,
+        author,
+      };
     }
 
-    const music = await this.musicsRepository.findByName(name);
-    const albums = await this.albumRepository.findByName(name);
-    const author = await this.authorRepository.findByName(name);
-    const user = await this.usersRepository.findByName(name);
+    async searchUser(name:string){
+      const users = await this.usersRepository.searchUser(name)
 
-    if (!music || !albums || !author || !user) {
-      return 'there is no search result';
+      return users
+      
     }
-
-    return { 
-      music,
-      albums,
-      author,
-      user,
-    };
   }
-}
+
+
+

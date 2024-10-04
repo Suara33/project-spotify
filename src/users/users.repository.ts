@@ -31,6 +31,18 @@ export class UsersRepository {
     return await this.usersRepository.findOne({ where: { email } });
   }
 
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.usersRepository.findOne({ where: { email } });
+  }
+
+  async searchUser(name: string) {
+    return await this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.email Like :name', { name: `%${name}%` })
+      .getMany();
+  }
+
+
   async findById(userId: number) {
     return await this.usersRepository.findOne({ where: { id: userId } , relations: ['playlists' , 'playlists.music'] });
   }
