@@ -35,7 +35,7 @@ export class AuthorService {
   }
 
   async topArtists(){
-    return await this.authorRepository.topArtist();
+    return await this.authorRepository.topArtists();
   }
 
   async findAll() {

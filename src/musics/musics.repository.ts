@@ -33,14 +33,61 @@ export class MusicsRepository {
       .leftJoinAndSelect('music.album', 'album')
       .leftJoinAndSelect('album.file', 'file')
       .leftJoinAndSelect('music.listeners', 'listener')
-      .addSelect('COUNT(listener.id)', 'totalListener')
+      .addSelect('COUNT(listener.id) as totalListener')
       .groupBy('music.id')
       .addGroupBy('album.id')
-      .addGroupBy('file.id')
       .orderBy('totalListener', 'DESC')
       .limit(10)
       .getMany()
   }
+//   async topHits() {
+//     return await this.musicsRepository
+//       .createQueryBuilder('music')
+//       .leftJoinAndSelect('music.album', 'album') 
+//       .leftJoinAndSelect('album.title', 'title')
+//       .leftJoinAndSelect('album.coverImage', 'coverImage')
+//       .leftJoinAndSelect('music.listeners', 'listener')
+//       .select('album.title as title') 
+//       .addSelect('album.coverImage as coverImage')
+//       .addSelect('COUNT(listener.id)', 'totalListener') 
+//       .groupBy('music.id')
+//       .addGroupBy('album.id')
+//       .addGroupBy('file.id')
+//       .orderBy('totalListener', 'DESC') 
+//       .limit(10)
+//       .getMany(); 
+// }
+// async topHits() {
+//   return await this.musicsRepository
+//     .createQueryBuilder('music')
+//     .leftJoinAndSelect('music.album', 'album') // Join the album entity
+//     .leftJoinAndSelect('music.listeners', 'listener') // Join the listeners
+//     .select('music') // Select music entity
+//     .addSelect('album.title', 'albumTitle') // Select the album title
+//     .addSelect('album.coverImage', 'albumCoverImage') // Select the album cover image
+//     .addSelect('COUNT(listener.id)', 'totalListener') // Count the listeners
+//     .groupBy('music.id') // Group by music ID
+//     .addGroupBy('album.id') // Group by album ID
+//     .orderBy('totalListener', 'DESC') // Order by the total listeners
+//     .limit(10) // Limit to top 10 results
+//     .getMany(); // Execute and return results
+// }
+// async topHits() {
+//   return await this.musicsRepository
+//     .createQueryBuilder('music')
+//     .leftJoinAndSelect('music.album', 'album') // Join the album entity
+//     .leftJoinAndSelect('music.listeners', 'listener')
+//     .select('music') // Select the entire music entity
+//     .addSelect('album.title', 'albumTitle') // Select the album title
+//     .addSelect('album.coverImage', 'albumCoverImage') // Select the album cover image
+//     .addSelect('COUNT(listener.id)', 'totalListener')
+//     .groupBy('music.id') // Group by music ID
+//     .addGroupBy('album.id') // Group by album ID
+//     .orderBy('totalListener', 'DESC') // Order by the total listeners
+//     .limit(10) // Limit to top 10 results
+//     .getMany(); // Execute and return results
+// }
+
 
   async save(music: MusicEntity) {
     return await this.musicsRepository.save(music)

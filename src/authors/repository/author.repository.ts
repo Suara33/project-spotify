@@ -64,14 +64,13 @@ export class AuthorRepository {
   }
   
 
-  async topArtist() {
-
-    console.log('ra xdebaaa')
+  async topArtists() {
     return await this.authorRepository
         .createQueryBuilder('author')
         .leftJoinAndSelect('author.musics', 'musics') 
         .leftJoinAndSelect('musics.listeners', 'listeners') 
         .select([
+            'author.image AS authorImage',
             'author.id AS authorId',
             'author.fullName AS authorFullName',
             'musics.id AS musicId',
