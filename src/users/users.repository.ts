@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { UpdateUsersDto } from './dto/update-user.dto';
+import { isBlockedStatus } from './isBlockedStatus.enum';
 
 
 @Injectable()
@@ -30,8 +31,8 @@ export class UsersRepository {
     return await this.usersRepository.findOne({ where: { email } });
   }
 
-  async findById(id: number) {
-    return await this.usersRepository.findOne({ where: { id } });
+  async findById(userId: number) {
+    return await this.usersRepository.findOne({ where: { id: userId } });
   }
   
   async findAll() {
@@ -48,8 +49,15 @@ export class UsersRepository {
   async remove(id: number) {
     return await this.usersRepository.softDelete(id)
   }
-   
-
+  
+async findBlockedUsers() {
+  console.log('shemovida')
+  return await this.usersRepository
+    .createQueryBuilder('user')
+    .where('user.isBlocked = :isBlocked', {isBlocked: isBlockedStatus.TRUE})
+    .getMany()
+    
+}
   async findByName(name: string) {
     return await this.usersRepository
       .createQueryBuilder('user')

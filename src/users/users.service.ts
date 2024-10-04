@@ -30,8 +30,8 @@ export class UsersService {
     return await this.usersRepository.findAll();
   }
 
-  async findOne(id: number) {
-    return this.usersRepository.findById(id);
+  async findOne(userId: number) {
+    return this.usersRepository.findById(userId);
   }
 
   async changePassword(userId: number, changePasswordDto: ChangePasswordDto) {
@@ -78,6 +78,10 @@ export class UsersService {
     }
 
     return user.isBlocked
+  }
+
+  async findBlockedUsers() {
+    return await this.usersRepository.findBlockedUsers()
   }
 
   async update(id: string, updateUsersDto: UpdateUsersDto) {

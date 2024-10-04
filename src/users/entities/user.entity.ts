@@ -3,7 +3,9 @@ import { Role } from "src/auth/roles/roles.enum";
 import { Favorite} from "src/favorites/entities/favorite.entity";
 import { Listener } from "src/listeners/entities/listener.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn, RoleSpecification, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity,  OneToMany, PrimaryGeneratedColumn,  UpdateDateColumn } from "typeorm";
+import { isBlockedStatus } from "../isBlockedStatus.enum";
+
 
 @Entity()
 export class User {
@@ -20,7 +22,12 @@ export class User {
     @Column({type: 'enum', enum:Role})
     role: Role;
 
-    @Column({ default: false , nullable: true})
+    @Column({ 
+        default: isBlockedStatus.FALSE,
+        nullable: true, 
+        type: 'enum', 
+        enum: isBlockedStatus})
+
     isBlocked: boolean;
 
     @OneToMany(() => Playlist, playlist =>  playlist.user, {nullable: true})

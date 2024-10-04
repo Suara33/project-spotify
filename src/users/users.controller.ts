@@ -31,7 +31,7 @@ export class UsersController {
    
   @Get()
   async findAll(
-    @UserId() userId:number
+
   ) {
     return await this.usersService.findAll();
   }
@@ -63,6 +63,12 @@ export class UsersController {
     return await this.usersService.blockUser(id)
 
   }
+
+  @Get('blockedUsers')
+  async findBlockedUsers(@Param('id') id: string) {
+    return await this.usersService.findBlockedUsers()
+  }
+
 
   @Patch('unblock-user')
   async unblockUser(@Param('id') id: number) {
