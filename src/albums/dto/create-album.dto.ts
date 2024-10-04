@@ -8,11 +8,9 @@ export class CreateAlbumDto {
     @IsString()
     title: string;
 
-    
-    @IsOptional()
     @Transform(({value})=> new Date(value))
     @IsDate()
-    releaseDate?: Date;
+    releaseDate: Date;
 
     @IsArray()
     @IsOptional()

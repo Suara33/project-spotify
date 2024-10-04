@@ -15,9 +15,6 @@ export class MusicEntity {
     @Column()
     title: string;
 
-    @Column({nullable: true})
-    albumId: number;
-
     @Column()
     authorName: string;
 
@@ -30,7 +27,7 @@ export class MusicEntity {
     @Column()
     filePath: string;
 
-    @Column({ type: 'varchar', length: 5 })
+    @Column({ type: 'varchar', length: 5 ,nullable:true})
     duration: string;
 
     @ManyToMany(() => Playlist, playlist => playlist.music)
@@ -39,8 +36,8 @@ export class MusicEntity {
     @ManyToOne(() => Favorite, favorite => favorite.musicId)
     favorites: Favorite[]
 
-    @ManyToMany(() => AlbumEntity, (album) => album.musics)
-    albums: AlbumEntity[];
+    @ManyToOne(() => AlbumEntity, (album) => album.musics)
+    album: AlbumEntity;
 
     @OneToMany(() => Listener, (listener) => listener.music)
     listeners: Listener[]
