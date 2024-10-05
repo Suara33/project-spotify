@@ -25,7 +25,7 @@ export class MusicEntity {
     trackImage: string;
 
 
-    @ManyToOne(() => AuthorEntity, (author) => author.musics)
+    @ManyToOne(() => AuthorEntity, (author) => author.musics, { cascade: true })
     author: AuthorEntity
 
     @Column()

@@ -14,7 +14,7 @@ export class AuthorEntity {
   @Column()
   biography: string;
 
-  @OneToMany(() => MusicEntity, (music) => music.author)
+  @OneToMany(() => MusicEntity, (music) => music.author, )
   musics: MusicEntity[]
 
   @Column({nullable: true})
@@ -27,10 +27,10 @@ export class AuthorEntity {
   @Column()
   image: string;
 
-  @OneToMany(() => FileEntity, (file) => file.authors, {cascade: true})
+  @OneToMany(() => FileEntity, (file) => file.authors)
   file: FileEntity;
 
-  @OneToMany(() => AlbumEntity, (album) => album.author)
+  @OneToMany(() => AlbumEntity, (album) => album.author, { cascade: true, onDelete: "CASCADE" })
   albums: AlbumEntity[]
 
   @CreateDateColumn()
