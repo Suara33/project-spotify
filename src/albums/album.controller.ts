@@ -25,9 +25,13 @@ export class AlbumController {
     return await this.albumService.topAlbumsOfArtist()
   }
 
+  @Get('top-albums')
+  async getTopAlbums() {
+    return await this.albumService.topAlbums();
+  }
   @Get()
-  async findAll() {
-    return await this.albumService.findAll();
+  async findAllAlbumsWithMusic(){
+    return await this.albumService.findAllAlbumsWithMusic()
   }
 
   @Get(':id')

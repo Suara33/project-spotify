@@ -42,11 +42,19 @@ export class AlbumRepository {
       .getMany()
   }
 
-  async findAll() {
+  async findAllAlbumsWithMusic() {
     return await this.albumRepository
       .createQueryBuilder('album')
-      .getMany()
+      .leftJoinAndSelect('album.musics', 'music')
+      .leftJoinAndSelect('album.author', 'author') 
+      .select([
+        'album', 
+        'music.id', 'music.trackTitle', 'music.duration', 'music.trackImage',
+        'author.id', 'author.fullName', 
+      ])
+      .getMany();
   }
+  
 
   async findOne(id: number) {
     return await this.albumRepository
@@ -73,6 +81,18 @@ export class AlbumRepository {
       return updatedAlbum
  }
 
+ async topAlbums() {
+  return await this.albumRepository
+    .createQueryBuilder('album')
+    .leftJoinAndSelect('album.musics', 'musics') 
+    .leftJoinAndSelect('musics.listeners', 'listeners') 
+    .addSelect('COUNT(listeners.id)', 'totalListeners') 
+    .groupBy('album.id') 
+    .addGroupBy('musics.id') 
+    .orderBy('totalListeners', 'DESC')  
+    .limit(10) 
+    .getMany();
+}
  
 
    async save(album: AlbumEntity) {

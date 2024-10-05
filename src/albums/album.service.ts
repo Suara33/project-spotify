@@ -61,11 +61,13 @@ export class AlbumService {
     }
 
 
-  async findAll() {
-    return await this.albumRepository.findAll();
-  }
+    async findAllAlbumsWithMusic() {
+      return await this.albumRepository.findAllAlbumsWithMusic()
+    }
 
-  
+  async topAlbums() {
+    return await this.albumRepository.topAlbums()
+  }
   async findOne(id: number) {
     const album = await this.albumRepository.findOne(id);
     if (!album) {
