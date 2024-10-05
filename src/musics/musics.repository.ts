@@ -11,7 +11,7 @@ import { AlbumEntity } from 'src/albums/entities/album.entity';
 export class MusicsRepository {
   constructor(
     @InjectRepository(MusicEntity)
-    private musicsRepository: Repository<MusicEntity>,
+    private musicsRepository: Repository<MusicEntity>
   ) {}
 
   async create(data: CreateMusicDto, url: string, author: AuthorEntity, album: AlbumEntity): Promise<MusicEntity> {
@@ -23,6 +23,8 @@ export class MusicsRepository {
     newMusic.authorName = author.fullName
     newMusic.duration = data.duration
     newMusic.album = album
+    
+    
 
   
 
@@ -51,8 +53,8 @@ export class MusicsRepository {
   async findAll() {
     return await this.musicsRepository
       .createQueryBuilder('music')
-      .leftJoinAndSelect('music.album', 'album') 
-      .select(['music', 'album.coverImage', 'album.title']) 
+      // .leftJoinAndSelect('music.album', 'album') 
+      // .select(['music', 'album.coverImage', 'album.title']) 
       .getMany();
   }
 
