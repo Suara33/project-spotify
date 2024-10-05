@@ -5,6 +5,7 @@ import { MusicEntity } from './entities/music.entity';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { AuthorEntity } from 'src/authors/entities/author.entity';
 import { UpdateMusicDto } from './dto/update-music.dto';
+import { AlbumEntity } from 'src/albums/entities/album.entity';
 
 @Injectable()
 export class MusicsRepository {
@@ -13,7 +14,7 @@ export class MusicsRepository {
     private musicsRepository: Repository<MusicEntity>,
   ) {}
 
-  async create(data: CreateMusicDto, url: string, author: AuthorEntity): Promise<MusicEntity> {
+  async create(data: CreateMusicDto, url: string, author: AuthorEntity, album: AlbumEntity): Promise<MusicEntity> {
   
     const newMusic = new MusicEntity ()
     newMusic.trackTitle = data.trackTitle
@@ -21,6 +22,7 @@ export class MusicsRepository {
     newMusic.authorId = author.id
     newMusic.authorName = author.fullName
     newMusic.duration = data.duration
+    newMusic.album = album
 
   
 
@@ -46,9 +48,12 @@ export class MusicsRepository {
     return await this.musicsRepository.save(music)
   }
 
-  async findAll(): Promise<MusicEntity[]> {
-
-    return await this.musicsRepository.find();
+  async findAll() {
+    return await this.musicsRepository
+      .createQueryBuilder('music')
+      .leftJoinAndSelect('music.album', 'album') 
+      .select(['music', 'album.coverImage', 'album.title']) 
+      .getMany();
   }
 
   async findOne(id: number) {
@@ -63,9 +68,16 @@ export class MusicsRepository {
 
 
   async update(id: number, updateMusicDto: UpdateMusicDto) {
-    const music = await this.findOne(id)
-  }
+    const music = await this.findOne(id);
 
+    if (music) {
+      
+      music.trackTitle = updateMusicDto.trackTitle ?? music.trackTitle;
+  
+
+      await this.musicsRepository.save(music);
+    }
+  }
   async remove(id: number){
      await this.musicsRepository.softDelete(id);
   }

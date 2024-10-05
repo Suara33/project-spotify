@@ -82,7 +82,7 @@ export class MusicsService {
     createMusicDto.duration = duration;
 
    
-    const music = await this.musicsRepository.create(createMusicDto, filePath, album.author);
+    const music = await this.musicsRepository.create(createMusicDto, filePath, album.author, album);
     
     album.musics.push(music);
 
@@ -124,7 +124,6 @@ export class MusicsService {
     return await this.musicsRepository.remove(id);
   }
 
-
   async findOne(id: number, userId: number){
     const music = await this.musicsRepository.findOne(id);
 
@@ -140,11 +139,4 @@ export class MusicsService {
 
     return music;
   }
-  // async findOne(id: number,userId:number) {
-  //      const mus = await this.musicsRepository.findOne(id);
-  //       if(mus) {
-  //         await this.listenersRepository.create(id,userId)
-  //       }
-  //     return mus
-  //     }
 }

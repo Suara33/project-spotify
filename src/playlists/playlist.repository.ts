@@ -43,7 +43,7 @@ export class PlaylistRepository {
     async findAll(userId:number) {
             const allPlaylist =  await this.playlistRepository
             .createQueryBuilder('playlist')
-            .leftJoinAndSelect('playlisyt.file', 'file')
+            .leftJoinAndSelect('playlist.file', 'file')
             .leftJoinAndSelect('playlist.music','music')
             .leftJoin('playlist.user', 'user')
             

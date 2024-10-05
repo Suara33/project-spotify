@@ -21,7 +21,7 @@ export class AlbumEntity {
   author: AuthorEntity
 
   @Column()
-  artistName: string;
+  authorName: string;
 
   @Column()
   coverImage: string;

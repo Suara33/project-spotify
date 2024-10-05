@@ -21,6 +21,10 @@ export class MusicEntity {
     @Column({nullable: true})
     authorId: number;
 
+    @Column()
+    trackImage: string;
+
+
     @ManyToOne(() => AuthorEntity, (author) => author.musics)
     author: AuthorEntity
 

@@ -18,7 +18,7 @@ export class AlbumRepository {
     const album = new AlbumEntity()
     album.title = createAlbumDto.title;
     album.author = author;
-    album.artistName = author.fullName;
+    album.authorName = author.fullName;
     album.coverImage = file;
     album.releaseDate = createAlbumDto.releaseDate
     
