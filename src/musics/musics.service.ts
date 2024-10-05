@@ -113,7 +113,7 @@ export class MusicsService {
       throw new NotFoundException(`Music with ID ${id} not found`)
     }
 
-    music.title = updateMusicDto.trackTitle
+    music.trackTitle = updateMusicDto.trackTitle
 
     const updateMusic = await this.musicsRepository.update(id,updateMusicDto)
 

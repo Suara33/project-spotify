@@ -13,7 +13,7 @@ export class MusicEntity {
     id: number;
 
     @Column()
-    title: string;
+    trackTitle: string;
 
     @Column()
     authorName: string;
