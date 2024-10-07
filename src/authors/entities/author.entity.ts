@@ -23,14 +23,13 @@ export class AuthorEntity {
   @Column({nullable: true})
   totalSongsOfAuthor: number;
 
-
   @Column()
   image: string;
 
   @OneToMany(() => FileEntity, (file) => file.authors)
   file: FileEntity;
 
-  @OneToMany(() => AlbumEntity, (album) => album.author)
+  @OneToMany(() => AlbumEntity, (album) => album.author, { cascade: true})
   albums: AlbumEntity[]
 
   @CreateDateColumn()
