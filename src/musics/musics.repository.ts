@@ -22,7 +22,7 @@ export class MusicsRepository {
     newMusic.authorId = author.id
     newMusic.authorName = author.fullName
     newMusic.duration = data.duration
-    newMusic.album = album
+    // newMusic.album = album
     
     
 
@@ -81,7 +81,7 @@ export class MusicsRepository {
     }
   }
   async remove(id: number){
-     await this.musicsRepository.softDelete(id);
+    return await this.musicsRepository.softDelete(id);
   }
 
   async findByName(name: string) {

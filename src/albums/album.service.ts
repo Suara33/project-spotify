@@ -86,6 +86,10 @@ export class AlbumService {
     if (!album) {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
+    const author = await this.authorRepository.findAuthorById(album.author.id)
+    console.log(author)
+    author.totalAlbumsOfAuthor-=1
+    await this.authorRepository.save(author)
 
     return await this.albumRepository.delete(id)
   }

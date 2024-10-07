@@ -29,6 +29,7 @@ export class AuthorRepository {
     return await this.authorRepository
         .createQueryBuilder('author')
         .leftJoinAndSelect('author.albums','album')
+        .leftJoin('album.musics', 'music')
         .where('author.id =:authorId',{authorId})
         .getOne() 
   
@@ -40,35 +41,32 @@ export class AuthorRepository {
   }
 
   async totalAlbumsOfAuthor(id: number) {
-    const total =  await this.authorRepository
+    const total = await this.authorRepository
       .createQueryBuilder('author')
-      .leftJoinAndSelect('author.albums', 'album')
-      .leftJoinAndSelect('album.musics', 'music')
-      .addSelect('COUNT(music.id)', 'totalMusics')
-      .groupBy('author.id')
-      .addGroupBy('album.id')
-      .addGroupBy('music.id')
-      .getOne()
+      .leftJoin('author.albums', 'album')
+      .select('COUNT(album.id)', 'totalAlbums')
+      .where('author.id = :id', { id })
+      .getRawOne();
 
-  return total
-  }
+    return total;
+}
 
   async totalSongsOfAuthor(id: number) {
-    const songs =  await this.authorRepository
+    const total =  await this.authorRepository
       .createQueryBuilder('author')
       .leftJoinAndSelect('author.musics', 'musics')
       .addSelect('COUNT(musics.id)', 'totalSongs')
       .getOne()
 
-      return songs
+      return total
   }
   
 
   async topArtists() {
     return await this.authorRepository
         .createQueryBuilder('author')
-        .leftJoinAndSelect('author.musics', 'musics') 
-        .leftJoinAndSelect('musics.listeners', 'listeners') 
+        .leftJoin('author.musics', 'musics') 
+        .leftJoin('musics.listeners', 'listeners') 
         .select([
             'author.image AS authorImage',
             'author.id AS authorId',
@@ -93,7 +91,7 @@ export class AuthorRepository {
     .createQueryBuilder("author")
     .where("author.id = :id", {id: id})
     .leftJoinAndSelect("author.albums", "albums")
-    .leftJoinAndSelect("albums.musics", "musics")
+    .leftJoin("albums.musics", "musics")
     .getOne()
   }
 
@@ -104,21 +102,21 @@ export class AuthorRepository {
     throw new Error('Author not found')
    }
  
-  await this.authorRepository
-    .createQueryBuilder('author')
-    .update(AuthorEntity)
-    .set({
-      fullName: updateAuthorDto.fullName,
-      biography: updateAuthorDto.biography
-    });
+  //  this.authorRepository
+  //   .createQueryBuilder('author')
+  //   .update(AuthorEntity)
+  //   .set({
+  //     fullName: updateAuthorDto.fullName,
+  //     biography: updateAuthorDto.biography
+  //   });
 
     const updatedAuthor = this.authorRepository.update(id, updateAuthorDto)
 
     return  updatedAuthor;
   }
 
-  async delete(id: number) { 
-    return await this.authorRepository.delete(id);
+  async deleteAuthor(authorId: number) {
+    return await this.authorRepository.softDelete(authorId)
   }
 
   async findAuthorById(id: number) {

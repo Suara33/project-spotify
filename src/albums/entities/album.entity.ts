@@ -3,6 +3,7 @@ import { MusicEntity } from 'src/musics/entities/music.entity';
 import { AuthorEntity } from 'src/authors/entities/author.entity';
 import { FileEntity } from 'src/files/entities/file.entity';
 
+
 @Entity({name: 'album'})
 export class AlbumEntity {
   @PrimaryGeneratedColumn()
@@ -26,7 +27,7 @@ export class AlbumEntity {
   @Column()
   count: number;
 
-  @OneToMany(() => MusicEntity, (musics) => musics.album)
+  @OneToMany(() => MusicEntity, (musics) => musics.album, {cascade: true})
   musics: MusicEntity[]
 
   @CreateDateColumn()

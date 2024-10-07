@@ -1,15 +1,16 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { AuthorRepository } from './repository/author.repository';
 import { S3Service } from 'src/files/services/s3.service';
+import { NotFoundError } from 'rxjs';
 
 
 @Injectable()
 export class AuthorService {
 
   constructor (
-    private readonly authorRepository: AuthorRepository,
+              private readonly authorRepository: AuthorRepository,
               private readonly s3Service: S3Service,
 
   ) {}
@@ -52,7 +53,14 @@ export class AuthorService {
     
   }
 
-  async remove(id: number) {
-    return await this.authorRepository.delete(id);
+  async deleteAuthor(authorId: number) {
+    const author = this.authorRepository.findOne(authorId)
+    if(!author) {
+      throw new NotFoundException('Author not found')
+    }
+
+  //  (await author).albums.map(item => this.al)
+
+    return await this.authorRepository.deleteAuthor(authorId);
    }
 }
