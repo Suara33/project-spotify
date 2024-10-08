@@ -115,8 +115,15 @@ export class AuthorRepository {
     return  updatedAuthor;
   }
 
-  async deleteAuthor(authorId: number) {
-    return await this.authorRepository.softDelete(authorId)
+  async deleteAuthor() {
+    const authorWithAlbumsAndMusic =  this.authorRepository
+      .createQueryBuilder('author')
+      .leftJoinAndSelect('author.album', 'album')
+      
+    
+    // softDelete(authorId)
+
+   
   }
 
   async findAuthorById(id: number) {

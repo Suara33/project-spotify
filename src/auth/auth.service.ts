@@ -19,7 +19,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    if(user.isBlocked == true) {
+    if(user.isBlocked === true) {
        throw new ForbiddenException('User is blocked')
     }
 

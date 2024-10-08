@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
     const user = await this.userRepository.findById(request.user.sub)
        
        if(!token) {
-        throw new UnauthorizedException();
+        throw new UnauthorizedException('ssss');
        }
      
        if(user.isBlocked === true){

@@ -84,6 +84,18 @@ export class MusicsRepository {
     return await this.musicsRepository.softDelete(id);
   }
 
+  async topHitsOfWeek(){
+    return  this.musicsRepository
+      .createQueryBuilder('music')
+      .leftJoin('music.listeners', 'listener')
+      .where('listener.listenedAt >= :startOfWeek', { startOfWeek: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) })
+      .groupBy('music.id')
+      .addSelect('listener.id', 'listenerCount')
+      .orderBy('listenerCount', 'DESC')
+      .limit(10)
+      .getMany
+  }
+
   async findByName(name: string) {
     return await this.musicsRepository
       .createQueryBuilder('music')

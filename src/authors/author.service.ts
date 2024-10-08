@@ -53,14 +53,14 @@ export class AuthorService {
     
   }
 
-  async deleteAuthor(authorId: number) {
-    const author = this.authorRepository.findOne(authorId)
-    if(!author) {
-      throw new NotFoundException('Author not found')
-    }
+  // async deleteAuthor(authorId: number) {
+  //   const author = this.authorRepository.findOne(authorId)
+  //   if(!author) {
+  //     throw new NotFoundException('Author not found')
+  //   }
 
-  //  (await author).albums.map(item => this.al)
+  // //  (await author).albums.map(item => this.al)
 
-    return await this.authorRepository.deleteAuthor(authorId);
-   }
+  //   return await this.authorRepository.deleteAuthor(authorId);
+  //  }
 }
