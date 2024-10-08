@@ -36,9 +36,13 @@ export class MusicsController {
 
   @Get('tophits')
   async topHits() {
-    return await this.musicsService.topHits()
+    return await this.musicsService.topHits();
   }
 
+  @Get()
+  async topHitsOfWeek(){
+    return await this.musicsService.topHitsOfWeek();
+  }
   
   @Get()
   async findAll() {

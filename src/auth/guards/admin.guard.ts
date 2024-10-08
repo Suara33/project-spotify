@@ -13,7 +13,7 @@ export class AdminGuard implements CanActivate {
         const token = this.extractTokenFromHeader(request)
 
         if(!token) {
-            throw new UnauthorizedException()
+            throw new UnauthorizedException('token is required')
         }
         
 
@@ -29,7 +29,8 @@ export class AdminGuard implements CanActivate {
             );
             request.user = payload;
 
-            if(request.user.Role !== Role.Admin) {
+
+            if(request.user.role !== Role.Admin) {
                 throw new UnauthorizedException('You do not have admin privileges')
             }
 
@@ -37,8 +38,9 @@ export class AdminGuard implements CanActivate {
             
             return true;
             
-        } catch (err){
-            throw new UnauthorizedException();
+        
+        }catch (err){
+            throw new UnauthorizedException('gggg');
         }
         
     }

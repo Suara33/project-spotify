@@ -70,6 +70,7 @@ export class AlbumService {
   }
   async findOne(id: number) {
     const album = await this.albumRepository.findOne(id);
+    console.log(album)
     if (!album) {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
@@ -87,7 +88,6 @@ export class AlbumService {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
     const author = await this.authorRepository.findAuthorById(album.author.id)
-    console.log(author)
     author.totalAlbumsOfAuthor-=1
     await this.authorRepository.save(author)
 

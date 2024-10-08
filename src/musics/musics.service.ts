@@ -103,6 +103,10 @@ export class MusicsService {
     return await this.musicsRepository.topHits();
   }
 
+  async topHitsOfWeek(){
+    return await this.musicsRepository.topHitsOfWeek()
+  }
+
   async findAll() {
     return await this.musicsRepository.findAll();
   }
