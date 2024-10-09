@@ -88,8 +88,6 @@ export class MusicsService {
 
     album.count++;
 
-    // music.listeners.count
-
     album.author.totalSongsOfAuthor++;
 
     await this.authorRepository.save(album.author);
@@ -125,7 +123,20 @@ export class MusicsService {
   }
 
   async delete(id: number) {
-    return await this.musicsRepository.remove(id);
+    const music = await this.musicsRepository.findOne(id)
+    console.log(music)
+    if(!music){
+      throw new HttpException('Music not found', HttpStatus.NOT_FOUND)
+    }
+
+    const author = await this.authorRepository.findAuthorById(music.author.id);
+
+    author.totalSongsOfAuthor-= 1
+
+    await this.authorRepository.save(author)
+
+
+    return await this.musicsRepository.delete(id);
   }
 
   async deleteMusicByauthorId(authorId: number) {

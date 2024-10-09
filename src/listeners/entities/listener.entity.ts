@@ -13,9 +13,6 @@ export class Listener {
     @Column({nullable: true})
     userId: number;
 
-    @Column()
-    listenedAt: Date;
-
     @CreateDateColumn()
     createAt: Date;
     
