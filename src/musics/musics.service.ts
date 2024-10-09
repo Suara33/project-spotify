@@ -128,6 +128,12 @@ export class MusicsService {
     return await this.musicsRepository.remove(id);
   }
 
+  async deleteMusicByauthorId(authorId: number) {
+    await this.musicsRepository.deleteMusicByauthorId(authorId)
+    
+  }
+
+
   async findOne(id: number, userId: number){
     const music = await this.musicsRepository.findOne(id);
 

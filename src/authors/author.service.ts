@@ -1,9 +1,10 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { AuthorRepository } from './repository/author.repository';
 import { S3Service } from 'src/files/services/s3.service';
-import { NotFoundError } from 'rxjs';
+import { AlbumRepository } from 'src/albums/repository/album.repository';
+import { MusicsRepository } from 'src/musics/musics.repository';
 
 
 @Injectable()
@@ -12,6 +13,8 @@ export class AuthorService {
   constructor (
               private readonly authorRepository: AuthorRepository,
               private readonly s3Service: S3Service,
+              private readonly albumRepository: AlbumRepository,
+              private readonly musicsRepository: MusicsRepository
 
   ) {}
 
@@ -52,15 +55,34 @@ export class AuthorService {
     return await this.authorRepository.update(id, updateAuthorDto)
     
   }
+  
 
-  // async deleteAuthor(authorId: number) {
-  //   const author = this.authorRepository.findOne(authorId)
-  //   if(!author) {
-  //     throw new NotFoundException('Author not found')
-  //   }
+  async findAuthorById(id: number){
+    return await this.authorRepository.findAuthorById(id)
+  }  
 
-  // //  (await author).albums.map(item => this.al)
+  async deleteAuthorById(id: number) {
+  
+   await this.authorRepository.deleteAuthorById(id)
+}
 
-  //   return await this.authorRepository.deleteAuthor(authorId);
-  //  }
+  async deleteAuthorWithAlbumsAndMusic(authorId: number): Promise<Object> {
+    // const author = await this.authorRepository.findOne(authorId)
+
+   const album = await this.albumRepository.deleteAlbumByauthorId(authorId)
+
+   const music = await this.musicsRepository.deleteMusicByauthorId(authorId)
+
+   const author = await this.authorRepository.deleteAuthorById(authorId)
+
+   return {
+    album,
+    music,
+    author
+   }
+
+
+
+  }
+
 }

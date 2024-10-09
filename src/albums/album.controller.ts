@@ -48,5 +48,9 @@ export class AlbumController {
   async remove(@Param('id') id: string) {
     return await this.albumService.remove(+id);
   }
+  @Delete('author/:authorId')
+  async deleteAlbumByauthorId(@Param('authorId') authorId: number) {
+    return this.albumService.deleteAlbumByauthorId(authorId)
+  }
 }
 

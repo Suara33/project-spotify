@@ -22,8 +22,7 @@ export class MusicsRepository {
     newMusic.authorId = author.id
     newMusic.authorName = author.fullName
     newMusic.duration = data.duration
-    // newMusic.album = album
-
+    
     return await this.musicsRepository.save(newMusic);
   }
 
@@ -56,6 +55,12 @@ export class MusicsRepository {
   //     .getMany()
   // }
 
+
+  async deleteMusicByauthorId(authorId: number) {
+  
+    return await this.musicsRepository.softDelete({authorId:authorId})
+
+  }
 
   async save(music: MusicEntity) {
     return await this.musicsRepository.save(music)

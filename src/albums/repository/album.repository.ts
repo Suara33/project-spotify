@@ -10,15 +10,20 @@ import { AuthorEntity } from 'src/authors/entities/author.entity';
 @Injectable()
 export class AlbumRepository {
   
-  constructor(@InjectRepository(AlbumEntity) 
-  private readonly albumRepository: Repository<AlbumEntity>) {}
+  constructor(
+    @InjectRepository(AlbumEntity) 
+  private readonly albumRepository: Repository<AlbumEntity>
+) {}
+
+async deleteAlbumByauthorId(authorId: number) { 
+  return await this.albumRepository.softDelete({authorId})
+}
   
   async create(createAlbumDto: CreateAlbumDto, file:string, author:AuthorEntity) {
 
     const album = new AlbumEntity()
     album.title = createAlbumDto.title;
     album.author = author;
-    // album.authorName = author.fullName;
     album.coverImage = file;
     album.releaseDate = createAlbumDto.releaseDate
     
