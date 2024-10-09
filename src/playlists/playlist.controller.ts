@@ -24,9 +24,9 @@ export class PlaylistController {
  @Post()
  @UseInterceptors(FileInterceptor('file'))
  async create(
-  
+  @UserId('userId') userId:number,
   @Body() createPlaylistDto: CreatePlaylistDto,
-  @UploadedFile() file: Express.Multer.File, userId: number) {
+  @UploadedFile() file: Express.Multer.File) {
 
      return await this.playlistService.create(createPlaylistDto, file, userId)
   }
@@ -34,7 +34,7 @@ export class PlaylistController {
   @Patch(':id/music/:musicId')
   async addMusicToPlaylist(
     @Param('id') playlistId:number,
-    @Param('musicId') musicId
+    @Param('musicId') musicId: number,
     
   ) {
     return await this.playlistService.addMusicToPlaylist(playlistId, musicId)
