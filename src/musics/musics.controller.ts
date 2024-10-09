@@ -39,7 +39,7 @@ export class MusicsController {
     return await this.musicsService.topHits();
   }
 
-  @Get()
+  @Get('week')
   async topHitsOfWeek(){
     return await this.musicsService.topHitsOfWeek();
   }

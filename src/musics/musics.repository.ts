@@ -23,27 +23,38 @@ export class MusicsRepository {
     newMusic.authorName = author.fullName
     newMusic.duration = data.duration
     // newMusic.album = album
-    
-    
-
-  
 
     return await this.musicsRepository.save(newMusic);
   }
+
 
   async topHits() {
     return await this.musicsRepository
       .createQueryBuilder('music')
       .leftJoinAndSelect('music.album', 'album')
-      .leftJoinAndSelect('album.file', 'file')
-      .leftJoinAndSelect('music.listeners', 'listener')
-      .addSelect('COUNT(listener.id) as totalListener')
+      .leftJoinAndSelect('album.file', 'file') 
+      .leftJoinAndSelect('music.listeners', 'listener') 
+      .addSelect('COUNT(listener.id)', 'totalListener')
       .groupBy('music.id')
       .addGroupBy('album.id')
       .orderBy('totalListener', 'DESC')
-      .limit(10)
-      .getMany()
+      .limit(10) 
+      .getMany();
   }
+  
+  // async topHits() {
+  //   return await this.musicsRepository
+  //     .createQueryBuilder('music')
+  //     .leftJoinAndSelect('music.album', 'album')
+  //     .leftJoinAndSelect('album.file', 'file')
+  //     .leftJoinAndSelect('music.listener', 'listener')
+  //     .addSelect('COUNT(listener.id) as totalListener')
+  //     .groupBy('music.id')
+  //     .addGroupBy('album.id')
+  //     .orderBy('totalListener', 'DESC')
+  //     .limit(10)
+  //     .getMany()
+  // }
 
 
   async save(music: MusicEntity) {
@@ -87,14 +98,28 @@ export class MusicsRepository {
   async topHitsOfWeek(){
     return  this.musicsRepository
       .createQueryBuilder('music')
-      .leftJoin('music.listeners', 'listener')
-      .where('listener.listenedAt >= :startOfWeek', { startOfWeek: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) })
+      .leftJoinAndSelect('music.listeners', 'listener')
+      .where('listener.createAt >= :startOfWeek', { startOfWeek: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) })
       .groupBy('music.id')
       .addSelect('listener.id', 'listenerCount')
       .orderBy('listenerCount', 'DESC')
       .limit(10)
-      .getMany
+      .getMany()
   }
+
+  // async topHitsOfWeek() {
+  //   return this.musicsRepository
+  //     .createQueryBuilder('music')
+  //     .leftJoin('music.music_listens', 'music_listen') // Join the correct table for listens
+  //     .leftJoin('music_listen.listener', 'listener') // Join listeners through the pivot table
+  //     .where('music_listen.listenedAt >= :startOfWeek', { startOfWeek: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) })
+  //     .groupBy('music.id')
+  //     .addSelect('COUNT(listener.id)', 'listenerCount') // Count the number of listeners
+  //     .orderBy('listenerCount', 'DESC')
+  //     .limit(10)
+  //     .getMany();
+  // }
+  
 
   async findByName(name: string) {
     return await this.musicsRepository
