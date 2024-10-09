@@ -40,6 +40,7 @@ export class MusicsController {
   }
 
   @Get('topweek')
+
   async topHitsOfWeek(){
     return await this.musicsService.topHitsOfWeek();
   }

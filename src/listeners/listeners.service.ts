@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateListenerDto } from './dto/create-listener.dto';
 import { ListenersRepository } from './listeners.repository';
 
 
