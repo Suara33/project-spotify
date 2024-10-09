@@ -3,6 +3,7 @@ import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { UserId } from 'src/auth/decorators/userId.decorator';
 
 @Controller('authors')
 export class AuthorController {
@@ -17,6 +18,7 @@ export class AuthorController {
 
     return await this.authorService.create(createAuthorDto, file);
   } 
+
 
   @Get('total-albums')
   async totalAlbumsOfAuthor(@Param('id') id: number) {
@@ -38,18 +40,28 @@ export class AuthorController {
     return await this.authorService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.authorService.findOne(+id);
-  }
+  // @Get(':id')
+  // async findOne(@Param('id') id: string) {
+  //   return await this.authorService.findOne(+id);
+  // }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
     return await this.authorService.update(+id, updateAuthorDto);
   }
 
-  @Delete(':id')
-  async deleteAuthor(@Param('id') id: string) {
-    // return await this.authorService.deleteAuthor(+id);
+  @Get(':id')
+  async findAuthorById(@Param('id') id: number) {
+    return await this.authorService.findAuthorById(id)
   }
+
+  @Delete('deleteAuthor/:id')
+  async deleteAuthorWithAlbumsAndMusic(id: number) {
+    return await this.authorService.deleteAuthorWithAlbumsAndMusic(id);
+  }
+
+  @Delete(':authorId')
+  async deleteAuthorById(id: number) {
+    await this.authorService.deleteAuthorById(id)
+ }
 }

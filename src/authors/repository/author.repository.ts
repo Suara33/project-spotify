@@ -5,6 +5,7 @@ import { AuthorEntity } from '../entities/author.entity';
 import {InjectRepository} from '@nestjs/typeorm'
 import {Repository } from 'typeorm';
 import { S3Service } from 'src/files/services/s3.service';
+import { identity } from 'rxjs';
 
 
 @Injectable()
@@ -88,10 +89,10 @@ export class AuthorRepository {
 
   async findOne(id: number) {
     return await this.authorRepository
-    .createQueryBuilder("author")
-    .where("author.id = :id", {id: id})
-    .leftJoinAndSelect("author.albums", "albums")
-    .leftJoin("albums.musics", "musics")
+    .createQueryBuilder('author')
+    .where('author.id = :id', {id: id})
+    .leftJoinAndSelect('author.album', 'album')
+    .leftJoin('albums.musics', 'music')
     .getOne()
   }
 
@@ -102,28 +103,28 @@ export class AuthorRepository {
     throw new Error('Author not found')
    }
  
-  //  this.authorRepository
-  //   .createQueryBuilder('author')
-  //   .update(AuthorEntity)
-  //   .set({
-  //     fullName: updateAuthorDto.fullName,
-  //     biography: updateAuthorDto.biography
-  //   });
+   this.authorRepository
+    .createQueryBuilder('author')
+    .update(AuthorEntity)
+    .set({
+      fullName: updateAuthorDto.fullName,
+      biography: updateAuthorDto.biography
+    });
 
     const updatedAuthor = this.authorRepository.update(id, updateAuthorDto)
 
     return  updatedAuthor;
   }
 
-  async deleteAuthor() {
-    const authorWithAlbumsAndMusic =  this.authorRepository
-      .createQueryBuilder('author')
-      .leftJoinAndSelect('author.album', 'album')
-      
-    
-    // softDelete(authorId)
 
-   
+  async deleteAuthorById(id: number) {
+     const author = await this.authorRepository.softDelete({id})
+     return author
+console.log(author)
+ }
+  async deleteAuthorWithAlbumsAndMusic(authorId: number) {
+  
+    return await this.authorRepository.softDelete(authorId)
   }
 
   async findAuthorById(id: number) {

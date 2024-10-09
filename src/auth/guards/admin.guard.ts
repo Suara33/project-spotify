@@ -34,13 +34,10 @@ export class AdminGuard implements CanActivate {
                 throw new UnauthorizedException('You do not have admin privileges')
             }
 
-
-            
             return true;
             
-        
         }catch (err){
-            throw new UnauthorizedException('gggg');
+            throw new UnauthorizedException('ooops! something went wrong');
         }
         
     }

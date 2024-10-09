@@ -39,7 +39,7 @@ export class MusicsController {
     return await this.musicsService.topHits();
   }
 
-  @Get()
+  @Get('topweek')
   async topHitsOfWeek(){
     return await this.musicsService.topHitsOfWeek();
   }
@@ -63,5 +63,11 @@ export class MusicsController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.musicsService.delete(+id);
+  }
+  @Delete('author/:authorId')
+  async deleteMusicByauthorId(@Param('authorId') authorId: number) {
+    await this.musicsService.deleteMusicByauthorId(authorId)
+
+    return { message: 'Music soft deleted successfully' }
   }
 }

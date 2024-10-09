@@ -70,7 +70,7 @@ export class AlbumService {
   }
   async findOne(id: number) {
     const album = await this.albumRepository.findOne(id);
-    console.log(album)
+    
     if (!album) {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
@@ -81,14 +81,21 @@ export class AlbumService {
     return await this.albumRepository.update(id, updateAlbumDto);
   }
 
+  async deleteAlbumByauthorId(authorId: number) {
+    return await this.albumRepository.deleteAlbumByauthorId(authorId)
+  }
  
   async remove(id: number) {
     const album = await this.albumRepository.findOne(id);
+    
     if (!album) {
       throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     }
+
     const author = await this.authorRepository.findAuthorById(album.author.id)
+
     author.totalAlbumsOfAuthor-=1
+
     await this.authorRepository.save(author)
 
     return await this.albumRepository.delete(id)

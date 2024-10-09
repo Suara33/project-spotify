@@ -18,6 +18,11 @@ export class AlbumEntity {
   @OneToMany(() => FileEntity, (file) =>  file.album)
   file: FileEntity
 
+
+  @Column()
+  authorId: number;
+
+
   @ManyToOne(() => AuthorEntity, (author) => author.albums, { onDelete: 'CASCADE'})
   author: AuthorEntity
 

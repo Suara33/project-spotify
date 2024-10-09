@@ -26,6 +26,8 @@ export class PlaylistService {
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
+
+    console.log(user)
   
     const image = await this.s3Service.upload(file);
 
