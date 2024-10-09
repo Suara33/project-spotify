@@ -31,9 +31,9 @@ export class MusicsRepository {
     return await this.musicsRepository
       .createQueryBuilder('music')
       .leftJoinAndSelect('music.album', 'album')
-      .leftJoinAndSelect('album.file', 'file') 
-      .leftJoinAndSelect('music.listeners', 'listener') 
-      .addSelect('COUNT(listener.id)', 'totalListener')
+      .leftJoinAndSelect('album.file', 'file')
+      .leftJoinAndSelect('music.listeners', 'listener')
+      .addSelect('COUNT(listener.id)',  'totalListener')
       .groupBy('music.id')
       .addGroupBy('album.id')
       .orderBy('totalListener', 'DESC')
@@ -69,8 +69,8 @@ export class MusicsRepository {
   async findAll() {
     return await this.musicsRepository
       .createQueryBuilder('music')
-      // .leftJoinAndSelect('music.album', 'album') 
-      // .select(['music', 'album.coverImage', 'album.title']) 
+      .leftJoinAndSelect('music.album', 'album') 
+      .select(['music', 'album.coverImage', 'album.title']) 
       .getMany();
   }
 
@@ -93,23 +93,26 @@ export class MusicsRepository {
       music.trackTitle = updateMusicDto.trackTitle ?? music.trackTitle;
   
 
-      await this.musicsRepository.save(music);
+      return await this.musicsRepository.save(music);
     }
+    throw new Error('Music not found')
   }
-  async remove(id: number){
+  async delete(id: number){
     return await this.musicsRepository.softDelete(id);
   }
 
   async topHitsOfWeek(){
-    return  this.musicsRepository
+    const startOfWeek =  new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+  
+    return  await this.musicsRepository
       .createQueryBuilder('music')
-      .leftJoinAndSelect('music.listeners', 'listener')
-      .where('listener.createAt >= :startOfWeek', { startOfWeek: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) })
+      .leftJoin('music.listeners', 'listener')
+      .where('listener.createAt >= :startOfWeek', { startOfWeek })
       .groupBy('music.id')
       .addSelect('listener.id', 'listenerCount')
       .orderBy('listenerCount', 'DESC')
       .limit(10)
-      .getMany()
+      .getMany();
   }
 
   // async topHitsOfWeek() {
@@ -129,7 +132,7 @@ export class MusicsRepository {
   async findByName(name: string) {
     return await this.musicsRepository
       .createQueryBuilder('music')
-      .where('music.title Like :name', { name: `%${name}%` })
+      .where('music.trackTitle Like :name', { name: `%${name}%` })
       .getMany();
   }
 }
