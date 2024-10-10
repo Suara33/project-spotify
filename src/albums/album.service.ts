@@ -97,6 +97,8 @@ export class AlbumService {
 
     author.totalAlbumsOfAuthor-=1
 
+    author.totalSongsOfAuthor-=1
+
     await this.authorRepository.save(author)
 
     return await this.albumRepository.delete(id)
