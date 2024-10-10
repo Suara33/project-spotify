@@ -5,7 +5,7 @@ import { AuthorEntity } from '../entities/author.entity';
 import {InjectRepository} from '@nestjs/typeorm'
 import {Repository } from 'typeorm';
 import { S3Service } from 'src/files/services/s3.service';
-import { identity } from 'rxjs';
+
 
 
 @Injectable()
@@ -125,9 +125,7 @@ export class AuthorRepository {
 
 
   async deleteAuthorById(id: number) {
-
-     return await this.authorRepository.softDelete({id})
-
+     return await this.authorRepository.softDelete({id:id})
  }
 
   async deleteAuthorWithAlbumsAndMusic(authorId: number) {
