@@ -118,9 +118,10 @@ export class AuthorRepository {
 
 
   async deleteAuthorById(id: number) {
-     const author = await this.authorRepository.softDelete({id})
-     return author
-console.log(author)
+console.log('shemovida')
+     return await this.authorRepository.softDelete({id})
+     
+
  }
   async deleteAuthorWithAlbumsAndMusic(authorId: number) {
   
@@ -132,6 +133,13 @@ console.log(author)
       .createQueryBuilder('author')
       .where('author.id = :id',{id})
       .getOne();
+  }
+
+  async findAuthorByFullName(fullName: string) {
+    return await this.authorRepository
+    .createQueryBuilder('author')
+    .where('author.fullName = :fullName', { fullName})
+    .getOne()
   }
 
   async findByName(name: string) {

@@ -8,12 +8,21 @@ export class FilesService {
               private readonly s3Service: S3Service
   ) {}
 
+
+  private randomName(originalName: string): string {
+    const random1 = Math.random().toString(36).substring(2, 8);
+    const random2 = Math.random().toString(36).substring(2, 8);
+    const fileExtension = originalName.split('.').pop();
+    return `file_${random1}_${random2}.${fileExtension}`;
+  }
+
   async uploadFile(file: Express.Multer.File) {
    
     const filename = file.originalname.split('.').slice(0, -1).join('.');
 
     const sanitizedFileName = filename.replace(/\s+/g, '-')
    
+    // const randomfile = this.randomName(filename);
 
     const result = await this.s3Service.upload(file);
 

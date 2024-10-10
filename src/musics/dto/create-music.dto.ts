@@ -10,6 +10,11 @@ export class CreateMusicDto {
     @IsOptional()
     @IsNumberString()
     albumId?: number;
+
+    @IsOptional()
+    @IsString()
+    trackImage?: string;
+
     
     
 }

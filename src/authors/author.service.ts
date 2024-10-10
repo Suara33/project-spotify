@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { AuthorRepository } from './repository/author.repository';
@@ -18,11 +18,21 @@ export class AuthorService {
 
   ) {}
 
+  async findAuthorByFullName(fullName: string) {
+    return await this.authorRepository.findAuthorByFullName(fullName)
+  }
   async create(createAuthorDto: CreateAuthorDto, file: Express.Multer.File) {
+    
+    const author = await this.authorRepository.findAuthorByFullName(createAuthorDto.fullName)
+
+    if(author) {
+      throw new ConflictException('Author already exist')
+    }
 
     if (!file) {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
+
     
     const image = await this.s3Service.upload(file)
    
@@ -63,10 +73,10 @@ export class AuthorService {
 
   async deleteAuthorById(id: number) {
   
-   await this.authorRepository.deleteAuthorById(id)
+   return await this.authorRepository.deleteAuthorById(id)
 }
 
-  async deleteAuthorWithAlbumsAndMusic(authorId: number): Promise<Object> {
+  async deleteAuthorWithAlbumsAndMusic(authorId: number) {
     // const author = await this.authorRepository.findOne(authorId)
 
    const album = await this.albumRepository.deleteAlbumByauthorId(authorId)

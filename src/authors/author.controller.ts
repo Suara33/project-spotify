@@ -45,6 +45,11 @@ export class AuthorController {
   //   return await this.authorService.findOne(+id);
   // }
 
+  @Get('findAuthorFullName/:fullName')
+  async findAuthorByFullName(@Param('fullName') fullName: string) {
+    return this.authorService.findAuthorByFullName(fullName)
+  }
+
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
     return await this.authorService.update(+id, updateAuthorDto);
@@ -62,6 +67,6 @@ export class AuthorController {
 
   @Delete(':authorId')
   async deleteAuthorById(id: number) {
-    await this.authorService.deleteAuthorById(id)
+    return await this.authorService.deleteAuthorById(id)
  }
 }
