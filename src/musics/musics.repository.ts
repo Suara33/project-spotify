@@ -15,13 +15,16 @@ export class MusicsRepository {
   ) {}
 
   async create(data: CreateMusicDto, url: string, author: AuthorEntity, album: AlbumEntity): Promise<MusicEntity> {
-  
+
     const newMusic = new MusicEntity ()
     newMusic.trackTitle = data.trackTitle
     newMusic.filePath = url
     newMusic.authorId = author.id
     newMusic.authorName = author.fullName
     newMusic.duration = data.duration
+    newMusic.trackImage = album.coverImage
+    // newMusic.album = album
+    
     
     return await this.musicsRepository.save(newMusic);
   }

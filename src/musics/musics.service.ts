@@ -66,9 +66,9 @@ export class MusicsService {
     if (!file) {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
-
     
     const album = await this.albumRepository.findOne(createMusicDto.albumId);
+    
     if (!album) {
       throw new NotFoundException(`Album with ID ${createMusicDto.albumId} not found`);
     }
@@ -81,7 +81,9 @@ export class MusicsService {
     
     createMusicDto.duration = duration;
 
-   
+
+    createMusicDto.trackImage = album.coverImage
+    
     const music = await this.musicsRepository.create(createMusicDto, filePath, album.author, album);
     
     album.musics.push(music);

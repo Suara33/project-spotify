@@ -21,7 +21,7 @@ export class MusicEntity {
     @Column({nullable: true})
     authorId: number;
 
-    @Column()
+    @Column({nullable: true})
     trackImage: string;
 
 
