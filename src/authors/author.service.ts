@@ -66,6 +66,9 @@ export class AuthorService {
     
   }
   
+  async findAuthorWithAlbums(id: number) {
+    return await this.authorRepository.findAuthorWithAlbums(id)
+  }
 
   async findAuthorById(id: number){
     return await this.authorRepository.findAuthorById(id)

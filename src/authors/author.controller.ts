@@ -18,8 +18,10 @@ export class AuthorController {
 
     return await this.authorService.create(createAuthorDto, file);
   } 
-
-
+  @Get('withAlbums/:id')
+  async findAuthorWithAlbums(@Param('id') id: number) {
+    return await this.authorService.findAuthorWithAlbums(id)
+  }
   @Get('total-albums')
   async totalAlbumsOfAuthor(@Param('id') id: number) {
     return await this.authorService.totalAlbumsOfAuthor(id)
@@ -66,7 +68,7 @@ export class AuthorController {
   }
 
   @Delete(':authorId')
-  async deleteAuthorById(@Param('id') id: number) {
+  async deleteAuthorById(@Param('authorId') id: number) {
     return await this.authorService.deleteAuthorById(id)
  }
 }
