@@ -77,21 +77,26 @@ export class AuthorService {
 }
 
   async deleteAuthorWithAlbumsAndMusic(authorId: number) {
-    // const author = await this.authorRepository.findOne(authorId)
 
-   const album = await this.albumRepository.deleteAlbumByauthorId(authorId)
-
-   const music = await this.musicsRepository.deleteMusicByauthorId(authorId)
-
-   const author = await this.authorRepository.deleteAuthorById(authorId)
-
-   return {
-    album,
-    music,
-    author
-   }
+    const findauthor = await this.authorRepository.findOneAuthor(authorId)
 
 
+    if(!findauthor){
+      throw new NotFoundException('Author doesnot exist')
+    }
+
+    await this.albumRepository.deleteAlbumByauthorId(authorId)
+
+    await this.musicsRepository.deleteMusicByauthorId(authorId)
+
+    await this.authorRepository.deleteAuthorById(authorId)
+
+    findauthor.totalSongsOfAuthor = 0
+
+    findauthor.totalAlbumsOfAuthor = 0
+
+    return await this.authorRepository.save(findauthor)
+    
 
   }
 

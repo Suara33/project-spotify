@@ -96,6 +96,13 @@ export class AuthorRepository {
     .getOne()
   }
 
+  async findOneAuthor(id:number) {
+    return await this.authorRepository  
+        .createQueryBuilder('author')
+        .where('author.id = :id',{id})
+        .getOne()
+  }
+
   async update(id: number, updateAuthorDto: UpdateAuthorDto) {
    const author = await this.authorRepository.findOne({ where: {id}})
 
@@ -118,13 +125,12 @@ export class AuthorRepository {
 
 
   async deleteAuthorById(id: number) {
-console.log('shemovida')
-     return await this.authorRepository.softDelete({id})
-     
+
+     await this.authorRepository.softDelete({id})
 
  }
+
   async deleteAuthorWithAlbumsAndMusic(authorId: number) {
-  
     return await this.authorRepository.softDelete(authorId)
   }
 

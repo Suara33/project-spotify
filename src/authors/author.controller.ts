@@ -61,7 +61,7 @@ export class AuthorController {
   }
 
   @Delete('deleteAuthor/:id')
-  async deleteAuthorWithAlbumsAndMusic(id: number) {
+  async deleteAuthorWithAlbumsAndMusic(@Param('id') id: number) {
     return await this.authorService.deleteAuthorWithAlbumsAndMusic(id);
   }
 
