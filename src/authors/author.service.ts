@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { AuthorRepository } from './repository/author.repository';
@@ -66,22 +66,25 @@ export class AuthorService {
    await this.authorRepository.deleteAuthorById(id)
 }
 
-  async deleteAuthorWithAlbumsAndMusic(authorId: number): Promise<Object> {
-    // const author = await this.authorRepository.findOne(authorId)
+  async deleteAuthorWithAlbumsAndMusic(authorId: number) {
+    const findauthor = await this.authorRepository.findOneAuthor(authorId)
 
-   const album = await this.albumRepository.deleteAlbumByauthorId(authorId)
+    if(!findauthor){
+      throw new NotFoundException('Author doesnot exist')
+    }
 
-   const music = await this.musicsRepository.deleteMusicByauthorId(authorId)
+    await this.albumRepository.deleteAlbumByauthorId(authorId)
 
-   const author = await this.authorRepository.deleteAuthorById(authorId)
+    await this.musicsRepository.deleteMusicByauthorId(authorId)
 
-   return {
-    album,
-    music,
-    author
-   }
+    await this.authorRepository.deleteAuthorById(authorId)
 
+    findauthor.totalSongsOfAuthor = 0
 
+    findauthor.totalAlbumsOfAuthor = 0
+
+    return await this.authorRepository.save(findauthor)
+    
 
   }
 
