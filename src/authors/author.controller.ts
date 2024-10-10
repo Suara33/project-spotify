@@ -66,7 +66,7 @@ export class AuthorController {
   }
 
   @Delete(':authorId')
-  async deleteAuthorById(id: number) {
+  async deleteAuthorById(@Param('id') id: number) {
     return await this.authorService.deleteAuthorById(id)
  }
 }

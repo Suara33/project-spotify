@@ -1,4 +1,4 @@
-import { ConflictException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { AuthorRepository } from './repository/author.repository';
