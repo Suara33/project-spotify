@@ -125,7 +125,7 @@ export class AuthorRepository {
 
 
   async deleteAuthorById(id: number) {
-     return await this.authorRepository.softDelete({id:id})
+     return await this.authorRepository.softDelete({id})
  }
 
   async deleteAuthorWithAlbumsAndMusic(authorId: number) {

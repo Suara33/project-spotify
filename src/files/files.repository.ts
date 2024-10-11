@@ -12,10 +12,9 @@ export class FilesRepository {
 async save(filename: string, location: string, bucket: string, key: string): Promise<FileEntity> {
     const newFile = new FileEntity()
     newFile.bucketName = bucket
-    newFile.filename = filename
     newFile.key = key
     newFile.url = location
-   
+
     return this.filesRepository.save(newFile);
 }
 

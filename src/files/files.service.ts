@@ -44,7 +44,7 @@ export class FilesService {
     if (!file) {
       throw new Error('File not found');
     }
-
+    
     return file;
   }
 
