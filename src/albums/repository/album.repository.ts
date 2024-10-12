@@ -87,6 +87,7 @@ async deleteAlbumByauthorId(authorId: number) {
  }
 
  async topAlbums() {
+  console.log('shemovida')
   return await this.albumRepository
     .createQueryBuilder('album')
     .leftJoinAndSelect('album.musics', 'musics') 

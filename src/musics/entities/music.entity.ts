@@ -47,7 +47,7 @@ export class MusicEntity {
     listeners: Listener[]
 
     @Column({ default: 0 , nullable: true})
-    count: number
+    listenerCount: number
 
     @OneToOne(() => FileEntity)
     file: FileEntity;

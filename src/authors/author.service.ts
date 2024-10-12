@@ -96,6 +96,9 @@ export class AuthorService {
 
     findauthor.totalSongsOfAuthor = 0
 
+    console.log(findauthor.totalAlbumsOfAuthor)
+    console.log(findauthor.totalSongsOfAuthor)
+
     findauthor.totalAlbumsOfAuthor = 0
 
     return await this.authorRepository.save(findauthor)

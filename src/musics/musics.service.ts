@@ -27,7 +27,7 @@ export class MusicsService {
 
   async upload(file: Express.Multer.File): Promise<string> {
     try {
-      const duration = await this.getDurationFromBuffer(file.buffer);
+      // const duration = await this.getDurationFromBuffer(file.buffer);
       const fileUrl = await this.s3Service.upload(file);
       
       return fileUrl.Location;
@@ -85,6 +85,7 @@ export class MusicsService {
     createMusicDto.trackImage = album.coverImage
     
     const music = await this.musicsRepository.create(createMusicDto, filePath, album.author, album);
+
     
     album.musics.push(music);
 
@@ -126,7 +127,7 @@ export class MusicsService {
 
   async delete(id: number) {
     const music = await this.musicsRepository.findOne(id)
-    console.log(music)
+    
     if(!music){
       throw new HttpException('Music not found', HttpStatus.NOT_FOUND)
     }
@@ -156,7 +157,7 @@ export class MusicsService {
 
     await this.listenersRepository.create(music.id, userId);
 
-    music.count++;
+    music.listenerCount++;
 
     await this.musicsRepository.save(music);
 

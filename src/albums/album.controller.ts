@@ -1,15 +1,19 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Body, Get, Param, Patch, Delete } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, Body, Get, Param, Patch, Delete, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { Express } from 'express';
+import { AdminGuard } from 'src/auth/guards/admin.guard'; 
+import { ApiTags } from '@nestjs/swagger';
 
 
 @Controller('albums')
+@ApiTags('albums')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
+  @UseGuards(AdminGuard)
   @Post(':id')
   @UseInterceptors(FileInterceptor('file'))
   async create(
@@ -29,6 +33,7 @@ export class AlbumController {
   async getTopAlbums() {
     return await this.albumService.topAlbums();
   }
+
   @Get()
   async findAllAlbumsWithMusic(){
     return await this.albumService.findAllAlbumsWithMusic()
@@ -43,11 +48,12 @@ export class AlbumController {
   async update(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto) {
     return await this.albumService.update(+id, updateAlbumDto);
   }
-
+  @UseGuards(AdminGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.albumService.remove(+id);
   }
+  @UseGuards(AdminGuard)
   @Delete('author/:authorId')
   async deleteAlbumByauthorId(@Param('authorId') authorId: number) {
     return this.albumService.deleteAlbumByauthorId(authorId)

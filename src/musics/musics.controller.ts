@@ -8,19 +8,24 @@ import {
   UseInterceptors,
   UploadedFile,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { MusicsService } from './musics.service';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
 import { FileInterceptor } from '@nestjs/platform-express'; 
 import { UserId } from 'src/auth/decorators/userId.decorator';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
+import { ApiTags } from '@nestjs/swagger';
+
 
 
 @Controller('musics')
+@ApiTags('musics')
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
   
-  
+  @UseGuards(AdminGuard)
   @Post(':albumId')
   @UseInterceptors(
     FileInterceptor('file'),
@@ -30,6 +35,7 @@ export class MusicsController {
     @Body() createMusicDto: CreateMusicDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
+    
     createMusicDto.albumId=albumId
     return await this.musicsService.create(createMusicDto, file);
   }
@@ -40,7 +46,6 @@ export class MusicsController {
   }
 
   @Get('topweek')
- 
   async topHitsOfWeek(){
     return await this.musicsService.topHitsOfWeek();
   }
@@ -56,15 +61,19 @@ export class MusicsController {
     return await this.musicsService.findOne(+id,userId);
   }
 
+  @UseGuards(AdminGuard)
   @Put(':id')
   async update(@Param('id') id: number, @Body() updateMusicDto: UpdateMusicDto) {
      return await this.musicsService.update(id, updateMusicDto);
   }
 
+  @UseGuards(AdminGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.musicsService.delete(+id);
   }
+
+  @UseGuards(AdminGuard)
   @Delete('author/:authorId')
   async deleteMusicByauthorId(@Param('authorId') authorId: number) {
     await this.musicsService.deleteMusicByauthorId(authorId)

@@ -4,8 +4,10 @@ import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserId } from 'src/auth/decorators/userId.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('authors')
+@ApiTags('author')
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
@@ -41,11 +43,6 @@ export class AuthorController {
   async findAll() {
     return await this.authorService.findAll();
   }
-
-  // @Get(':id')
-  // async findOne(@Param('id') id: string) {
-  //   return await this.authorService.findOne(+id);
-  // }
 
   @Get('findAuthorFullName/:fullName')
   async findAuthorByFullName(@Param('fullName') fullName: string) {

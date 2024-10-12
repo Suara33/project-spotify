@@ -64,6 +64,7 @@ export class AuthorRepository {
   
 
   async topArtists() {
+    console.log('shemovida')
     return await this.authorRepository
         .createQueryBuilder('author')
         .leftJoin('author.musics', 'musics') 
@@ -73,7 +74,7 @@ export class AuthorRepository {
             'author.id AS authorId',
             'author.fullName AS authorFullName',
             'musics.id AS musicId',
-            'COUNT(listeners.id) AS totalListener'
+            'COUNT(DISTINCT listeners.id) AS totalListener'
         ])
         .groupBy('author.id')
         .addGroupBy('musics.id')

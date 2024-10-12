@@ -15,7 +15,7 @@ export class MusicsRepository {
   ) {}
 
   async create(data: CreateMusicDto, url: string, author: AuthorEntity, album: AlbumEntity): Promise<MusicEntity> {
-
+    
     const newMusic = new MusicEntity ()
     newMusic.trackTitle = data.trackTitle
     newMusic.filePath = url
@@ -24,8 +24,7 @@ export class MusicsRepository {
     newMusic.duration = data.duration
     newMusic.trackImage = album.coverImage
     // newMusic.album = album
-    
-    
+   
     return await this.musicsRepository.save(newMusic);
   }
 
@@ -39,6 +38,7 @@ export class MusicsRepository {
       .addSelect('COUNT(listener.id)',  'totalListener')
       .groupBy('music.id')
       .addGroupBy('album.id')
+      .addGroupBy('trackImage.id')
       .orderBy('totalListener', 'DESC')
       .limit(10) 
       .getMany();

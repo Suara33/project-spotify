@@ -5,21 +5,25 @@ import { Listener } from "src/listeners/entities/listener.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity,  OneToMany, PrimaryGeneratedColumn,  UpdateDateColumn } from "typeorm";
 import { isBlockedStatus } from "../isBlockedStatus.enum";
+import { ApiProperty } from "@nestjs/swagger";
 
 
 @Entity()
 export class User {
 
     @PrimaryGeneratedColumn()
+    @ApiProperty({ description: 'id of the user', example: 1})
     id: number;
 
     @Column({unique: true})
+    @ApiProperty({ description: 'name of the user', example: 'mainstreetcoders@gmail.com'})
     email: string
 
     @Column()
     password: string;
 
     @Column({type: 'enum', enum:Role})
+    @ApiProperty({ description: 'role of the user', example: Role.User})
     role: Role;
 
     @Column({ default: false, nullable: true})
