@@ -22,7 +22,6 @@ export class AlbumEntity {
   @Column()
   authorId: number;
 
-
   @ManyToOne(() => AuthorEntity, (author) => author.albums, { onDelete: 'CASCADE'})
   author: AuthorEntity
 

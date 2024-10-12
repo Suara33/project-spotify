@@ -31,6 +31,7 @@ export class AlbumService {
   
    author.totalAlbumsOfAuthor++
    
+   
    await this.authorRepository.save(author)
 
     return await this.albumRepository.create(createAlbumDto,image.Location,author)

@@ -23,10 +23,10 @@ async deleteAlbumByauthorId(authorId: number) {
 
     const album = new AlbumEntity()
     album.title = createAlbumDto.title;
-    album.author = author;
+    album.author = author
     album.coverImage = file;
     album.releaseDate = createAlbumDto.releaseDate
-    
+
     return await this.albumRepository.save(album)
     
   }
@@ -36,6 +36,7 @@ async deleteAlbumByauthorId(authorId: number) {
     return await this.albumRepository
       .createQueryBuilder('album')
       .leftJoinAndSelect('album.image', "image")
+      .leftJoinAndSelect('album.author', 'author')
       .leftJoinAndSelect('album.music', 'music')
       .leftJoinAndSelect('music.listener', 'listener')
       .addSelect('COUNT(listener.id)', 'totalListener')
@@ -90,6 +91,7 @@ async deleteAlbumByauthorId(authorId: number) {
   console.log('shemovida')
   return await this.albumRepository
     .createQueryBuilder('album')
+    .leftJoinAndSelect('album.author', 'author')
     .leftJoinAndSelect('album.musics', 'musics') 
     .leftJoinAndSelect('musics.listeners', 'listeners') 
     .addSelect('COUNT(listeners.id)', 'totalListeners') 
