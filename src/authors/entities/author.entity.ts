@@ -1,5 +1,5 @@
 import { MusicEntity } from 'src/musics/entities/music.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
 import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { FileEntity } from 'src/files/entities/file.entity';
 
@@ -14,7 +14,7 @@ export class AuthorEntity {
   @Column()
   biography: string;
 
-  @OneToMany(() => MusicEntity, (music) => music.author, {cascade: true})
+  @OneToMany(() => MusicEntity, (music) => music.author,  {nullable: true})
   musics: MusicEntity[]
 
   @Column({nullable: true})
@@ -29,7 +29,7 @@ export class AuthorEntity {
   @OneToMany(() => FileEntity, (file) => file.authors)
   file: FileEntity;
 
-  @OneToMany(() => AlbumEntity, (album) => album.author, {cascade:true,  onDelete: 'CASCADE'})
+  @OneToMany(() => AlbumEntity, (album) => album.author, {nullable: true})
   albums: AlbumEntity[]
 
   @CreateDateColumn()

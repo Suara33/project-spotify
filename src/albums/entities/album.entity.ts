@@ -18,11 +18,10 @@ export class AlbumEntity {
   @OneToMany(() => FileEntity, (file) =>  file.album)
   file: FileEntity
 
-
   @Column()
   authorId: number;
 
-  @ManyToOne(() => AuthorEntity, (author) => author.albums, { onDelete: 'CASCADE'})
+  @ManyToOne(() => AuthorEntity, (author) => author.albums, {nullable: true})
   author: AuthorEntity
 
   @Column()
@@ -31,7 +30,7 @@ export class AlbumEntity {
   @Column()
   count: number;
 
-  @OneToMany(() => MusicEntity, (musics) => musics.album, {onDelete: 'CASCADE'})
+  @OneToMany(() => MusicEntity, (musics) => musics.album, {nullable: true})
   musics: MusicEntity[]
 
   @CreateDateColumn()

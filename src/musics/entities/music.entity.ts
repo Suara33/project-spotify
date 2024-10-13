@@ -15,8 +15,8 @@ export class MusicEntity {
     @Column()
     trackTitle: string;
 
-    @Column()
-    authorName: string;
+    // @Column()
+    // authorName: string;
 
     @Column({nullable: true})
     authorId: number;
@@ -25,7 +25,7 @@ export class MusicEntity {
     trackImage: string;
 
 
-    @ManyToOne(() => AuthorEntity, (author) => author.musics)
+    @ManyToOne(() => AuthorEntity, (author) => author.musics, {nullable: true})
     author: AuthorEntity
 
     @Column()
@@ -40,7 +40,7 @@ export class MusicEntity {
     @ManyToOne(() => Favorite, favorite => favorite.musicId)
     favorites: Favorite[]
 
-    @ManyToOne(() => AlbumEntity, (album) => album.musics)
+    @ManyToOne(() => AlbumEntity, (album) => album.musics, {nullable: true})
     album: AlbumEntity;
 
     @OneToMany(() => Listener, (listener) => listener.music)

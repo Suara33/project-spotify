@@ -19,8 +19,7 @@ export class MusicsRepository {
     const newMusic = new MusicEntity ()
     newMusic.trackTitle = data.trackTitle
     newMusic.filePath = url
-    newMusic.authorId = author.id
-    newMusic.authorName = author.fullName
+    newMusic.author = author
     newMusic.duration = data.duration
     newMusic.trackImage = album.coverImage
     // newMusic.album = album
