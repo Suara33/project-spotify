@@ -10,14 +10,14 @@ export class SearchController {
 
   @Get()
   async search(@Query('searchfield') search: string) {
-    console.log('shemovida')
+   
     return await this.searchService.search(search);
   }
 
   @UseGuards(AdminGuard)
   @Get('user')
   async searchUser(@Query('searchfield') search: string) {
-    console.log('shemovida')
+    
     return await this.searchService.searchUser(search);
   }
 

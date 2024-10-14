@@ -5,6 +5,9 @@ import { PlaylistRepository } from './playlist.repository';
 import { S3Service } from 'src/files/services/s3.service';
 import { MusicsRepository } from 'src/musics/musics.repository';
 import { UsersRepository } from 'src/users/users.repository';
+import { Playlist } from './entities/playlist.entity';
+import { UserId } from 'src/auth/decorators/userId.decorator';
+import { FileEntity } from 'src/files/entities/file.entity';
 
 
 
@@ -27,7 +30,6 @@ export class PlaylistService {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    console.log(user)
   
     const image = await this.s3Service.upload(file);
 
@@ -67,10 +69,7 @@ export class PlaylistService {
     return await this.playlistRepository.findOne(id);
   }
 
-  async update(id: number, updatePlaylistDto: UpdatePlaylistDto) {
-     await this.playlistRepository.update(id, updatePlaylistDto);
-     return this.playlistRepository.findOne(id)
-  }
+ 
 
   async delete(id: number) {
     const playlist = await this.playlistRepository.findOne(id)
@@ -80,6 +79,4 @@ export class PlaylistService {
     }
     return await this.playlistRepository.remove(id)
   }
-
-  
 }

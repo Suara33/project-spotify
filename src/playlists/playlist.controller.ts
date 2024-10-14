@@ -52,15 +52,15 @@ export class PlaylistController {
     return await this.playlistService.findOne(+id);
   }
 
-  @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updatePlaylistDto: UpdatePlaylistDto,
-  ) {
-    return await this.playlistService.update(+id, updatePlaylistDto);
-  }
-
-  
+  // @Patch(':id')
+  // @UseInterceptors(FileInterceptor('file'))
+  // async updatePlaylist(
+  //   @Param('id') id: number,
+  //   @Body() updatePlaylistDto: UpdatePlaylistDto,
+  //   @UploadedFile() file: Express.Multer.File,
+  // ) {
+  //   return await this.playlistService.updatePlaylist(id,  updatePlaylistDto);
+  // }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {

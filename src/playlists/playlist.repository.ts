@@ -65,11 +65,26 @@ export class PlaylistRepository {
         }
         return playlist
     }
-    
 
-    async update(id: number, data: UpdatePlaylistDto) {
-         await this.playlistRepository.update(id, data)
-    }
+
+//     async update(id: number, updatePlaylistDto: UpdatePlaylistDto) {
+        
+        
+// //         await this.playlistRepository
+// //             .createQueryBuilder()
+// //             .update(Playlist)
+// //             .set({
+// //                 name: updatePlaylistDto.name,
+        
+// //             })
+// //             .where('id = :id', { id })
+// //             .execute()
+
+// //             const updatedPlaylist = await  this.playlistRepository.findOne({ where: { id}})
+// // console.log(updatedPlaylist)
+// //             return updatedPlaylist
+// return await this.playlistRepository.update(id, updatePlaylistDto)
+//     }
 
     async remove(id: number) {
         return await this.playlistRepository.delete(id)

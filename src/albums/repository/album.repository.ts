@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
 import { AlbumEntity } from '../entities/album.entity';
@@ -72,24 +72,55 @@ async deleteAlbumByauthorId(authorId: number) {
       .getOne()
   }
 
-  async update(id: number, updateAlbumDto: UpdateAlbumDto) {
-     await this.albumRepository
-      .createQueryBuilder('album')
-      .update('AlbumEntity')
-      .set({
-        title: updateAlbumDto.title,
-        releaseDate: updateAlbumDto.releaseDate,
-      })
-      .where('id = :id', { id })
-      .execute()
+//   async update(id: number, updateAlbumDto: UpdateAlbumDto) {
+//     console.log('shemovida')
+//      await this.albumRepository
+//       .createQueryBuilder('album')
+//       .update(AlbumEntity)
+//       .set({
+//         title: updateAlbumDto.title,
+//         releaseDate: updateAlbumDto.releaseDate,
+//       })
+//       .where('id = :id', { id })
+//       .execute()
 
-      const updatedAlbum = await this.albumRepository.findOne({where: {id}})
+//       const updatedAlbum = await this.albumRepository.findOne({
+//         where: {id},
+//         relations: ['musics', 'author']
+//       })
+// console.log(updatedAlbum)
+//       return updatedAlbum
+//  }
 
-      return updatedAlbum
- }
+async update(id: number, updateAlbumDto: UpdateAlbumDto): Promise<AlbumEntity> {
+  // Check if the album exists
+  const album = await this.albumRepository.findOne({ where: { id } });
+  if (!album) {
+    throw new NotFoundException(`Album with ID ${id} not found.`);
+  }
+
+  
+  await this.albumRepository.update(id, {
+    title: updateAlbumDto.title,
+    releaseDate: updateAlbumDto.releaseDate,
+  });
+
+ 
+  const updatedAlbum = await this.albumRepository.findOne({
+    where: { id },
+    relations: ['musics', 'author'],  
+  });
+
+  if (!updatedAlbum) {
+    throw new NotFoundException(`Failed to retrieve updated album with ID ${id}`);
+  }
+
+  return updatedAlbum;
+}
+
 
  async topAlbums() {
-  console.log('shemovida')
+  
   return await this.albumRepository
     .createQueryBuilder('album')
     .leftJoinAndSelect('album.author', 'author')

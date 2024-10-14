@@ -5,6 +5,7 @@ import { AlbumRepository } from './repository/album.repository';
 import { S3Service } from 'src/files/services/s3.service';
 import { AuthorRepository } from 'src/authors/repository/author.repository';
 import { MusicsRepository } from 'src/musics/musics.repository';
+import { AlbumEntity } from './entities/album.entity';
 
 
 @Injectable()
@@ -78,7 +79,14 @@ export class AlbumService {
     return album;
   }
 
-  async update(id: number, updateAlbumDto: UpdateAlbumDto) {
+  async update(id: number, updateAlbumDto: UpdateAlbumDto): Promise<AlbumEntity> {
+    
+    const existingAlbum = await this.albumRepository.findOne(id);
+    if (!existingAlbum) {
+      throw new NotFoundException(`Album with ID ${id} not found.`);
+    }
+
+   
     return await this.albumRepository.update(id, updateAlbumDto);
   }
 
