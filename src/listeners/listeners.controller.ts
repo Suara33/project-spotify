@@ -4,8 +4,8 @@ import { CreateListenerDto } from './dto/create-listener.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { UserId } from 'src/auth/decorators/userId.decorator';
 
-@Controller('listeners')
-@ApiTags('listeners')
+@Controller('listener')
+@ApiTags('listener')
 export class ListenersController {
   constructor(private readonly listenersService: ListenersService) {}
 

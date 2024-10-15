@@ -38,17 +38,14 @@ export class PlaylistRepository {
     
     async save(playlist: Playlist) {
         return await this.playlistRepository.save(playlist)
+        
 }
     async findAll(userId:number) {
-            const allPlaylist =  await this.playlistRepository
-            .createQueryBuilder('playlist')
-            .leftJoinAndSelect('playlist.file', 'file')
-            .leftJoinAndSelect('playlist.music','music')
-            .leftJoin('playlist.user', 'user')
-            .where('user.id = :userId',{userId})
-    
- 
-            return allPlaylist
+         return await this.playlistRepository.find({
+            where:{userId},
+            relations:['music','user']
+        })
+            
     }
 
     async findOne(id: number) {
@@ -63,27 +60,6 @@ export class PlaylistRepository {
         }
         return playlist
     }
-
-
-//     async update(id: number, updatePlaylistDto: UpdatePlaylistDto) {
-        
-        
-// //         await this.playlistRepository
-// //             .createQueryBuilder()
-// //             .update(Playlist)
-// //             .set({
-// //                 name: updatePlaylistDto.name,
-        
-// //             })
-// //             .where('id = :id', { id })
-// //             .execute()
-
-// //             const updatedPlaylist = await  this.playlistRepository.findOne({ where: { id}})
-// // console.log(updatedPlaylist)
-// //             return updatedPlaylist
-// return await this.playlistRepository.update(id, updatePlaylistDto)
-//     }
-
     async remove(id: number) {
         return await this.playlistRepository.delete(id)
     }

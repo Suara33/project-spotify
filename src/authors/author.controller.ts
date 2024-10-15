@@ -6,7 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { AdminGuard } from 'src/auth/guards/admin.guard';
 
-@Controller('authors')
+@Controller('author')
 @ApiTags('author')
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}

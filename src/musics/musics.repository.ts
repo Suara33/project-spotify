@@ -81,13 +81,13 @@ export class MusicsRepository {
   }
 
   async findOne(id: number) {
-    return  await this.musicsRepository
+    return await this.musicsRepository
       .createQueryBuilder('music')
       .leftJoinAndSelect('music.author', 'author')
       .leftJoinAndSelect('music.album', 'albums')
       .where('music.id = :id',{ id })
       .getOne()
-      
+  
   }
 
 

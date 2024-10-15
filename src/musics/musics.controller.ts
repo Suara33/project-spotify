@@ -20,8 +20,8 @@ import { ApiTags } from '@nestjs/swagger';
 
 
 
-@Controller('musics')
-@ApiTags('musics')
+@Controller('music')
+@ApiTags('music')
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
   
