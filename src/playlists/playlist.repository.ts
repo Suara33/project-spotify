@@ -3,7 +3,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Playlist } from "./entities/playlist.entity";
 import { Repository } from "typeorm";
 import { CreatePlaylistDto } from "./dto/create-playlist.dto";
-import { UpdatePlaylistDto } from "./dto/update-playlist.dto";
 import { ManagedUpload } from "aws-sdk/clients/s3";
 import { FileEntity } from "src/files/entities/file.entity";
 import { User } from "src/users/entities/user.entity";
@@ -46,9 +45,8 @@ export class PlaylistRepository {
             .leftJoinAndSelect('playlist.file', 'file')
             .leftJoinAndSelect('playlist.music','music')
             .leftJoin('playlist.user', 'user')
-            
             .where('user.id = :userId',{userId})
-            .getMany()
+    
  
             return allPlaylist
     }

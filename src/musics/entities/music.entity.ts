@@ -16,14 +16,15 @@ export class MusicEntity {
     trackTitle: string;
 
     // @Column()
-    // authorName: string;
+    // authorFullName: string;
 
-    @Column({nullable: true})
-    authorId: number;
+
 
     @Column({nullable: true})
     trackImage: string;
 
+    @Column({nullable: true})
+    authorId: number;
 
     @ManyToOne(() => AuthorEntity, (author) => author.musics, {nullable: true})
     author: AuthorEntity

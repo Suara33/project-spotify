@@ -14,6 +14,7 @@ async save(filename: string, location: string, bucket: string, key: string): Pro
     newFile.bucketName = bucket
     newFile.key = key
     newFile.url = location
+    
 
     return this.filesRepository.save(newFile);
 }

@@ -37,6 +37,7 @@ export class MusicsController {
   ) {
     
     createMusicDto.albumId=albumId
+    
     return await this.musicsService.create(createMusicDto, file);
   }
 

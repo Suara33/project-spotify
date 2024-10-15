@@ -26,6 +26,7 @@ async deleteAlbumByauthorId(authorId: number) {
     album.author = author
     album.coverImage = file;
     album.releaseDate = createAlbumDto.releaseDate
+    
 
     return await this.albumRepository.save(album)
     
@@ -64,6 +65,8 @@ async deleteAlbumByauthorId(authorId: number) {
   
 
   async findOne(id: number) {
+
+    return await this.albumRepository.findOne({where: {id}, relations: {author: true, musics: true}})
     return await this.albumRepository
       .createQueryBuilder('album')
       .leftJoinAndSelect('album.musics', 'musics')
@@ -159,6 +162,5 @@ async update(id: number, updateAlbumDto: UpdateAlbumDto): Promise<AlbumEntity> {
       .groupBy('author.id')
       .getMany()
   }
-
 
 }

@@ -19,9 +19,11 @@ export class MusicsRepository {
     const newMusic = new MusicEntity ()
     newMusic.trackTitle = data.trackTitle
     newMusic.filePath = url
-    newMusic.author = author
+    newMusic.authorId = author.id
     newMusic.duration = data.duration
     newMusic.trackImage = album.coverImage
+    // newMusic.authorFullName = author.fullName
+
     // newMusic.album = album
    
     return await this.musicsRepository.save(newMusic);
@@ -68,9 +70,11 @@ export class MusicsRepository {
   }
 
   async findAll() {
+
     return await this.musicsRepository
       .createQueryBuilder('music')
       .leftJoinAndSelect('music.album', 'album') 
+      .leftJoinAndSelect('music.author','author')
       .select(['music', 'album.coverImage', 'album.title']) 
       .getMany();
   }

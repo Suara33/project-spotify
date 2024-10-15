@@ -9,11 +9,15 @@ export class CreateMusicDto {
     
     @IsOptional()
     @IsNumberString()
-    albumId?: number;
+    albumId: number;
 
     @IsOptional()
     @IsString()
     trackImage?: string;
+
+    @IsString()
+    @IsOptional()
+    authorFullName: string;
 
     
     

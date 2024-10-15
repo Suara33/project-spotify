@@ -19,8 +19,8 @@ export class FileEntity {
     @Column()
     bucketName: string;
 
-    // @Column()
-    // filename: string;
+    @Column()
+    filename: string;
 
     @OneToMany(() => Playlist, (playlist) => playlist.file)
     playlists: Playlist[]
@@ -35,4 +35,6 @@ export class FileEntity {
 
     @OneToMany(() => AuthorEntity, (author) => author.file)
     authors: AuthorEntity[]
+
+    
 }
