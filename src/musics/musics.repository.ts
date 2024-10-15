@@ -75,7 +75,7 @@ export class MusicsRepository {
       .createQueryBuilder('music')
       .leftJoinAndSelect('music.album', 'album') 
       .leftJoinAndSelect('music.author','author')
-      .select(['music', 'album.coverImage', 'album.title']) 
+      .select(['music', 'album.coverImage', 'album.title', 'author.fullName']) 
       .getMany();
   }
 

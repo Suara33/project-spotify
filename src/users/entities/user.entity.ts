@@ -1,10 +1,8 @@
-
+import { Column, CreateDateColumn, DeleteDateColumn, Entity,  OneToMany, PrimaryGeneratedColumn,  UpdateDateColumn } from "typeorm";
 import { Role } from "src/auth/roles/roles.enum";
 import { Favorite} from "src/favorites/entities/favorite.entity";
 import { Listener } from "src/listeners/entities/listener.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity,  OneToMany, PrimaryGeneratedColumn,  UpdateDateColumn } from "typeorm";
-import { isBlockedStatus } from "../isBlockedStatus.enum";
 import { ApiProperty } from "@nestjs/swagger";
 
 

@@ -48,10 +48,12 @@ export class UsersRepository {
   }
   
   async findAll() {
-    return await this.usersRepository
-      .createQueryBuilder('users')
-      .select(['users.id', 'users.email', 'users.createAt', 'users.password'])
+     return  await this.usersRepository
+      .createQueryBuilder('user')
+      .select(['user.id', 'user.email', 'user.createAt', 'user.password', 'user.isBlocked'])
       .getMany();
+
+      
   }
 
   async update(id: string, updateUsersDto: UpdateUsersDto) {
