@@ -34,6 +34,7 @@ export class MusicsRepository {
     return await this.musicsRepository
       .createQueryBuilder('music')
       .leftJoinAndSelect('music.album', 'album')
+      .leftJoinAndSelect('music.author', 'author')
       .leftJoinAndSelect('album.file', 'file')
       .leftJoinAndSelect('music.listeners', 'listener')
       .addSelect('COUNT(DISTINCT listener.id)',  'totalListener')
