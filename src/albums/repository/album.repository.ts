@@ -96,7 +96,7 @@ async deleteAlbumByauthorId(authorId: number) {
 //  }
 
 async update(id: number, updateAlbumDto: UpdateAlbumDto): Promise<AlbumEntity> {
-  // Check if the album exists
+
   const album = await this.albumRepository.findOne({ where: { id } });
   if (!album) {
     throw new NotFoundException(`Album with ID ${id} not found.`);
@@ -135,6 +135,14 @@ async update(id: number, updateAlbumDto: UpdateAlbumDto): Promise<AlbumEntity> {
     .orderBy('totalListeners', 'DESC')  
     .limit(10) 
     .getMany();
+}
+
+
+async findAllAlbumsWithmorethousand() {
+  return await this.albumRepository
+    .createQueryBuilder('album')
+    .leftJoinAndSelect('album.music', 'music')
+    .leftJoinAndSelect('music.listeners', 'listener')
 }
  
 

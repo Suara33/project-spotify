@@ -8,8 +8,8 @@ import { AdminGuard } from 'src/auth/guards/admin.guard';
 import { ApiTags } from '@nestjs/swagger';
 
 
-@Controller('albums')
-@ApiTags('albums')
+@Controller('album')
+@ApiTags('album')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 

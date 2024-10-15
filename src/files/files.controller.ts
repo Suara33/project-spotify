@@ -5,8 +5,8 @@ import { Public } from 'src/auth/roles/roles.decorator';
 import { ApiTags } from '@nestjs/swagger';
 
 
-@Controller('files')
-@ApiTags('files')
+@Controller('file')
+@ApiTags('file')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 

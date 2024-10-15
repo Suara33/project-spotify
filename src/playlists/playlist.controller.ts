@@ -43,6 +43,7 @@ export class PlaylistController {
     return await this.playlistService.addMusicToPlaylist(playlistId, musicId)
   }
 
+
   @Get()
   async findAll(@UserId() userId: number) {
     return  this.playlistService.findAll(userId);
@@ -62,6 +63,13 @@ export class PlaylistController {
   )  { 
     updatePlaylistDto.file = file
     return await this.playlistService.updatePlaylist(id,  updatePlaylistDto);
+  }
+
+  @Delete(':id/music/:musicId')
+  async deleteMusicFromPlaylist(
+    @Param('id')playlistId: number, 
+    @Param('musicId')musicId: number) {
+    return await this.playlistService.deleteMusicFromPlaylist(playlistId, musicId)
   }
 
   @Delete(':id')

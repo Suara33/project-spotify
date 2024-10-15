@@ -8,6 +8,7 @@ import { UsersRepository } from 'src/users/users.repository';
 
 
 
+
 @Injectable()
 export class PlaylistService {
   constructor ( private readonly playlistRepository: PlaylistRepository,
@@ -33,10 +34,9 @@ export class PlaylistService {
     return await this.playlistRepository.create(createPlaylistDto, image, user);
   }
 
-
   async addMusicToPlaylist(playlistId:number,musicId:number) {
-    const playlist = await this.playlistRepository.findOne(playlistId) 
-    
+
+    const playlist = await this.playlistRepository.findOne(playlistId)     
     
     if(!playlist) throw new NotFoundException(`playlist with given id ${playlistId} not found`)
 
@@ -55,6 +55,30 @@ export class PlaylistService {
    playlist.count++
    
     return this.playlistRepository.save(playlist)
+}
+
+
+async deleteMusicFromPlaylist(playlistId: number, musicId: number) {
+
+  const playlist = await this.playlistRepository.findOne(playlistId)
+
+
+  if(!playlist) throw new NotFoundException(`playlist with given id ${playlistId} not found`)
+
+  const music = await this.musicsRepository.findOne(musicId)
+  if(!music) throw new NotFoundException(`Music with given id ${musicId} not found`)
+  
+  const musicToRemove = playlist.music.find(m => m.id === musicId);
+  if (!musicToRemove) {
+      throw new BadRequestException(`Music with id ${musicId} not found in playlist`);
+    }
+
+   playlist.music = playlist.music.filter(m => m.id !== musicId)
+
+   playlist.count = playlist.music.length
+
+  return await this.playlistRepository.save(playlist)
+
 }
 
   async findAll(userId:number) {

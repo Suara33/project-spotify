@@ -154,12 +154,8 @@ export class MusicsService {
     if (!music) {
       throw new NotFoundException(`Music with ID ${id} not found`);
     }
-    console.log('1')
-
 
     await this.listenersRepository.create(music.id, userId);
-
-    console.log('2')
 
     music.listenerCount++;
 

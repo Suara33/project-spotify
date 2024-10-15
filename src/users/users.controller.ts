@@ -19,8 +19,8 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 
 
-@Controller('users')
-@ApiTags('users')
+@Controller('user')
+@ApiTags('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -83,7 +83,7 @@ export class UsersController {
   async unblockUser(@Param('id') id: number) {
     return await this.usersService.unblockUser(id)
   }
-  
+
   @UseGuards(AdminGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Deletes users by id'})
