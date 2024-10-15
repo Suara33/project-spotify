@@ -67,12 +67,12 @@ async deleteAlbumByauthorId(authorId: number) {
   async findOne(id: number) {
 
     return await this.albumRepository.findOne({where: {id}, relations: {author: true, musics: true}})
-    return await this.albumRepository
-      .createQueryBuilder('album')
-      .leftJoinAndSelect('album.musics', 'musics')
-      .leftJoinAndSelect('album.author', 'author')
-      .where('album.id = :id', {id})
-      .getOne()
+    // return await this.albumRepository
+    //   .createQueryBuilder('album')
+    //   .leftJoinAndSelect('album.musics', 'musics')
+    //   .leftJoinAndSelect('album.author', 'author')
+    //   .where('album.id = :id', {id})
+    //   .getOne()
   }
 
 //   async update(id: number, updateAlbumDto: UpdateAlbumDto) {
@@ -137,6 +137,7 @@ async update(id: number, updateAlbumDto: UpdateAlbumDto): Promise<AlbumEntity> {
     .getMany();
 }
  
+
 
    async save(album: AlbumEntity) {
     return await this.albumRepository.save(album)

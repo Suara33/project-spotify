@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { UpdateUsersDto } from './dto/update-user.dto';
-import { isBlockedStatus } from './isBlockedStatus.enum';
+
 
 
 @Injectable()
@@ -53,7 +53,6 @@ export class UsersRepository {
       .select(['user.id', 'user.email', 'user.createAt', 'user.password', 'user.isBlocked'])
       .getMany();
 
-      
   }
 
   async update(id: string, updateUsersDto: UpdateUsersDto) {
@@ -64,8 +63,6 @@ export class UsersRepository {
     return await this.usersRepository.softDelete(id)
   }
 
-
-  
 async findBlockedUsers() {
   return await this.usersRepository
     .createQueryBuilder('user')
@@ -79,4 +76,5 @@ async findBlockedUsers() {
       .where('user.email Like :name', { name: `%${name}%` })
       .getMany();
   }
+  
 }
