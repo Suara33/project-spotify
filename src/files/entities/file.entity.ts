@@ -30,7 +30,7 @@ export class FileEntity {
     music: MusicEntity;
     
 
-    @ManyToOne(() =>AlbumEntity, (album) => album.file)
+    @OneToOne(() =>AlbumEntity, (album) => album.file)
     album:AlbumEntity
 
     @OneToMany(() => AuthorEntity, (author) => author.file)

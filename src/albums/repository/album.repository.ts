@@ -149,4 +149,16 @@ async update(id: number, updateAlbumDto: UpdateAlbumDto): Promise<AlbumEntity> {
       .where('album.title Like :name', { name: '%${name}%'})
       .getMany()
   }
+
+  async totalAlbumsOfAuthor() {
+    return await this.albumRepository
+      .createQueryBuilder('album')
+      .leftJoin('album.auhthor', 'author')
+      .select(['author.fullName'])
+      .addSelect('COUNT(album.id)', 'totalAlbums')
+      .groupBy('author.id')
+      .getMany()
+  }
+
+
 }

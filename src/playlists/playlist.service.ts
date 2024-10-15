@@ -5,9 +5,6 @@ import { PlaylistRepository } from './playlist.repository';
 import { S3Service } from 'src/files/services/s3.service';
 import { MusicsRepository } from 'src/musics/musics.repository';
 import { UsersRepository } from 'src/users/users.repository';
-import { Playlist } from './entities/playlist.entity';
-import { UserId } from 'src/auth/decorators/userId.decorator';
-import { FileEntity } from 'src/files/entities/file.entity';
 
 
 
@@ -56,7 +53,6 @@ export class PlaylistService {
    
 
    playlist.count++
-
    
     return this.playlistRepository.save(playlist)
 }
@@ -69,7 +65,19 @@ export class PlaylistService {
     return await this.playlistRepository.findOne(id);
   }
 
- 
+ async updatePlaylist(id: number, updatePlaylistDto: UpdatePlaylistDto) {
+  const playlist = await this.playlistRepository.findOne(id)
+
+  if(!playlist) throw new NotFoundException('playlist not found')
+  
+  
+  const image = await this.s3Service.upload(updatePlaylistDto.file); 
+
+  playlist.name = updatePlaylistDto.name
+  playlist.image = image.Location
+
+  return await this.playlistRepository.save(playlist)
+ }
 
   async delete(id: number) {
     const playlist = await this.playlistRepository.findOne(id)

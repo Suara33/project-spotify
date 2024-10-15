@@ -1,4 +1,4 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Body, Get, Param, Patch, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, Body, Get, Param, Patch, Delete, UseGuards, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
@@ -44,15 +44,23 @@ export class AlbumController {
     return await this.albumService.findOne(+id);
   }
 
+  @UseGuards(AdminGuard)
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateAlbumDto: UpdateAlbumDto) {
-    return await this.albumService.update(+id, updateAlbumDto);
+  @UseInterceptors(FileInterceptor('file'))
+  async update(
+    @Param('id') id: number,
+    @UploadedFile() file:Express.Multer.File,
+    @Body() updateAlbumDto: UpdateAlbumDto,) {
+    return await this.albumService.update(id, updateAlbumDto,file);
   }
+
   @UseGuards(AdminGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.albumService.remove(+id);
   }
+
+
   @UseGuards(AdminGuard)
   @Delete('author/:authorId')
   async deleteAlbumByauthorId(@Param('authorId') authorId: number) {

@@ -96,6 +96,8 @@ export class AuthorRepository {
     .getOne()
   }
 
+  
+
   async findOneAuthor(id:number) {
     return await this.authorRepository  
         .createQueryBuilder('author')
@@ -152,4 +154,5 @@ export class AuthorRepository {
       .where('author.fullName Like :name', { name: `%${name}%` })
       .getMany();
   }
+
 }

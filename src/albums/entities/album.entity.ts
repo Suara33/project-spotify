@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, JoinTable, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany, JoinTable, OneToMany, ManyToOne, OneToOne } from 'typeorm';
 import { MusicEntity } from 'src/musics/entities/music.entity';
 import { AuthorEntity } from 'src/authors/entities/author.entity';
 import { FileEntity } from 'src/files/entities/file.entity';
@@ -15,7 +15,7 @@ export class AlbumEntity {
   @Column({ type: 'varchar', length: 10})
   releaseDate: Date;
 
-  @OneToMany(() => FileEntity, (file) =>  file.album)
+  @OneToOne(() => FileEntity, (file) =>  file.album)
   file: FileEntity
 
   @Column()

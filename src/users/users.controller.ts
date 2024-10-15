@@ -42,7 +42,7 @@ export class UsersController {
     
     return await this.usersService.findAll();
   }
-
+  @UseGuards(AdminGuard)
   @Get('blocked')
   async findBlockedUsers() {
     return await this.usersService.findBlockedUsers()
@@ -71,17 +71,20 @@ export class UsersController {
       return await this.usersService.changePassword(userId, changePasswordDto)
   }
 
+  @UseGuards(AdminGuard)
   @Patch('block/:id')
   async blockUser(@Param('id') id: number) {
     return await this.usersService.blockUser(id)
 
   }
 
+  @UseGuards(AdminGuard)
   @Patch('unblock/:id')
   async unblockUser(@Param('id') id: number) {
     return await this.usersService.unblockUser(id)
   }
-
+  
+  @UseGuards(AdminGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Deletes users by id'})
   async remove(@Param('id') id: string) {

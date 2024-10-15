@@ -1,16 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { UserId } from 'src/auth/decorators/userId.decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @Controller('authors')
 @ApiTags('author')
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
+  @UseGuards(AdminGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async create(
@@ -20,6 +21,7 @@ export class AuthorController {
 
     return await this.authorService.create(createAuthorDto, file);
   } 
+
   @Get('withAlbums/:id')
   async findAuthorWithAlbums(@Param('id') id: number) {
     return await this.authorService.findAuthorWithAlbums(id)
@@ -44,11 +46,12 @@ export class AuthorController {
     return await this.authorService.findAll();
   }
 
-  @Get('findAuthorFullName/:fullName')
+  @Get('findAuthor/:fullName')
   async findAuthorByFullName(@Param('fullName') fullName: string) {
     return this.authorService.findAuthorByFullName(fullName)
   }
 
+  @UseGuards(AdminGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
     return await this.authorService.update(+id, updateAuthorDto);
@@ -59,11 +62,13 @@ export class AuthorController {
     return await this.authorService.findAuthorById(id)
   }
 
+  @UseGuards(AdminGuard)
   @Delete('deleteAuthor/:id')
   async deleteAuthorWithAlbumsAndMusic(@Param('id') id: number) {
     return await this.authorService.deleteAuthorWithAlbumsAndMusic(id);
   }
 
+  @UseGuards(AdminGuard)
   @Delete(':authorId')
   async deleteAuthorById(@Param('authorId') id: number) {
     return await this.authorService.deleteAuthorById(id)

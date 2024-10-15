@@ -54,7 +54,7 @@ export class S3Service {
     try {
       return await this.s3.upload(params).promise();
     } catch (e) {
-      console.log('Could not upload file to s3', { e, name: file.originalname, mimetype: file.mimetype });
+      console.log('Could not upload file to s3', { e, mimetype: file.mimetype });
 
       throw e
 

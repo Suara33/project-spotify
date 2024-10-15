@@ -6,12 +6,14 @@ import { S3Service } from 'src/files/services/s3.service';
 import { AuthorRepository } from 'src/authors/repository/author.repository';
 import { MusicsRepository } from 'src/musics/musics.repository';
 import { AlbumEntity } from './entities/album.entity';
+import { FilesRepository } from 'src/files/files.repository';
 
 
 @Injectable()
 export class AlbumService {
   constructor(private readonly albumRepository: AlbumRepository,
               private readonly s3service: S3Service,
+              private readonly fileRepo: FilesRepository,
               private readonly authorRepository : AuthorRepository,
               private readonly musicsRepository: MusicsRepository,
 
@@ -61,7 +63,7 @@ export class AlbumService {
     async topAlbumsOfArtist() {
       return await this.albumRepository.topAlbumsOfArtist();
     }
-
+  
 
     async findAllAlbumsWithMusic() {
       return await this.albumRepository.findAllAlbumsWithMusic()
@@ -79,15 +81,22 @@ export class AlbumService {
     return album;
   }
 
-  async update(id: number, updateAlbumDto: UpdateAlbumDto): Promise<AlbumEntity> {
+  async update(id: number, updateAlbumDto: UpdateAlbumDto,file:Express.Multer.File): Promise<AlbumEntity> {
     
     const existingAlbum = await this.albumRepository.findOne(id);
     if (!existingAlbum) {
       throw new NotFoundException(`Album with ID ${id} not found.`);
     }
 
-   
-    return await this.albumRepository.update(id, updateAlbumDto);
+    const uploadFile = await this.s3service.upload(file)
+    const savedFile = await this.fileRepo.save(file.filename,uploadFile.Location,uploadFile.Key,uploadFile.Bucket)
+
+    existingAlbum.title = updateAlbumDto.title
+    existingAlbum.releaseDate = updateAlbumDto.releaseDate
+    existingAlbum.file = savedFile
+    
+    
+   return await this.albumRepository.save(existingAlbum)
   }
 
   async deleteAlbumByauthorId(authorId: number) {

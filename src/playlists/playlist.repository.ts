@@ -38,7 +38,7 @@ export class PlaylistRepository {
     }
     
     async save(playlist: Playlist) {
-        return this.playlistRepository.save(playlist)
+        return await this.playlistRepository.save(playlist)
 }
     async findAll(userId:number) {
             const allPlaylist =  await this.playlistRepository
