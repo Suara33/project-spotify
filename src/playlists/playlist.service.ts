@@ -112,3 +112,7 @@ async deleteMusicFromPlaylist(playlistId: number, musicId: number) {
     return await this.playlistRepository.remove(id)
   }
 }
+
+
+
+

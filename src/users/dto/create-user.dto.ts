@@ -5,14 +5,19 @@ export class CreateUserDto {
    
    @IsEmail()
    @IsNotEmpty()
-   @ApiProperty({ example: 'some@email.com'})
+   @ApiProperty({ 
+     description: 'The email address of the user', 
+     example: 'some@email.com' 
+   })
    email: string;
 
    @IsStrongPassword()
    @IsString()
    @IsNotEmpty()
-   @ApiProperty({ example: 'verySecurePassword'})
+   @ApiProperty({ 
+     description: 'A strong password for the user. It should include upper and lower case letters, numbers, and special characters', 
+     example: 'verySecurePassword' 
+   })
    password: string;
 
-   
 }

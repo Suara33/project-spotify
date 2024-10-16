@@ -65,37 +65,10 @@ async deleteAlbumByauthorId(authorId: number) {
   
 
   async findOne(id: number) {
-
     return await this.albumRepository.findOne({where: {id}, relations: {author: true, musics: true}})
-    // return await this.albumRepository
-    //   .createQueryBuilder('album')
-    //   .leftJoinAndSelect('album.musics', 'musics')
-    //   .leftJoinAndSelect('album.author', 'author')
-    //   .where('album.id = :id', {id})
-    //   .getOne()
   }
 
-//   async update(id: number, updateAlbumDto: UpdateAlbumDto) {
-//     console.log('shemovida')
-//      await this.albumRepository
-//       .createQueryBuilder('album')
-//       .update(AlbumEntity)
-//       .set({
-//         title: updateAlbumDto.title,
-//         releaseDate: updateAlbumDto.releaseDate,
-//       })
-//       .where('id = :id', { id })
-//       .execute()
-
-//       const updatedAlbum = await this.albumRepository.findOne({
-//         where: {id},
-//         relations: ['musics', 'author']
-//       })
-// console.log(updatedAlbum)
-//       return updatedAlbum
-//  }
-
-async update(id: number, updateAlbumDto: UpdateAlbumDto): Promise<AlbumEntity> {
+  async update(id: number, updateAlbumDto: UpdateAlbumDto): Promise<AlbumEntity> {
 
   const album = await this.albumRepository.findOne({ where: { id } });
   if (!album) {
@@ -169,6 +142,16 @@ async findAllAlbumsWithmorethousand() {
       .select(['author.fullName'])
       .addSelect('COUNT(album.id)', 'totalAlbums')
       .groupBy('author.id')
+      .getMany()
+  }
+
+  async findAlbumsWiththosuand() {
+    return await this.albumRepository
+      .createQueryBuilder('album')
+      .leftJoinAndSelect('album.musics', 'musics')
+      .leftJoinAndSelect('music.listeners', 'listener')
+      .groupBy('music.id')
+      .having('COUNT(listener.id) > :count', {count: 1000})
       .getMany()
   }
 
