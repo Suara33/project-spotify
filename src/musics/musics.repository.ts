@@ -113,9 +113,12 @@ export class MusicsRepository {
     return  await this.musicsRepository
       .createQueryBuilder('music')
       .leftJoin('music.listeners', 'listener')
+      .leftJoin('music.author', 'author')
+      .leftJoin('music.album', 'album')
       .where('listener.createAt >= :startOfWeek', { startOfWeek })
       .groupBy('music.id')
       .addSelect('listener.id', 'listenerCount')
+      .addSelect(['author.fullName', 'album.title'])
       .orderBy('listenerCount', 'DESC')
       .limit(10)
       .getMany();
