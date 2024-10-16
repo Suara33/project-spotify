@@ -26,12 +26,12 @@ export class AuthorController {
   async findAuthorWithAlbums(@Param('id') id: number) {
     return await this.authorService.findAuthorWithAlbums(id)
   }
-  @Get('total-albums')
+  @Get('total-albums/:id')
   async totalAlbumsOfAuthor(@Param('id') id: number) {
     return await this.authorService.totalAlbumsOfAuthor(id)
   }
 
-  @Get('total-songs-of-authors')
+  @Get('total-songs-of-authors/:id')
   async totalSongsOfAuthor(@Param('id') id: number) {
     return await this.authorService.totalSongsOfAuthor(id)
   }
@@ -44,6 +44,16 @@ export class AuthorController {
   @Get()
   async findAll() {
     return await this.authorService.findAll();
+  }
+
+  @Get('find-all-music-of-authors/:authorId')
+  async findAllMusicOfAuthors(@Param('authorId') authorId: number){
+    return await this.authorService.findAllMusicOfAuthors(authorId)
+  }
+
+  @Get('find-all-album-of-author/:authorId')
+  async findAllAlbumsOfAuthors(@Param('authorId') authorId: number){
+    return await this.authorService.findAllAlbumsOfAuthors(authorId)
   }
 
   @Get('findAuthor/:fullName')

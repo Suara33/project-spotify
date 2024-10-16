@@ -55,13 +55,34 @@ export class AuthorRepository {
   async totalSongsOfAuthor(id: number) {
     const total =  await this.authorRepository
       .createQueryBuilder('author')
-      .leftJoinAndSelect('author.musics', 'musics')
+      .leftJoinAndSelect('author.musics', 'music')
       .addSelect('COUNT(musics.id)', 'totalSongs')
+      .where('author.id = :id', { id })
       .getOne()
 
       return total
   }
+
+  async findAllMusicOfAuthors(authorId: number) {
+    return await this.authorRepository
+      .createQueryBuilder('author')
+      .leftJoinAndSelect('author.musics', 'music')
+      .where('author.id = :authorId', {authorId})
+      .orderBy('music.id', 'ASC')
+      .select(['author.id', 'author.fullName', 'music'])
+      .getOne()
+  }
   
+
+  async findAllAlbumsOfAuthors(authorId: number){
+    return await this.authorRepository
+      .createQueryBuilder('author')
+      .leftJoinAndSelect('author.albums', 'album')
+      .where('author.id = :authorId', {authorId})
+      .orderBy('album.id', 'ASC')
+      .select(['author.id', 'author.fullName', 'album.id', 'album.title'])
+      .getOne()
+  }
 
   async topArtists() {
     return await this.authorRepository

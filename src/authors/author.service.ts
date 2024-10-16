@@ -52,6 +52,15 @@ export class AuthorService {
     return await this.authorRepository.topArtists();
   }
 
+  async findAllMusicOfAuthors(authorId: number){
+    return await this.authorRepository.findAllMusicOfAuthors(authorId)
+  }
+
+
+  async findAllAlbumsOfAuthors(authorId: number){
+    return await this.authorRepository.findAllAlbumsOfAuthors(authorId)
+  }
+
   async findAll() {
     return await this.authorRepository.findAll();
   }
