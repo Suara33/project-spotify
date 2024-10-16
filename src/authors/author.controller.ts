@@ -46,7 +46,7 @@ export class AuthorController {
     return await this.authorService.findAll();
   }
 
-  @Get('find-all-music-of-authors/:authorId')
+  @Get('find-all-music-of-author/:authorId')
   async findAllMusicOfAuthors(@Param('authorId') authorId: number){
     return await this.authorService.findAllMusicOfAuthors(authorId)
   }
