@@ -27,7 +27,6 @@ async deleteAlbumByauthorId(authorId: number) {
     album.coverImage = file;
     album.releaseDate = createAlbumDto.releaseDate
     
-
     return await this.albumRepository.save(album)
     
   }
