@@ -41,9 +41,10 @@ export class FilesController {
     },
   })
   @ApiResponse({ status: 400, description: 'Bad request. File upload failed.' })
-  uploadFile(@Body() @UploadedFile() file: Express.Multer.File) {
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
     return this.filesService.uploadFile(file);
   }
+  
 
   @Get(':id')
   @ApiOperation({ summary: 'Retrieve file by ID' })

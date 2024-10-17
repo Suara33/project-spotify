@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { S3Service } from "./services/s3.service";
 import { FilesRepository} from "./files.repository";
 
@@ -17,12 +17,15 @@ export class FilesService {
   }
 
   async uploadFile(file: Express.Multer.File) {
+      if (!file || !file.originalname) {
+        throw new HttpException('Invalid file', HttpStatus.BAD_REQUEST);
+      }
+    
+    
    
     const filename = file.originalname.split('.').slice(0, -1).join('.');
 
     const sanitizedFileName = filename.replace(/\s+/g, '-')
-   
-    // const randomfile = this.randomName(filename);
 
     const result = await this.s3Service.upload(file);
 

@@ -74,7 +74,7 @@ async deleteAlbumByauthorId(authorId: number) {
     throw new NotFoundException(`Album with ID ${id} not found.`);
   }
 
-  
+  console.log(album)
   await this.albumRepository.update(id, {
     title: updateAlbumDto.title,
     releaseDate: updateAlbumDto.releaseDate,
@@ -85,6 +85,8 @@ async deleteAlbumByauthorId(authorId: number) {
     where: { id },
     relations: ['musics', 'author'],  
   });
+
+  console.log(updateAlbumDto)
 
   if (!updatedAlbum) {
     throw new NotFoundException(`Failed to retrieve updated album with ID ${id}`);

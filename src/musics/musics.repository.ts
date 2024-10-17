@@ -22,10 +22,7 @@ export class MusicsRepository {
     newMusic.authorId = author.id
     newMusic.duration = data.duration
     newMusic.trackImage = album.coverImage
-    // newMusic.authorFullName = author.fullName
-
-    // newMusic.album = album
-   
+  
     return await this.musicsRepository.save(newMusic);
   }
 
@@ -45,20 +42,6 @@ export class MusicsRepository {
       .getMany();
   }
   
-  // async topHits() {
-  //   return await this.musicsRepository
-  //     .createQueryBuilder('music')
-  //     .leftJoinAndSelect('music.album', 'album')
-  //     .leftJoinAndSelect('album.file', 'file')
-  //     .leftJoinAndSelect('music.listener', 'listener')
-  //     .addSelect('COUNT(listener.id) as totalListener')
-  //     .groupBy('music.id')
-  //     .addGroupBy('album.id')
-  //     .orderBy('totalListener', 'DESC')
-  //     .limit(10)
-  //     .getMany()
-  // }
-
 
   async deleteMusicByauthorId(authorId: number) {
   
@@ -123,19 +106,6 @@ export class MusicsRepository {
       .limit(10)
       .getMany();
   }
-
-  // async topHitsOfWeek() {
-  //   return this.musicsRepository
-  //     .createQueryBuilder('music')
-  //     .leftJoin('music.music_listens', 'music_listen') // Join the correct table for listens
-  //     .leftJoin('music_listen.listener', 'listener') // Join listeners through the pivot table
-  //     .where('music_listen.listenedAt >= :startOfWeek', { startOfWeek: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) })
-  //     .groupBy('music.id')
-  //     .addSelect('COUNT(listener.id)', 'listenerCount') // Count the number of listeners
-  //     .orderBy('listenerCount', 'DESC')
-  //     .limit(10)
-  //     .getMany();
-  // }
   
 
   async findByName(name: string) {
