@@ -1,4 +1,4 @@
-import { Injectable} from '@nestjs/common';
+import { Injectable, NotFoundException} from '@nestjs/common';
 import { CreateAuthorDto } from '../dto/create-author.dto';
 import { UpdateAuthorDto } from '../dto/update-author.dto';
 import { AuthorEntity } from '../entities/author.entity';
@@ -13,7 +13,7 @@ export class AuthorRepository {
   constructor(
     @InjectRepository(AuthorEntity) 
     private readonly authorRepository: Repository<AuthorEntity>,
-    private readonly s3Service: S3Service
+  
   ) {}
 
   async create(data: CreateAuthorDto, image: string) {
@@ -75,13 +75,15 @@ export class AuthorRepository {
   
 
   async findAllAlbumsOfAuthors(authorId: number){
-    return await this.authorRepository
+   const  test =  await this.authorRepository
       .createQueryBuilder('author')
       .leftJoinAndSelect('author.albums', 'album')
       .where('author.id = :authorId', {authorId})
       .orderBy('album.id', 'ASC')
-      .select(['author.id', 'author.fullName', 'album.id', 'album.title'])
+      .select(['author.id', 'author.fullName', 'album.id', 'album.title', 'album.coverImage'])
       .getOne()
+
+      return test
   }
 
   async topArtists() {
@@ -124,26 +126,6 @@ export class AuthorRepository {
         .createQueryBuilder('author')
         .where('author.id = :id',{id})
         .getOne()
-  }
-
-  async update(id: number, updateAuthorDto: UpdateAuthorDto) {
-   const author = await this.authorRepository.findOne({ where: {id}})
-
-   if(!author) {
-    throw new Error('Author not found')
-   }
- 
-   this.authorRepository
-    .createQueryBuilder('author')
-    .update(AuthorEntity)
-    .set({
-      fullName: updateAuthorDto.fullName,
-      biography: updateAuthorDto.biography
-    });
-
-    const updatedAuthor = this.authorRepository.update(id, updateAuthorDto)
-
-    return  updatedAuthor;
   }
 
 

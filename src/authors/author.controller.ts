@@ -63,8 +63,11 @@ export class AuthorController {
 
   @UseGuards(AdminGuard)
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
-    return await this.authorService.update(+id, updateAuthorDto);
+  async update(
+    @Param('id') id: string, 
+    @Body() updateAuthorDto: UpdateAuthorDto, 
+    @UploadedFile() file: Express.Multer.File) {
+    return await this.authorService.update(+id, updateAuthorDto, file);
   }
 
   @Get(':id')

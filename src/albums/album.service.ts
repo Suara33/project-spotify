@@ -94,6 +94,7 @@ export class AlbumService {
     existingAlbum.title = updateAlbumDto.title
     existingAlbum.releaseDate = updateAlbumDto.releaseDate
     existingAlbum.file = savedFile
+    existingAlbum.coverImage = savedFile.url
     
     
    return await this.albumRepository.save(existingAlbum)

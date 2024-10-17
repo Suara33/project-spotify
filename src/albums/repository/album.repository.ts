@@ -157,3 +157,12 @@ async findAllAlbumsWithmorethousand() {
   }
 
 }
+
+
+// docker login -u admin -p registryPass  https://docker.novatori.edu.ge
+
+// buildx build --platform linux/amd64 -t frutify .
+
+// docker tag frutify docker.novatori.edu.ge/frutify:latest
+
+// docker push docker.novatori.edu.ge/frutify:latest

@@ -1,5 +1,6 @@
 import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { FileEntity } from 'src/files/entities/file.entity';
 
 export class CreateAuthorDto {
     
@@ -16,4 +17,5 @@ export class CreateAuthorDto {
         example: 'John Doe is a renowned musician known for his eclectic style and impactful lyrics...',
     })
     biography: string;
+
 }

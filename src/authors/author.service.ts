@@ -5,6 +5,8 @@ import { AuthorRepository } from './repository/author.repository';
 import { S3Service } from 'src/files/services/s3.service';
 import { AlbumRepository } from 'src/albums/repository/album.repository';
 import { MusicsRepository } from 'src/musics/musics.repository';
+import { fileURLToPath } from 'url';
+import { FilesRepository } from 'src/files/files.repository';
 
 
 @Injectable()
@@ -14,7 +16,8 @@ export class AuthorService {
               private readonly authorRepository: AuthorRepository,
               private readonly s3Service: S3Service,
               private readonly albumRepository: AlbumRepository,
-              private readonly musicsRepository: MusicsRepository
+              private readonly musicsRepository: MusicsRepository,
+              private readonly fileRepo: FilesRepository,
 
   ) {}
 
@@ -69,10 +72,22 @@ export class AuthorService {
     return await this.authorRepository.findOne( id )
   }
 
-  async update(id: number, updateAuthorDto: UpdateAuthorDto){
+  async update(id: number, updateAuthorDto: UpdateAuthorDto, file: Express.Multer.File) {
+    const author = await this.authorRepository.findOneAuthor(id)
+     if(!author) throw new NotFoundException(`author with id ${id} not found`)
+
+    const uploadFile = await this.s3Service.upload(file)
+    const savedFile = await this.fileRepo.save(file.filename,uploadFile.Location,uploadFile.Key,uploadFile.Bucket)
+
+      author.fullName = updateAuthorDto.fullName
+      author.biography = updateAuthorDto.biography
+      
+      // auhthor.file = file.url
+
+    author.file = savedFile
+    author.image = savedFile.url
     
-    return await this.authorRepository.update(id, updateAuthorDto)
-    
+    return  await this.authorRepository.save(author);
   }
   
   async findAuthorWithAlbums(id: number) {
