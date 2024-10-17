@@ -33,8 +33,8 @@ export class FileEntity {
     @OneToOne(() =>AlbumEntity, (album) => album.file)
     album:AlbumEntity
 
-    @OneToMany(() => AuthorEntity, (author) => author.file)
-    authors: AuthorEntity[]
+    @OneToOne(() => AuthorEntity, (author) => author.file)
+    authors: AuthorEntity
 
     
 }

@@ -63,6 +63,7 @@ export class AuthorController {
 
   @UseGuards(AdminGuard)
   @Patch(':id')
+  @UseInterceptors(FileInterceptor('file'))
   async update(
     @Param('id') id: string, 
     @Body() updateAuthorDto: UpdateAuthorDto, 

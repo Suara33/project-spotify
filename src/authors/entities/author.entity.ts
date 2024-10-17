@@ -1,5 +1,5 @@
 import { MusicEntity } from 'src/musics/entities/music.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany, ManyToOne, OneToOne } from 'typeorm';
 import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { FileEntity } from 'src/files/entities/file.entity';
 
@@ -26,7 +26,7 @@ export class AuthorEntity {
   @Column()
   image: string;
 
-  @OneToMany(() => FileEntity, (file) => file.authors)
+  @OneToOne(() => FileEntity, (file) => file.authors)
   file: FileEntity;
 
   @OneToMany(() => AlbumEntity, (album) => album.author, {nullable: true})
