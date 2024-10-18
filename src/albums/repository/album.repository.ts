@@ -53,11 +53,12 @@ async deleteAlbumByauthorId(authorId: number) {
     return await this.albumRepository
       .createQueryBuilder('album')
       .leftJoinAndSelect('album.musics', 'music')
-      .leftJoinAndSelect('album.author', 'author') 
+      .leftJoinAndSelect('album.author', 'author')
+      .leftJoinAndSelect('music.author','musicAuthor')
       .select([
         'album', 
         'music.id', 'music.trackTitle', 'music.duration', 'music.trackImage',
-        'author.id', 'author.fullName', 
+        'author.id', 'author.fullName', 'musicAuthor.fullName'
       ])
       .getMany();
   }
@@ -74,7 +75,6 @@ async deleteAlbumByauthorId(authorId: number) {
     throw new NotFoundException(`Album with ID ${id} not found.`);
   }
 
-  console.log(album)
   await this.albumRepository.update(id, {
     title: updateAlbumDto.title,
     releaseDate: updateAlbumDto.releaseDate,
@@ -86,7 +86,6 @@ async deleteAlbumByauthorId(authorId: number) {
     relations: ['musics', 'author'],  
   });
 
-  console.log(updateAlbumDto)
 
   if (!updatedAlbum) {
     throw new NotFoundException(`Failed to retrieve updated album with ID ${id}`);
@@ -110,16 +109,6 @@ async deleteAlbumByauthorId(authorId: number) {
     .limit(10) 
     .getMany();
 }
-
-
-async findAllAlbumsWithmorethousand() {
-  return await this.albumRepository
-    .createQueryBuilder('album')
-    .leftJoinAndSelect('album.music', 'music')
-    .leftJoinAndSelect('music.listeners', 'listener')
-}
- 
-
 
    async save(album: AlbumEntity) {
     return await this.albumRepository.save(album)
@@ -146,23 +135,5 @@ async findAllAlbumsWithmorethousand() {
       .getMany()
   }
 
-  async findAlbumsWiththosuand() {
-    return await this.albumRepository
-      .createQueryBuilder('album')
-      .leftJoinAndSelect('album.musics', 'musics')
-      .leftJoinAndSelect('music.listeners', 'listener')
-      .groupBy('music.id')
-      .having('COUNT(listener.id) > :count', {count: 1000})
-      .getMany()
-  }
 
 }
-
-
-// docker login -u admin -p registryPass  https://docker.novatori.edu.ge
-
-// buildx build --platform linux/amd64 -t frutify .
-
-// docker tag frutify docker.novatori.edu.ge/frutify:latest
-
-// docker push docker.novatori.edu.ge/frutify:latest

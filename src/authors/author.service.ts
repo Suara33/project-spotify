@@ -76,16 +76,11 @@ export class AuthorService {
     const author = await this.authorRepository.findOneAuthor(id)
      if(!author) throw new NotFoundException(`author with id ${id} not found`)
 
-    console.log(author)
-
     const uploadFile = await this.s3Service.upload(file)
     const savedFile = await this.fileRepo.save(file.filename,uploadFile.Location,uploadFile.Key,uploadFile.Bucket)
 
-    console.log(uploadFile)
-    console.log(savedFile)
     author.fullName = updateAuthorDto.fullName
     author.biography = updateAuthorDto.biography
-    // author.file = savedFile
     author.image = savedFile.url
     
     return  await this.authorRepository.save(author);

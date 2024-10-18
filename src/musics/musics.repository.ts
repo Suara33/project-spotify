@@ -22,6 +22,7 @@ export class MusicsRepository {
     newMusic.authorId = author.id
     newMusic.duration = data.duration
     newMusic.trackImage = album.coverImage
+    newMusic.authorFullName = author.fullName
   
     return await this.musicsRepository.save(newMusic);
   }
