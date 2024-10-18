@@ -56,7 +56,8 @@ export class MusicsRepository {
 
   async findAll() {
 
-    return await this.musicsRepository
+    return  await this.musicsRepository
+
       .createQueryBuilder('music')
       .leftJoinAndSelect('music.album', 'album') 
       .leftJoinAndSelect('music.author','author')

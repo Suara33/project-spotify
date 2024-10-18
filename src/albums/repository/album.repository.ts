@@ -58,7 +58,7 @@ async deleteAlbumByauthorId(authorId: number) {
       .select([
         'album', 
         'music.id', 'music.trackTitle', 'music.duration', 'music.trackImage',
-        'author.id', 'author.fullName', 'musicAuthor.fullName'
+        'author.id', 'musicAuthor.fullName'
       ])
       .getMany();
   }
