@@ -86,7 +86,7 @@ export class MusicsService {
     
     const music = await this.musicsRepository.create(createMusicDto, filePath, album.author, album);
 
-    
+    console.log(music)
     album.musics.push(music);
 
     album.count++;
