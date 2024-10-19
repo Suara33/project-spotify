@@ -41,7 +41,7 @@ export class MusicsController {
           format: 'binary',
           description: 'The music file to upload',
         },
-        authorFullName: { type: 'string', example: 'John Doe', nullable: true },
+        authorFullName: { type: 'string', example: 'Mark Zuckerberg', nullable: true },
       },
     },
   })
