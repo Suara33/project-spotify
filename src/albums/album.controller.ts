@@ -36,6 +36,14 @@ export class AlbumController {
     return await this.albumService.topAlbumsOfArtist();
   }
 
+  async addMusicToAlbum(
+  @Param('albumId') albumId: number, 
+  @Param('musicId') musicId: number,
+  @UploadedFile() file: Express.Multer.File,
+ ){
+    return await this.albumService.addMusicToAlbum(albumId,musicId)
+  }
+
   @Get('top-albums')
   @ApiOperation({ summary: 'Get top albums' })
   @ApiResponse({ status: 200, description: 'Successfully retrieved the top albums.' })

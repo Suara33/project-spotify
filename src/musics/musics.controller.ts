@@ -52,6 +52,8 @@ export class MusicsController {
     @Body() createMusicDto: CreateMusicDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
+    console.log(albumId);
+    
     createMusicDto.albumId = albumId;
     return await this.musicsService.create(createMusicDto, file);
   }
