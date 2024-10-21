@@ -29,6 +29,6 @@ export class UserGuard implements CanActivate {
         const [type, token] = request.headers.authorization?.split(' ') ?? [];
         return type === 'Bearer' ? token : undefined; 
     }
-
+  
     
 }
