@@ -23,9 +23,6 @@ export class AdminGuard implements CanActivate {
     
         try {
             const payload = await this.jwtService.verifyAsync(token,
-                {
-                    secret: process.env.jwtConstants
-                  }
             );
             request.user = payload;
 
