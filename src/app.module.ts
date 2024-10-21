@@ -28,13 +28,6 @@ import { AuthGuard } from './auth/guards/auth.guard';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    JwtModule.register({
-      global: true,
-      secret: process.env.JWT_SECRET,
-      signOptions: {
-        expiresIn: '7d'
-      }
-    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
