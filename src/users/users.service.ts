@@ -5,14 +5,12 @@ import { UpdateUsersDto } from './dto/update-user.dto';
 import { Role } from 'src/auth/roles/roles.enum';
 import { ChangePasswordDto } from './dto/change-password-for-admin.dto';
 import * as bcrypt from 'bcryptjs';
-import { JwtService } from '@nestjs/jwt';
 
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly usersRepository: UsersRepository,
-    private readonly jwtService : JwtService
 
   ) {}
 

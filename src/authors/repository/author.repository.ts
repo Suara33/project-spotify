@@ -53,23 +53,26 @@ export class AuthorRepository {
 }
 
   async totalSongsOfAuthor(id: number) {
-    const total =  await this.authorRepository
+
+    return  await this.authorRepository
       .createQueryBuilder('author')
       .leftJoinAndSelect('author.musics', 'music')
+      .leftJoinAndSelect('author.albums','album')
       .addSelect('COUNT(musics.id)', 'totalSongs')
       .where('author.id = :id', { id })
       .getOne()
 
-      return total
+      
   }
 
-  async findAllMusicOfAuthors(authorId: number) {
+  async findAllMusicOfAuthors(authorId: number) { 
+
     return await this.authorRepository
       .createQueryBuilder('author')
       .leftJoinAndSelect('author.musics', 'music')
+      .leftJoinAndSelect('music.album','album')
       .where('author.id = :authorId', {authorId})
       .orderBy('music.id', 'ASC')
-      .select(['author.id', 'author.fullName', 'music'])
       .getOne()
   }
   
