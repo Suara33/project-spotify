@@ -51,7 +51,7 @@ export class AlbumController {
     return await this.albumService.topAlbums();
   }
 
-  @Get()
+  @Get('albumsWithMusic')
   @ApiOperation({ summary: 'Get all albums with their music tracks' })
   @ApiResponse({ status: 200, description: 'Successfully retrieved all albums with music tracks.' })
   async findAllAlbumsWithMusic() {
