@@ -66,7 +66,7 @@ export class AlbumController {
   async findOne(@Param('id') id: string) {
     return await this.albumService.findOne(+id);
   }
-
+  
   @UseGuards(AdminGuard)
   @Patch(':id')
   @UseInterceptors(FileInterceptor('file'))
