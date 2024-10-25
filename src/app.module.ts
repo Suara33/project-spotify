@@ -36,6 +36,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: true,
+      
     }),
     AlbumModule,
     MusicsModule,
