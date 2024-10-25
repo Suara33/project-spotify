@@ -121,7 +121,7 @@ async deleteAlbumByauthorId(authorId: number) {
   async findByName(name: string) {
     return  this.albumRepository
       .createQueryBuilder('album')
-      .where('album.title Like :name', { name: '%${name}%'})
+      .where('album.title Like :name', { name: `%${name}%`})
       .getMany()
   }
 
@@ -134,6 +134,7 @@ async deleteAlbumByauthorId(authorId: number) {
       .groupBy('author.id')
       .getMany()
   }
+
 
 
 }
