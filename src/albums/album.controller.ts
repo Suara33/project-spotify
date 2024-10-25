@@ -36,6 +36,11 @@ export class AlbumController {
     return await this.albumService.topAlbumsOfArtist();
   }
 
+  @Get()
+  async findAllAlbums(){
+    return await this.albumService.findAllAlbums()
+  }
+
   async addMusicToAlbum(
   @Param('albumId') albumId: number, 
   @Param('musicId') musicId: number,

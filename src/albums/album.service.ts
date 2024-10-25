@@ -69,6 +69,10 @@ export class AlbumService {
       return await this.albumRepository.findAllAlbumsWithMusic()
     }
 
+    async findAllAlbums(){
+      return await this.albumRepository.findAllAlbums()
+    }
+
   async topAlbums() {
     return await this.albumRepository.topAlbums()
   }

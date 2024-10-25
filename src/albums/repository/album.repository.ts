@@ -135,6 +135,12 @@ async deleteAlbumByauthorId(authorId: number) {
       .getMany()
   }
 
+  async findAllAlbums(){
+    return await this.albumRepository
+      .createQueryBuilder('album')
+      .getMany()
+  }
+
 
 
 }
