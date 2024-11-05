@@ -30,3 +30,14 @@ export class ListenersService {
     return this.listenersRepository.remove(id);
   }
 }
+
+const carTempInF = 105;
+
+const userTempInC = 20;
+
+let celcius = (carTempInF - 32) * 5/9
+
+
+console.log(celcius)
+
+let acOn 

@@ -12,7 +12,6 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUsersDto } from './dto/update-user.dto';
 import { Public } from 'src/auth/roles/roles.decorator';
-import { UserId } from 'src/auth/decorators/userId.decorator';
 import { ChangePasswordDto } from './dto/change-password-for-admin.dto';
 import { AdminGuard } from 'src/auth/guards/admin.guard';
 import { ApiOperation, ApiResponse, ApiTags, ApiParam } from '@nestjs/swagger';

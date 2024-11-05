@@ -63,43 +63,32 @@ export class MusicsService {
   }
 
   async create(createMusicDto: CreateMusicDto, file: Express.Multer.File): Promise<MusicEntity> {
-    console.log(file);
     
     if (!file) {
       throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
     }
     
     const album = await this.albumRepository.findOne(createMusicDto.albumId);
-    console.log(album)
+
     if (!album) {
       throw new NotFoundException(`Album with ID ${createMusicDto.albumId} not found`);
     }
 
     const filePath = await this.upload(file);
-    console.log(filePath);
-    
-
     
     const duration = await this.getDurationFromBuffer(file.buffer);
-    console.log(duration);
-    
 
-    
     createMusicDto.duration = duration;
-
 
     createMusicDto.trackImage = album.coverImage
     
     const music = await this.musicsRepository.create(createMusicDto, filePath, album.author, album);
 
-    console.log(music)
     album.musics.push(music);
 
     album.count++;
 
     album.author.totalSongsOfAuthor++;
-    console.log(album);
-    
 
     await this.authorRepository.save(album.author);
 
@@ -145,7 +134,6 @@ export class MusicsService {
     author.totalSongsOfAuthor-= 1
 
     await this.authorRepository.save(author)
-
 
     return await this.musicsRepository.delete(id);
   }

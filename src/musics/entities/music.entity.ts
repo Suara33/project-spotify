@@ -4,7 +4,7 @@ import { Favorite } from "src/favorites/entities/favorite.entity";
 import { FileEntity } from "src/files/entities/file.entity";
 import { Listener } from "src/listeners/entities/listener.entity";
 import { Playlist } from "src/playlists/entities/playlist.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity,JoinTable,ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity,ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({ name: 'Music'})
 export class MusicEntity {

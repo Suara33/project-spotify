@@ -12,7 +12,7 @@ export class ListenersController {
   @Post()
   @ApiOperation({ summary: 'Create a new listener record' })
   @ApiBody({ 
-    description: 'The musicId and userId required to create a listener record', 
+    description: 'The musicId and userId required to create a listener record',
     type: CreateListenerDto,
     examples: {
       example1: {
